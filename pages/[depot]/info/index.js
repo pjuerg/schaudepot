@@ -22,7 +22,7 @@ export default function Infopage() {
           <div>
             <H1>Abschluss / More Info</H1>
             <ul>
-              <li>ENDE</li>
+              <li>E N D E </li>
               <li>wichtigste Info Webseite, ....?</li>
               <li>Random some Schaudepots</li>
               <li>
