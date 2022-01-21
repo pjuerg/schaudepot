@@ -1,0 +1,9 @@
+/* styles/base.css */
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  @apply font-sans text-base font-normal text-gray-900;
+}
