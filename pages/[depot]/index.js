@@ -13,7 +13,7 @@ import {
   TextContainer,
   TwoColumnsContainer,
 } from "../index";
-import { castToInt } from "../../utils/utilsRamda";
+import { castToInt } from "rmd-lib-pp/src/castToInt";
 import { ROUTE_DEPOT } from "../../utils/constants";
 import { fetcher } from "../../utils/fetcher";
 

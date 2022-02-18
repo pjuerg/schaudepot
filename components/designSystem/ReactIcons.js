@@ -15,7 +15,7 @@ import { IconContext } from "react-icons";
 import { IoResize } from "@react-icons/all-files/io5/IoResize";
 import { IoPersonOutline } from "@react-icons/all-files/io5/IoPersonOutline";
 import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
-import { failIfNotExist } from "../../utils/utilsRamda";
+import { failIfNotExist } from "rmd-lib-pp/src/failIfNotExists";
 
 /*
  * *** ReactIcons ***

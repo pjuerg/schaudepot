@@ -7,7 +7,7 @@
 
 import { mutate } from "swr";
 import { API_PERSON, API_PHYSICAL_OBJECT } from "./constants";
-import { isNumeric } from "./utilsRamda";
+import { isNumeric } from "rmd-lib-pp/src/isNumeric";
 
 
 export const fetcher = (...args) => fetch(...args).then((res) => res.json());

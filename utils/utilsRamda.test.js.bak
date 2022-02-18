@@ -1,6 +1,6 @@
 // utils/utilsRamda.test.js
 
-import { second } from "./utilsRamda";
+import { second } from "./utilsRamda.js.bak";
 
 
 
