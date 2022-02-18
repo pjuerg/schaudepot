@@ -10,7 +10,6 @@ import { API_PERSON, API_PHYSICAL_OBJECT } from "./constants";
 import { isNumeric } from "./utilsRamda";
 
 
-
 export const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 // String -> {}

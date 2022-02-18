@@ -1,0 +1,1 @@
+// components/remotecontrol/index.js

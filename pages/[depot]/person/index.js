@@ -2,12 +2,26 @@
 
 import Head from "next/head";
 import { H1 } from "../../../components/designSystem";
-import { CenteredContainer, ROUTE_PETER, SimpleLink } from "../../index";
+import { ArtistImageContainer, ROUTE_PETER, SimpleLink, TextContainer, TwoColumnsContainer } from "../../index";
 
 /*
  * *** Person page ***
  * - - - - - - - - - - - - - - - -
  */
+
+
+const ArtistInfo = () => {
+  return (
+    <TextContainer>
+      <H1>Peter Schmidt</H1>
+      Geburt <br />
+      Tod <br />
+      Wirkungsorte < br/>
+      
+      <SimpleLink url={`${ROUTE_PETER}/item/some-work-123`}>Page Work</SimpleLink>
+    </TextContainer>
+  );
+};
 
 export default function PersonPage() {
   return (
@@ -19,20 +33,10 @@ export default function PersonPage() {
       </Head>
 
       <main className="h-screen">
-        <CenteredContainer className="h-screen">
-          <div>
-            <H1>Page Biografie</H1>
-            <ul>
-              <li></li>
-              <li>Bild, ....</li>
-              <li>
-                <SimpleLink url={`${ROUTE_PETER}/item/some-work-123`}>
-                  Page Werk 1
-                </SimpleLink>
-              </li>
-            </ul>
-          </div>
-        </CenteredContainer>
+        <TwoColumnsContainer>
+          <ArtistImageContainer />
+          <ArtistInfo />
+        </TwoColumnsContainer>
       </main>
     </div>
   );

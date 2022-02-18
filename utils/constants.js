@@ -8,6 +8,8 @@
 
 // ** Api **
 
+export const ROUTE_DEPOT = "https://private-kuenstlernachlaesse-brandenburg.de/linked-art.php/physical_object?filter[coreset]=1&filter[person]";
+
 // export const GATEWAY = "https://private-kuenstlernachlaesse-brandenburg.de";
 // entry points rest-api
 export const GATEWAY = "https://werkdatenbank.bbk-sachsenanhalt.de";
