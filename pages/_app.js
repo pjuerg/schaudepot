@@ -1,13 +1,22 @@
 // pages/_app.js
-import Link from "next/link";
-import { RemoteControl } from "../components/remotecontrol/RemoteControl";
 import "../styles/tailwind.css";
+import Link from "next/link";
 
+import { DepotProvider } from "../store/DepotContext";
+import { ROUTE_HOME } from "../utils/constants";
+import { GlobalNavigation } from "../components/globalNavigation/";
+import { DevInfo } from "../components/devInfo";
+
+/*
+ * *** _app  ***
+ * --------------------------
+ *
+ */
 
 const TopBar = () => {
   return (
     <div className="flex bg-gray-200">
-      <Link href="#">
+      <Link href={ROUTE_HOME}>
         <a className="px-4 font-bold">
           Private Künstlernachlässe im Land Brandenburg
         </a>
@@ -31,13 +40,14 @@ const TopBar = () => {
 
 function MyApp({ Component, pageProps }) {
   return (
-    <div>
-      <TopBar />
-      {/* <div className="px-4 mt-8">
-        <RemoteControl />
-      </div> */}
-      <Component {...pageProps} />;
-    </div>
+    <DepotProvider>
+      <div>
+        <TopBar />
+        <GlobalNavigation />
+        <DevInfo />
+        <Component {...pageProps} />;
+      </div>
+    </DepotProvider>
   );
 }
 

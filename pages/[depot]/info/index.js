@@ -1,16 +1,16 @@
 // pages/[depot]/info/index.js
 
 import Head from "next/head";
+
+import { DEPOTS, ROUTE_DEPOT, ROUTE_HOME } from "../../../utils/constants";
 import { H1 } from "../../../components/designSystem";
 import {
   DepotCard,
-  ROUTE_HOME,
   SimpleLink,
   TwoColumnsContainer,
-} from "../../index";
-
+} from "../../../components/depotSystem";
 /*
- * *** Info page ***
+ * *** Info index page ***
  * - - - - - - - - - - - - - - - -
  */
 
@@ -22,7 +22,9 @@ const FinalInfo = () => {
         <li>E N D E </li>
         <li>wichtigste Info Webseite, ....?</li>
         <li>
-          <SimpleLink url={`${ROUTE_HOME}`}>Zurück alle Werke</SimpleLink>
+          <SimpleLink className="my-16" url={`${ROUTE_HOME}`}>
+            Startseute
+          </SimpleLink>
         </li>
       </ul>
     </div>
@@ -32,10 +34,11 @@ const FinalInfo = () => {
 const RandomDepots = () => {
   return (
     <div className="flex">
-      <DepotCard className="mx-2" />
-      <DepotCard className="mx-2" />
-      <DepotCard className="mx-2" />
-      <DepotCard className="mx-2" />
+      {DEPOTS.map(({ id }, index) => (
+        <SimpleLink key={index} url={`${ROUTE_DEPOT}-${id}`}>
+          <DepotCard className="mx-2" personId={id}/>
+        </SimpleLink>
+      ))}
     </div>
   );
 };
@@ -49,7 +52,7 @@ export default function Infopage() {
       </Head>
 
       <main>
-        <TwoColumnsContainer className="px-4 my-16">
+        <TwoColumnsContainer className="px-4 mt-48">
           <FinalInfo />
           <div></div>
         </TwoColumnsContainer>

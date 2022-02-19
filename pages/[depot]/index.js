@@ -1,50 +1,41 @@
 // pages/[depot]/index.js
 
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { is, isNil, prop } from "ramda";
-import useSWR from "swr";
-import { compose, last, split } from "ramda";
+
+import isNil from "ramda/src/isNil";
+
+import { useSWRPersonWithRouter } from "../../utils/useSWRPersonWithRouter";
+import {  ROUTE_DEPOT } from "../../utils/constants";
 import { H1 } from "../../components/designSystem";
 import {
   ArtistImageContainer,
-  ROUTE_PETER,
   SimpleLink,
   TextContainer,
   TwoColumnsContainer,
-} from "../index";
-import { castToInt } from "rmd-lib-pp/src/castToInt";
-import { ROUTE_DEPOT } from "../../utils/constants";
-import { fetcher } from "../../utils/fetcher";
+  BigLoading,
+} from "../../components/depotSystem";
+
 
 /*
  * *** Cover index page ***
  * - - - - - - - - - - - - - - - -
  */
 
-const DepotInfo = () => {
+const DepotInfo = ({label}) => {
   return (
-    <TextContainer>
-      <H1>Peter Schmidt</H1>
+    <TextContainer className="mt-48">
+      <H1>{label}</H1>
       <H1>Kerndepot</H1>
-      <SimpleLink url={`${ROUTE_PETER}/person`}>Page Biographie</SimpleLink>
     </TextContainer>
   );
 };
 
-const BigLoading = () => <div className="text-3xl">Loading ...</div>;
-export const splitId = compose(last, split("-"));
 
 export default function Coverpage() {
-  const personId = compose(castToInt, splitId, prop("asPath"))(useRouter());
+  const transformedPersonData = useSWRPersonWithRouter()
 
-  const { data } = useSWR(
-    is(Number, personId) ? `${ROUTE_DEPOT}${personId}` : null,
-    fetcher
-  );
-
-  console.log(personId);
-  console.log(data);
+  // console.log(`transformed person`);
+  // console.log(transformedPersonData);
 
   return (
     <div>
@@ -55,16 +46,14 @@ export default function Coverpage() {
       </Head>
 
       <main>
-        <TwoColumnsContainer>
-          {isNil(data) ? (
-            <BigLoading />
-          ) : (
-            <>
-              <DepotInfo />
-              <ArtistImageContainer />
-            </>
-          )}
-        </TwoColumnsContainer>
+        {isNil(transformedPersonData) ? (
+          <BigLoading />
+        ) : (
+          <TwoColumnsContainer>
+            <DepotInfo {...transformedPersonData} />
+            <ArtistImageContainer />
+          </TwoColumnsContainer>
+        )}
       </main>
     </div>
   );

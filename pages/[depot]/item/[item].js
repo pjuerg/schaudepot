@@ -1,24 +1,12 @@
 // pages/[depot]/item/[item].js
 import PropTypes from "prop-types";
 import Head from "next/head";
-import { ROUTE_PETER, SimpleLink } from "../../index";
+
 
 /*
- * *** Item page ***
+ * *** Item dynamic page ***
  * - - - - - - - - - - - - - - - -
  */
-
-
-const BasicItemInfo = () => {
-  return (
-    <div className="">
-      Ruderboot <br />
-      <SimpleLink url={`${ROUTE_PETER}/info/`}>
-        Page More Info / Ende
-      </SimpleLink>
-    </div>
-  );
-};
 
 const MoreItemInfo = () => {
   return (
@@ -29,14 +17,10 @@ const MoreItemInfo = () => {
 };
 
 const ItemCaption = () => {
-  return (
-    <div className="">
-      Caption
-    </div>
-  );
+  return <div className="">Caption</div>;
 };
 
-const  ItemContainer = () => {
+const ItemContainer = () => {
   return (
     <div className="flex items-center justify-center mb-8 ">
       <div className="flex items-center justify-center w-64 bg-yellow-200 h-96">
@@ -44,9 +28,9 @@ const  ItemContainer = () => {
       </div>
     </div>
   );
-}
+};
 
-const ThreeColumnsContainer = ({className, children}) => {
+const ThreeColumnsContainer = ({ className, children }) => {
   return (
     <div className={`${className} flex px-4`}>
       <div className="w-1/3">{children[0]}</div>
@@ -72,7 +56,7 @@ export default function Itempage() {
       <main>
         <ItemContainer />
         <ThreeColumnsContainer>
-          <BasicItemInfo />
+          <div></div>
           <MoreItemInfo />
           <ItemCaption />
         </ThreeColumnsContainer>
