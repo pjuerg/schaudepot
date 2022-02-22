@@ -34,7 +34,7 @@ export const DepotStateContext = React.createContext(null);
 const getSlides = thunkify((items, personId) => {
   const depot = `/depot-${personId}`;
   const personSlides = [depot, `${depot}/person`, `${depot}/info`];
-  const itemSlides = map(({ id }) => `${depot}/item/foo-${id}`, items);
+  const itemSlides = map(({ id }) => `${depot}/item/${id}`, items);
   return insertAll(2, itemSlides, personSlides);
 });
 

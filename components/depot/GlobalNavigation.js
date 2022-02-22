@@ -1,12 +1,27 @@
 // components/globalNavigation/GlobalNavigation.js
 
+import { useContext, useEffect } from "react";
 import Link from "next/link";
 import useSWR from "swr";
 import { useRouter } from "next/router";
-import { equals, findIndex, is, prop, slice, test, when } from "ramda";
-import { useContext, useEffect } from "react";
-import { exists } from "rmd-lib-pp/src/exists";
-import { falsy } from "rmd-lib-pp/src/falsy";
+import equals from "ramda/src/equals";
+import compose from "ramda/src/compose";
+import findIndex from "ramda/src/findIndex";
+import is from "ramda/src/is";
+import not from "ramda/src/not";
+import match from "ramda/src/match";
+import test from "ramda/src/test";
+import prop from "ramda/src/prop";
+
+import { exists } from "../../libs/rmd-lib/exists";
+import { falsy } from "../../libs/rmd-lib/falsy";
+import { truthy } from "../../libs/rmd-lib/truthy";
+import { second } from "../../libs/rmd-lib/second";
+import { castToInt } from "../../libs/rmd-lib/castToInt";
+import { useKeyPress } from "../../libs/hooks/useKeyPress";
+
+import { apiDepot, apiPerson } from "../../utils/api";
+import { fetcher } from "../../utils/fetcher";
 import {
   DepotDispatchContext,
   DepotStateContext,
@@ -14,27 +29,20 @@ import {
   SET_DEPOT_PERSON_ID_ACTION,
   SUCCESS_LOAD_DEPOT_ACTION,
 } from "../../store/DepotContext";
-import { API_DEPOT, API_PERSON } from "../../utils/constants";
-import { fetcher } from "../../utils/fetcher";
-import {
-  getPersonIdFromRouterPath,
-  regExDepotId,
-} from "../../utils/useSWRPersonWithRouter";
 import { transformPerson } from "../../values/person";
 
 /*
  * *** GlobalNavigation  ***
  * --------------------------
- *
  */
 
-const ToolsBar = ({ className, previousUrl, nextUrl, index, total }) => {
+const ToolsBar = ({ className="", previousUrl, nextUrl, index, total }) => {
   return (
     <div className={`${className} flex `}>
       <div className="w-20 px-2">
         {exists(previousUrl) && (
           <Link href={`${previousUrl}`}>
-            <a a className="underline">
+            <a className="underline">
               zurück
             </a>
           </Link>
@@ -48,7 +56,7 @@ const ToolsBar = ({ className, previousUrl, nextUrl, index, total }) => {
         )}
       </div>
 
-      <div className="ml-auto"> {exists(index) && `${index} ⁄ ${total}`}</div>
+      <div className="ml-auto"> {exists(index) && `${index+1} ⁄ ${total}`}</div>
       {/* <div>play</div>
       <div>gallery</div> */}
     </div>
@@ -63,25 +71,38 @@ const Title = ({ className, label }) => {
     </div>
   );
 };
-const personUrl = (personId) => `${API_PERSON}/${personId}`;
-// TODO only work with url functions
-const depotUrl = (personId) => `${API_DEPOT}${personId}`;
+
+const getAsPath = prop("asPath");
+const regExDepotId = /\/depot-(\d+)\/?/;
+const matchDepotId = compose(second, match(regExDepotId));
+
+// isFrontpage:: s → b
+const isFrontpage = compose(not, test(regExDepotId));
+// isFrontpage:: {asPath} → n
+export const getPersonIdFromRouterPath = compose(
+  castToInt,
+  matchDepotId,
+  getAsPath
+);
 
 export const GlobalNavigation = () => {
-  const router = useRouter();
-  const path = prop("asPath", router);
-  const isFrontpage = !test(regExDepotId, path);
   const dispatch = useContext(DepotDispatchContext);
   const { personId, slides } = useContext(DepotStateContext);
+  const router = useRouter();
+  const arrowLeft = useKeyPress("ArrowLeft");
+  const arrowRight = useKeyPress("ArrowRight");
+
+  const path = getAsPath(router);
+
   const currentPersonId = getPersonIdFromRouterPath(router);
   const hasDepotChanged = personId !== currentPersonId;
   const shouldLoadDepot = !slides && currentPersonId;
   const { data: dataDepot } = useSWR(
-    shouldLoadDepot ? depotUrl(currentPersonId) : null,
+    shouldLoadDepot ? apiDepot(currentPersonId) : null,
     fetcher
   );
   const { data: dataPerson } = useSWR(
-    is(Number, currentPersonId) ? personUrl(currentPersonId) : null,
+    is(Number, currentPersonId) ? apiPerson(currentPersonId) : null,
     fetcher
   );
   const transformedPerson = transformPerson(dataPerson);
@@ -95,11 +116,20 @@ export const GlobalNavigation = () => {
     previousUrl = index === 0 ? null : slides[index - 1];
     nextUrl = index === slides.length - 1 ? null : slides[index + 1];
   }
-  
+
   // console.log("isFrontpage", isFrontpage);
   // console.log("previousUrl", previousUrl);
   // console.log("nextUrl", nextUrl);
   // console.log("index", index);
+
+  // keystroke navigation
+  useEffect(() => {
+    if (truthy(arrowLeft) && exists(previousUrl)) {
+      router.push(previousUrl);
+    } else if (truthy(arrowRight) && exists(nextUrl)) {
+      router.push(nextUrl);
+    }
+  }, [arrowLeft, arrowRight]);
 
   // url changed to new  a depot like depot-12/foo
   // set person-id which is the suffix in depot-12 and set loading flag
@@ -113,14 +143,13 @@ export const GlobalNavigation = () => {
     if (shouldLoadDepot) {
       dispatch({ type: LOAD_DEPOT_ACTION, payload: currentPersonId });
     }
-  }, [currentPersonId, hasDepotChanged]);
+  }, [currentPersonId, hasDepotChanged, shouldLoadDepot, dispatch]);
 
   // if the current depot ergo the person changed
   // the depot data is asyced fetched
   // set the new data and turn of the loading flag
   useEffect(() => {
     if (dataDepot) {
-      console.log(depotUrl(currentPersonId));
       dispatch({
         type: SUCCESS_LOAD_DEPOT_ACTION,
         payload: {
@@ -129,11 +158,11 @@ export const GlobalNavigation = () => {
         },
       });
     }
-  }, [dataDepot]);
+  }, [dataDepot, path, dispatch]);
 
   return (
     <>
-      {falsy(isFrontpage) && (
+      {falsy(isFrontpage(path)) && (
         <div className="fixed inline-flex p-4 bg-gray-200 top-16 left-8">
           <div className="">*</div>
           <div className="ml-2 ">

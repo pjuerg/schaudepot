@@ -8,6 +8,7 @@
 
 // ** Api **
 
+
 export const DEPOTS = [
   {
     id: 15,
@@ -20,14 +21,6 @@ export const DEPOTS = [
   },
 ];
 
-
-// export const ROUTE_DEPOT = "https://private-kuenstlernachlaesse-brandenburg.de/linked-art.php/physical_object?filter[coreset]=1&filter[person]";
-
-// export const GATEWAY = "https://private-kuenstlernachlaesse-brandenburg.de";
-// entry points rest-api
-export const GATEWAY = "https://private-kuenstlernachlaesse-brandenburg.de";
-const API_PATH = "/linked-art.php";
-export const GATEWAY_API_PATH = `${GATEWAY}${API_PATH}`;
 export const ROUTE_HOME = "/";
 export const ROUTE_PERSON = "/person";
 export const ROUTE_PHYSICAL_OBJECT = "/physical_object";
@@ -37,10 +30,7 @@ export const ROUTE_ABOUT = "/ueber";
 export const ROUTE_DEPOT = "/depot";
 export const ROUTE_IMPRINT = "https://www.bbk-sachsenanhalt.de/impressum";
 export const ROUTE_PRIVACY = "https://www.bbk-sachsenanhalt.de/datenschutz";
-export const API_PERSON = `${GATEWAY_API_PATH}${ROUTE_PERSON}`;
-export const API_PHYSICAL_OBJECT = `${GATEWAY_API_PATH}${ROUTE_PHYSICAL_OBJECT}`;
-export const API_SITE = `${GATEWAY_API_PATH}${ROUTE_SITE}`;
-export const API_DEPOT = `${GATEWAY_API_PATH}${ROUTE_PHYSICAL_OBJECT}?filter[coreset]=1&filter[person]=`;
+
 
 export const IMAGE_SIZE_MD = "640";
 export const IMAGE_SIZE_XS = "320";

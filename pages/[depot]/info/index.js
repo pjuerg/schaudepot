@@ -2,63 +2,46 @@
 
 import Head from "next/head";
 
-import { DEPOTS, ROUTE_DEPOT, ROUTE_HOME } from "../../../utils/constants";
-import { H1 } from "../../../components/designSystem";
+import { DEPOTS, ROUTE_HOME } from "../../../utils/constants";
 import {
-  DepotCard,
+  CenteredContainer,
+  DepotCards,
   SimpleLink,
-  TwoColumnsContainer,
-} from "../../../components/depotSystem";
+  Textbar,
+} from "../../../components/depot";
+
 /*
- * *** Info index page ***
+ * *** Depot-Info-Page ***
  * - - - - - - - - - - - - - - - -
  */
 
-const FinalInfo = () => {
-  return (
-    <div>
-      <H1>Abschluss / More Info</H1>
-      <ul>
-        <li>E N D E </li>
-        <li>wichtigste Info Webseite, ....?</li>
-        <li>
-          <SimpleLink className="my-16" url={`${ROUTE_HOME}`}>
-            Startseute
-          </SimpleLink>
-        </li>
-      </ul>
-    </div>
-  );
-};
-
-const RandomDepots = () => {
-  return (
-    <div className="flex">
-      {DEPOTS.map(({ id }, index) => (
-        <SimpleLink key={index} url={`${ROUTE_DEPOT}-${id}`}>
-          <DepotCard className="mx-2" personId={id}/>
-        </SimpleLink>
-      ))}
-    </div>
-  );
-};
-
-export default function Infopage() {
+export default function DepotInfoPage() {
   return (
     <div>
       <Head>
-        <title>More info</title>
+        <title>TODO More info</title>
         <meta name="description" content="TODO" />
       </Head>
 
-      <main>
-        <TwoColumnsContainer className="px-4 mt-48">
-          <FinalInfo />
-          <div></div>
-        </TwoColumnsContainer>
-
-        <RandomDepots />
-      </main>
+      <CenteredContainer className="mt-48">
+        <div>
+          <div>
+            <Textbar>Last Page</Textbar>
+            <ul>
+              <li className="font-bold">Abschlussinformation, ....?</li>
+              <li>Webseite</li>
+              <li>Kontakt</li>
+              <li>Link in die DB</li>
+              <li>
+                <SimpleLink className="my-16" url={`${ROUTE_HOME}`}>
+                  Startseite
+                </SimpleLink>
+              </li>
+            </ul>
+          </div>
+          <DepotCards depots={DEPOTS} />
+        </div>
+      </CenteredContainer>
     </div>
   );
 }

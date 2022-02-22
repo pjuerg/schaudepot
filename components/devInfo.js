@@ -5,9 +5,9 @@ import { useContext } from "react";
 import prop from "ramda/src/prop";
 import compose from "ramda/src/compose";
 
-// import { toString } from "rmd-lib-pp/src/toString";
+import { toString } from "../libs/rmd-lib/toString";
+import { sortObject } from "../libs/rmd-lib/sortObject";
 
-// import { sortObject } from "rmd-lib-pp/src/sortObject";
 import {  DepotStateContext } from "../store/DepotContext";
 
 /*
@@ -17,10 +17,7 @@ import {  DepotStateContext } from "../store/DepotContext";
  * Show global states
  */
 
-// TODO make it draggable https://github.com/react-grid-layout/react-draggable
 
-
-const toString = (obj) => JSON.stringify(obj);
 const toStringProp = (prp) => compose(toString, prop(prp));
 
 // *** components ***
@@ -48,7 +45,7 @@ const TableInfo = ({ data, title }) => (
 
 
 const DepotContextInfo = () => {
-  const state = useContext(DepotStateContext);
+  const state = sortObject(useContext(DepotStateContext));
   return (
     <>
       <TableInfo data={state} title="Person Context" />

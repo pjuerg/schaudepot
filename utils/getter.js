@@ -7,8 +7,8 @@ import { ITEMS, LABEL, MEMBER } from "./constants";
 /*
  * *** getter  ***
  * --------------------------
- *
  */
+
 
 export const getLabel = prop(LABEL);
 export const getMember = prop(MEMBER);

@@ -10,9 +10,8 @@ import pathOr from "ramda/src/pathOr";
 import path from "ramda/src/path";
 import assoc from "ramda/src/assoc";
 
-import { renameKeys } from "rmd-lib-pp/src/renameKeys";
-
-import {  maybe } from "rmd-lib-pp/src/maybe";
+import { renameKeys } from "../libs/rmd-lib/renameKeys";
+import {  maybe } from "../libs/rmd-lib/maybe";
 
 import {
   TIMESPAN,

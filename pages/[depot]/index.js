@@ -5,34 +5,22 @@ import Head from "next/head";
 import isNil from "ramda/src/isNil";
 
 import { useSWRPersonWithRouter } from "../../utils/useSWRPersonWithRouter";
-import {  ROUTE_DEPOT } from "../../utils/constants";
 import { H1 } from "../../components/designSystem";
 import {
-  ArtistImageContainer,
-  SimpleLink,
   TextContainer,
   TwoColumnsContainer,
   BigLoading,
-} from "../../components/depotSystem";
-
+  RepresentationImage,
+  Textbar,
+} from "../../components/depot/DepotSystem";
 
 /*
- * *** Cover index page ***
+ * *** Depot-Cover-Page ***
  * - - - - - - - - - - - - - - - -
  */
 
-const DepotInfo = ({label}) => {
-  return (
-    <TextContainer className="mt-48">
-      <H1>{label}</H1>
-      <H1>Kerndepot</H1>
-    </TextContainer>
-  );
-};
-
-
-export default function Coverpage() {
-  const transformedPersonData = useSWRPersonWithRouter()
+export default function DepotCoverPage() {
+  const transformedPersonData = useSWRPersonWithRouter();
 
   // console.log(`transformed person`);
   // console.log(transformedPersonData);
@@ -42,19 +30,20 @@ export default function Coverpage() {
       <Head>
         <title>front</title>
         <meta name="description" content="Todo" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        {isNil(transformedPersonData) ? (
-          <BigLoading />
-        ) : (
-          <TwoColumnsContainer>
-            <DepotInfo {...transformedPersonData} />
-            <ArtistImageContainer />
-          </TwoColumnsContainer>
-        )}
-      </main>
+      {isNil(transformedPersonData) ? (
+        <BigLoading />
+      ) : (
+        <TwoColumnsContainer className="flexCenteredFullScreen">
+          <TextContainer>
+            <Textbar>Schaudepot Cover Page</Textbar>
+            <H1>{transformedPersonData.label}</H1>
+            <H1>Kerndepot</H1>
+          </TextContainer>
+          <RepresentationImage {...transformedPersonData} />
+        </TwoColumnsContainer>
+      )}
     </div>
   );
 }

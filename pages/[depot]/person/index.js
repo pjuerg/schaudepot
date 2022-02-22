@@ -1,34 +1,29 @@
 // pages/[depot]/person/index.js
 
 import Head from "next/head";
-import { head, prop } from "ramda";
-import compose from "ramda/src/compose";
 import isNil from "ramda/src/isNil";
-import { maybe } from "rmd-lib-pp/src/maybe";
 
-import { ROUTE_DEPOT } from "../../../utils/constants";
-import { userSWRDepotWithRouter } from "../../../utils/useSWRDepotWithRouter";
 import { useSWRPersonWithRouter } from "../../../utils/useSWRPersonWithRouter";
-import { transformPhysicalObject } from "../../../values/physicalObject";
 import { H1 } from "../../../components/designSystem";
 import {
-  BigLoading, 
-  ArtistImageContainer,
-  SimpleLink,
+  BigLoading,
   TextContainer,
   TwoColumnsContainer,
-
-} from "../../../components/depotSystem";
+  RepresentationImage,
+  Textbar,
+} from "../../../components/depot/DepotSystem";
 
 /*
- * *** Person index page ***
+ * *** Depot-Person-Page ***
  * - - - - - - - - - - - - - - - -
  */
 
+// TOOD dynamic with structure table
 const ArtistInfo = ({ label, id }) => {
   return (
     <TextContainer>
       <H1>{label}</H1>
+      <div>id: {id}</div>
       Geburt <br />
       Tod <br />
       Wirkungsorte <br />
@@ -36,33 +31,27 @@ const ArtistInfo = ({ label, id }) => {
   );
 };
 
-const firstIdFromDepot = compose(prop('id'),transformPhysicalObject, head);
-
-export default function PersonPage() {
+export default function DepotPersonPage() {
   const transformedPersonData = useSWRPersonWithRouter();
-  const depotData = userSWRDepotWithRouter()
-  const itemId = maybe(firstIdFromDepot)(depotData);
 
   return (
-    <div>
+    <div className="h-screen">
       <Head>
-        <title>Über den Künstler</title>
-        <meta name="description" content="DO" />
-        <link rel="icon" href="/favicon.ico" />
+        <title>TODO Künstler</title>
+        <meta name="description" content="TODO" />
       </Head>
 
-      <main className="h-screen">
         {isNil(transformedPersonData) ? (
           <BigLoading />
         ) : (
-          <TwoColumnsContainer>
-            <ArtistImageContainer {...transformedPersonData} />
+          <TwoColumnsContainer className="flexCenteredFullScreen">
+            <RepresentationImage {...transformedPersonData} className="ml-16" />
             <div>
+              <Textbar>Biography Page</Textbar>
               <ArtistInfo {...transformedPersonData} />
             </div>
           </TwoColumnsContainer>
         )}
-      </main>
     </div>
   );
 }

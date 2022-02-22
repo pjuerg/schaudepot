@@ -49,3 +49,7 @@
 .loadingCentered {
   @apply justify-center py-48;
 }
+
+.flexCenteredFullScreen {
+  @apply flex items-center justify-center h-screen
+}

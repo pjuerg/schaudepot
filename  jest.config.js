@@ -1,34 +1,20 @@
-module.exports = {
-  collectCoverageFrom: [
-    "**/*.{js,jsx}",
-    "!**/node_modules/**",
-    "!**/tests/**",
-    "!**/coverage/**",
-    "!jest.config.js",
-  ],
-  coverageThreshold: {
-    global: {
-      branches: 100,
-      functions: 100,
-      lines: 100,
-      statements: 100,
-    },
-  },
+const nextJest = require("next/jest");
+
+const createJestConfig = nextJest({
+  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
+  dir: "./",
+});
+
+// Add any custom config to be passed to Jest
+const customJestConfig = {
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   moduleNameMapper: {
-    "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
-    "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
-      "<rootDir>/__mocks__/fileMock.js",
+    // Handle module aliases (this will be automatically configured for you soon)
+    "^@/components/(.*)$": "<rootDir>/components/$1",
+    "^@/pages/(.*)$": "<rootDir>/pages/$1",
   },
-  setupFiles: ["<rootDir>/tests/setup.js"],
-  setupFilesAfterEnv: ["<rootDir>/tests/setupAfterEnv.js"],
-  testMatch: ["**/?(*.)+(spec|test).[jt]s?(x)"],
-  testPathIgnorePatterns: [
-    "/.next/",
-    "/node_modules/",
-    "/tests/",
-    "/coverage/",
-  ],
-  transform: {
-    "^.+\\.jsx?$": "babel-jest",
-  },
+  testEnvironment: "jest-environment-jsdom",
 };
+
+// createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
+module.exports = createJestConfig(customJestConfig);

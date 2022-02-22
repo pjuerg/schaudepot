@@ -13,7 +13,10 @@ import length from "ramda/src/length";
 import split from "ramda/src/split";
 import last from "ramda/src/last";
 import join from "ramda/src/join";
-import init from "ramda/src/init";
+// import init from "ramda/src/init";
+import init from "ramda/es/init";
+
+import { exists } from "../libs/rmd-lib/exists";
 
 import {
   ACCESS_POINT,
@@ -22,15 +25,17 @@ import {
   IDENTIFIED_BY,
   LABEL,
   REFERRED_TO_BY,
-  GATEWAY,
 } from "./constants";
-import { exists } from "rmd-lib-pp/src/exists";
+import { GATEWAY } from "./api";
 
 /*
  *  *** utilsImage  ***
  * -----------------------
  *
  */
+
+export const count = (arr) => arr.length;
+
 
 const regExImageFormat = /.*\/png|.*\/jpeg/;
 export const IsFormatImage = test(regExImageFormat);
@@ -43,7 +48,7 @@ export const hasPortraitOrPreview = anyPass([
   propEqLabel("Portrait"),
 ]);
 export const hasPreview = both(exists, compose(hasPortraitOrPreview, head));
-const lengthIsOne = compose(lte(__, 1), length);
+export const lengthIsOne = compose(lte(__, 1), length);
 // export const hasPreview = compose(hasPortraitOrPreview, head);
 export const hasOnlyPreview = both(hasPreview, lengthIsOne);
 

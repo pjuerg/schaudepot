@@ -1,7 +1,6 @@
 // components/designSystem/Elements.js
 
 import PropTypes from "prop-types";
-import { EXPAND_ICON, ReactIcon } from "./ReactIcons";
 
 /*
  *  *** Elements  ***
@@ -42,16 +41,6 @@ H2.propTypes = {
   pb: PropTypes.string,
   children: PropTypes.node.isRequired,
 };
-
-export const IconSign = ({ sign, className }) => (
-  <span className={className} dangerouslySetInnerHTML={{ __html: sign }} />
-);
-
-export const IkonScale = () => (
-  <div className="linkedArtImg-icon">
-    <ReactIcon id={EXPAND_ICON} />
-  </div>
-);
 
 export const ThumbnailCaption = ({ children }) => (
   <figcaption className="pt-2 px-1.5 text-sm">{children}</figcaption>

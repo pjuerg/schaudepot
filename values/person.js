@@ -9,9 +9,9 @@ import dissoc from "ramda/src/dissoc";
 import assoc from "ramda/src/assoc";
 import head from "ramda/src/head";
 
-import { renameKeys } from "rmd-lib-pp/src/renameKeys";
-import { splitAtLastSlash } from "rmd-lib-pp/src/splitAtLastSlash";
-import {  maybe } from "rmd-lib-pp/src/maybe";
+import { renameKeys } from "../libs/rmd-lib/renameKeys";
+import { splitAtLastSlash } from "../libs/rmd-lib/splitAtLastSlash";
+import { maybe } from "../libs/rmd-lib/maybe";
 
 import {
   STANDART_OMITS,

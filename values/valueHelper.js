@@ -18,8 +18,8 @@ import over from "ramda/src/over";
 import mergeLeft from "ramda/src/mergeLeft";
 import lensProp from "ramda/src/lensProp";
 
-import { renameKeys } from "rmd-lib-pp/src/renameKeys";
-import { splitAtLastSlash } from "rmd-lib-pp/src/splitAtLastSlash";
+import { renameKeys } from "../libs/rmd-lib/renameKeys";
+import { splitAtLastSlash } from "../libs/rmd-lib/splitAtLastSlash";
 
 import { hasOnlyPreview } from "../utils/utilsImage";
 

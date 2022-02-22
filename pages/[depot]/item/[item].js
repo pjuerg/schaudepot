@@ -1,66 +1,48 @@
 // pages/[depot]/item/[item].js
 import PropTypes from "prop-types";
 import Head from "next/head";
+import { useContext } from "react";
+import { useRouter } from "next/router";
+import isNil from "ramda/src/isNil";
+import compose from "ramda/src/compose";
+import prop from "ramda/src/prop";
 
+import { maybe } from "../../../libs/rmd-lib/maybe";
+import { findAtId } from "../../../libs/rmd-lib/findAtId";
+import { splitAtLastSlash } from "../../../libs/rmd-lib/splitAtLastSlash";
+import { DepotStateContext } from "../../../store/DepotContext";
+import {
+  BigLoading,
+  CenteredContainer,
+  RepresentationImage,
+  Textbar,
+} from "../../../components/depot";
 
 /*
- * *** Item dynamic page ***
+ * *** Depot-Item-Page ***
  * - - - - - - - - - - - - - - - -
  */
 
-const MoreItemInfo = () => {
-  return (
-    <div className="">
-      Weiere Metadata <br />
-    </div>
-  );
-};
+export default function DepotItemPage() {
+  const { items } = useContext(DepotStateContext);
+  const itemId = compose(splitAtLastSlash, prop("asPath"))(useRouter());
+  const item = maybe(findAtId(itemId))(items);
 
-const ItemCaption = () => {
-  return <div className="">Caption</div>;
-};
-
-const ItemContainer = () => {
-  return (
-    <div className="flex items-center justify-center mb-8 ">
-      <div className="flex items-center justify-center w-64 bg-yellow-200 h-96">
-        hello image
-      </div>
-    </div>
-  );
-};
-
-const ThreeColumnsContainer = ({ className, children }) => {
-  return (
-    <div className={`${className} flex px-4`}>
-      <div className="w-1/3">{children[0]}</div>
-      <div className="w-1/3">{children[1]}</div>
-      <div className="w-1/3">{children[2]}</div>
-    </div>
-  );
-};
-ThreeColumnsContainer.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.array.isRequired,
-};
-
-
-export default function Itempage() {
   return (
     <div>
       <Head>
-        <title>Werke Page</title>
+        <title>TODO Item Page</title>
         <meta name="description" content="TODO" />
       </Head>
 
-      <main>
-        <ItemContainer />
-        <ThreeColumnsContainer>
-          <div></div>
-          <MoreItemInfo />
-          <ItemCaption />
-        </ThreeColumnsContainer>
-      </main>
+      {isNil(item) ? (
+        <BigLoading />
+      ) : (
+        <CenteredContainer className="mt-48">
+          <RepresentationImage {...item} />
+          <Textbar>Worke Page, ID {itemId}</Textbar>
+        </CenteredContainer>
+      )}
     </div>
   );
 }
