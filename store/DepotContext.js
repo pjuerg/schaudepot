@@ -9,6 +9,7 @@ import insertAll from "ramda/src/insertAll";
 import map from "ramda/src/map";
 import prop from "ramda/src/prop";
 import thunkify from "ramda/src/thunkify";
+import assoc from "ramda/src/assoc";
 
 import { MEMBER } from "../utils/constants";
 import { transformPhysicalObjectListing } from "../values/physicalObject";
@@ -19,16 +20,15 @@ import { transformPhysicalObjectListing } from "../values/physicalObject";
  *
  */
 
-
 export const SET_DEPOT_PERSON_ID_ACTION = "SET_DEPOT_PERSON_ID_ACTION";
 export const LOAD_DEPOT_ACTION = "LOAD_DEPOT_ACTION";
 export const SUCCESS_LOAD_DEPOT_ACTION = "SUCCESS_LOAD_DEPOT_ACTION";
+export const SET_ANIMATION_DIRECTION = "SET_ANIMATION_DIRECTION";
 
 /* Create the Context
  */
 export const DepotDispatchContext = React.createContext(null);
 export const DepotStateContext = React.createContext(null);
-
 
 // getSlides :: [{*}], n -> [s]
 const getSlides = thunkify((items, personId) => {
@@ -42,13 +42,12 @@ const getSlides = thunkify((items, personId) => {
 const getItems = compose(prop(MEMBER), transformPhysicalObjectListing);
 
 /**
- * 
- * @param {*} draft 
- * @param {*} action 
- * @returns 
+ *
+ * @param {*} draft
+ * @param {*} action
+ * @returns
  */
 function depotReducer(draft, action) {
-
   console.log("::Depot Reducer", action.type);
 
   switch (action.type) {
@@ -84,6 +83,9 @@ function depotReducer(draft, action) {
         draft
       );
 
+    case SET_ANIMATION_DIRECTION:
+      return assoc("direction", action.payload, draft);
+
     default:
       throw new Error(`reducer action.type ${action.type} did not match`);
   }
@@ -97,6 +99,7 @@ const initialState = {
   items: null,
   slides: null,
   loading: false,
+  direction: null,
 };
 
 /**

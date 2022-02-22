@@ -1,24 +1,32 @@
 // components/Layout.js
 
 import PropTypes from "prop-types";
-
+import { useContext } from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { AnimatePresence, motion } from "framer-motion";
 
-import { DevInfo } from "./DevInfo";
+import { animations } from "../utils/animations";
+import { DepotStateContext } from "../store/DepotContext";
 import { TopBar, GlobalNavigation } from "./depot";
+import { DevInfo } from "./DevInfo";
+
+
 
 /*
  *  *** Layout  ***
  * -----------------
- *
  */
-
-// *** default export ***
 
 export default function Layout({
   children,
   title = "This is the default title",
 }) {
+  const { asPath } = useRouter();
+  const { direction } = useContext(DepotStateContext);
+  const animation = direction === 1 ? animations[0] : animations[1];
+  console.log('direction', direction)
+  
   return (
     <div>
       <Head>
@@ -31,8 +39,18 @@ export default function Layout({
       <TopBar />
       <GlobalNavigation />
 
-      {children}
-
+      <AnimatePresence exitBeforeEnter={true}>
+        <motion.div
+          key={asPath}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          variants={animation.variants}
+          transition={animation.transition}
+        >
+          {children}
+        </motion.div>
+      </AnimatePresence>
       {/* TODO show only in dev with env-var */}
       <DevInfo />
     </div>
@@ -40,5 +58,5 @@ export default function Layout({
 }
 Layout.propTypes = {
   title: PropTypes.string,
-  children: PropTypes.any.isRequired
+  children: PropTypes.any.isRequired,
 };

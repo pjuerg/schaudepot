@@ -40,7 +40,7 @@ export default function DepotItemPage() {
       ) : (
         <CenteredContainer className="mt-48">
           <RepresentationImage {...item} />
-          <Textbar>Worke Page, ID {itemId}</Textbar>
+          <Textbar>Work Page, ID {itemId}</Textbar>
         </CenteredContainer>
       )}
     </div>

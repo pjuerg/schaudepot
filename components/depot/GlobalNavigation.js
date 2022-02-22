@@ -26,6 +26,7 @@ import {
   DepotDispatchContext,
   DepotStateContext,
   LOAD_DEPOT_ACTION,
+  SET_ANIMATION_DIRECTION,
   SET_DEPOT_PERSON_ID_ACTION,
   SUCCESS_LOAD_DEPOT_ACTION,
 } from "../../store/DepotContext";
@@ -125,11 +126,13 @@ export const GlobalNavigation = () => {
   // keystroke navigation
   useEffect(() => {
     if (truthy(arrowLeft) && exists(previousUrl)) {
+      dispatch({ type: SET_ANIMATION_DIRECTION, payload: -1 });
       router.push(previousUrl);
     } else if (truthy(arrowRight) && exists(nextUrl)) {
+      dispatch({ type: SET_ANIMATION_DIRECTION, payload: 1 });
       router.push(nextUrl);
     }
-  }, [arrowLeft, arrowRight]);
+  }, [arrowLeft, arrowRight, dispatch]);
 
   // url changed to new  a depot like depot-12/foo
   // set person-id which is the suffix in depot-12 and set loading flag
@@ -163,7 +166,7 @@ export const GlobalNavigation = () => {
   return (
     <>
       {falsy(isFrontpage(path)) && (
-        <div className="fixed inline-flex p-4 bg-gray-200 top-16 left-8">
+        <div className="fixed z-50 inline-flex p-4 bg-gray-200 top-16 left-8">
           <div className="">*</div>
           <div className="ml-2 ">
             <Title
