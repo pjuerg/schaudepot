@@ -57,8 +57,8 @@ const LinkBackForward = ({routeAnimatedTo, url, direction, children}) => (
 const ToolsBar = ({ className="", previousUrl, nextUrl, index, total, ...props }) => {
   return (
     <div className={`${className} flex `}>
-      <LinkBackForward url={previousUrl} direction={-1} {...props} >zurück</LinkBackForward>
-      <LinkBackForward url={nextUrl} direction={1} {...props} >vor</LinkBackForward>
+      <LinkBackForward url={previousUrl} direction={1} {...props} >zurück</LinkBackForward>
+      <LinkBackForward url={nextUrl} direction={-1} {...props} >vor</LinkBackForward>
       <div className="ml-auto">
         {exists(index) && `${index + 1} ⁄ ${total}`}
       </div>

@@ -12,7 +12,6 @@ import { TopBar, GlobalNavigation } from "./depot";
 import { DevInfo } from "./DevInfo";
 
 
-
 /*
  *  *** Layout  ***
  * -----------------
@@ -24,7 +23,9 @@ export default function Layout({
 }) {
   const { asPath } = useRouter();
   const { direction } = useContext(DepotStateContext);
-  const animation = direction === 1 ? animations[0] : animations[1];
+  let animation = null;
+  if( direction === 1) animation = animations[0];
+  else if (direction === -1)  animation = animations[1];
   
   return (
     <div>
@@ -42,10 +43,10 @@ export default function Layout({
         <motion.div
           key={asPath}
           initial="initial"
-          animate="animate"
+          animate={animation !== null && "animate"}
           exit="exit"
-          variants={animation.variants}
-          transition={animation.transition}
+          variants={animation && animation.variants}
+          transition={animation && animation.transition}
         >
           {children}
         </motion.div>
