@@ -12,6 +12,7 @@ import not from "ramda/src/not";
 import match from "ramda/src/match";
 import test from "ramda/src/test";
 import prop from "ramda/src/prop";
+import curry from "ramda/src/curry";
 
 import { exists } from "../../libs/rmd-lib/exists";
 import { falsy } from "../../libs/rmd-lib/falsy";
@@ -37,27 +38,30 @@ import { transformPerson } from "../../values/person";
  * --------------------------
  */
 
-const ToolsBar = ({ className="", previousUrl, nextUrl, index, total }) => {
+const LinkBackForward = ({routeAnimatedTo, url, direction, children}) => (
+  <div className="w-20 px-2">
+    {exists(url) && (
+      <Link href={`${url}`}>
+        <a
+          onClick={(e) => {
+            routeAnimatedTo(-direction, url, e);
+          }}
+          className="underline"
+        >
+          {children}
+        </a>
+      </Link>
+    )}
+  </div>
+);
+const ToolsBar = ({ className="", previousUrl, nextUrl, index, total, ...props }) => {
   return (
     <div className={`${className} flex `}>
-      <div className="w-20 px-2">
-        {exists(previousUrl) && (
-          <Link href={`${previousUrl}`}>
-            <a className="underline">
-              zurück
-            </a>
-          </Link>
-        )}
+      <LinkBackForward url={previousUrl} direction={-1} {...props} >zurück</LinkBackForward>
+      <LinkBackForward url={nextUrl} direction={1} {...props} >vor</LinkBackForward>
+      <div className="ml-auto">
+        {exists(index) && `${index + 1} ⁄ ${total}`}
       </div>
-      <div className="w-20 px-2">
-        {exists(nextUrl) && (
-          <Link href={`${nextUrl}`}>
-            <a className="underline">vor</a>
-          </Link>
-        )}
-      </div>
-
-      <div className="ml-auto"> {exists(index) && `${index+1} ⁄ ${total}`}</div>
       {/* <div>play</div>
       <div>gallery</div> */}
     </div>
@@ -86,15 +90,24 @@ export const getPersonIdFromRouterPath = compose(
   getAsPath
 );
 
+
+// routeWithDispatch:: Dispatcher → router → Number → String → Event
+// Navigate with route.push to trigger the right animation
+const routeWithDispatch = curry((dispatch, router, direction, url, e) => {
+  e.preventDefault();
+  dispatch({ type: SET_ANIMATION_DIRECTION, payload: direction });
+  router.push(url);
+});
+
+
 export const GlobalNavigation = () => {
   const dispatch = useContext(DepotDispatchContext);
   const { personId, slides } = useContext(DepotStateContext);
   const router = useRouter();
+  const routeAnimatedTo = routeWithDispatch(dispatch, router)
   const arrowLeft = useKeyPress("ArrowLeft");
   const arrowRight = useKeyPress("ArrowRight");
-
   const path = getAsPath(router);
-
   const currentPersonId = getPersonIdFromRouterPath(router);
   const hasDepotChanged = personId !== currentPersonId;
   const shouldLoadDepot = !slides && currentPersonId;
@@ -179,6 +192,7 @@ export const GlobalNavigation = () => {
               previousUrl={previousUrl}
               nextUrl={nextUrl}
               index={index}
+              routeAnimatedTo={routeAnimatedTo}
               total={slides && slides.length}
             />
           </div>

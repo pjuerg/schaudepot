@@ -25,7 +25,6 @@ export default function Layout({
   const { asPath } = useRouter();
   const { direction } = useContext(DepotStateContext);
   const animation = direction === 1 ? animations[0] : animations[1];
-  console.log('direction', direction)
   
   return (
     <div>
