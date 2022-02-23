@@ -2,15 +2,12 @@
 /** @module isNumeric */
 
 /**
- *
- * #### * → b
- *
- * Predicate is true when not null, undefined and false.
- *
  * @function
- * @see https://stackoverflow.com/questions/175739/built-in-way-in-javascript-to-check-if-a-string-is-a-valid-number
+ * @summary * → Boolean <br/>Logic
+ * @description Predicate checks type number
  * @param {*} - anything
  * @return {boolean} - true | false
+ * @see https://stackoverflow.com/questions/175739/built-in-way-in-javascript-to-check-if-a-string-is-a-valid-number
  **/
 
 export const isNumeric = (str) => {

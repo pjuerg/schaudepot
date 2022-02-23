@@ -20,9 +20,9 @@ import {
   CONTENT,
   HYDRA_MEMBER,
   IDENTIFIED_BY,
-  LABEL,
   _LABEL,
 } from "../utils/constants";
+import { LABEL } from "../utils/getter";
 
 /*
  * *** delete empty sections in structure  ***

@@ -3,11 +3,9 @@ import { exists } from "./exists";
 /** @module truthy */
 
 /**
- * #### * → b
- *
- * Predicate is true when not null, undefined and false.
- *
  * @function
+ * @summary * → Boolean <br/>Logic
+ * @description Predicate is true when not null, undefined and false.
  * @param {*} - anything
  * @return {boolean} - true | false
  **/

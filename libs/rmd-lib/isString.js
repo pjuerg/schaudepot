@@ -1,12 +1,10 @@
 
-/** @module toString */
+/** @module isString */
 
 /**
- *
- * #### {*} → b
- *
- *
  * @function
+ * @summary * → Boolean <br/>Logic
+ * @description Predicate checks type string
  * @param {Object} - String
  * @return {boolean} - stringified object
  **/

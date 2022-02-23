@@ -2,7 +2,8 @@
 
 import Head from "next/head";
 
-import { ROUTE_DEPOT, DEPOTS } from "../utils/constants";
+import { DEPOTS } from "../utils/constants";
+import { ROUTE_DEPOT } from "../utils/routes";
 import { H1 } from "../components/designSystem";
 import { CenteredContainer, SimpleLink } from "../components/depot/DepotSystem";
 

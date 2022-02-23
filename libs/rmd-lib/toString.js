@@ -2,9 +2,9 @@
 /** @module toString */
 
 /**
- * #### {*} → s
- * 
  * @function
+ * @summary * → String <br/>String
+ * @description Converts anything to string with JSON.stringigy.
  * @param {object} 
  * @return {string} - stringified object
  **/

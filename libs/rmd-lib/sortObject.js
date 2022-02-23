@@ -2,12 +2,12 @@
 /** @module sortObject */
 
 /**
- * #### o → o
- *
  * @function
- * @see stackoverflow.com/questions/5467129/sort-javascript-object-by-key
+ * @summary {*} → {*} <br/>Object
+ * @description Object sorting
  * @param {*} - Object
  * @return {*} - Object
+ * @see stackoverflow.com/questions/5467129/sort-javascript-object-by-key
  */
 
 

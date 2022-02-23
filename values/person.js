@@ -17,7 +17,6 @@ import {
   STANDART_OMITS,
   BORN,
   DIED,
-  LABEL,
   ADDITONAL_MEDIA,
 } from "../utils/constants";
 
@@ -42,6 +41,7 @@ import {
   pathDiedTookPlaceAt,
   addPropAdditionalMedia,
 } from "./valueHelper";
+import { LABEL } from "../utils/getter";
 
 /*
  * *** person value object ***

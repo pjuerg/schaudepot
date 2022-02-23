@@ -32,6 +32,7 @@ import {
   SUCCESS_LOAD_DEPOT_ACTION,
 } from "../../store/DepotContext";
 import { transformPerson } from "../../values/person";
+import { getAsPath } from "../../utils/getter";
 
 /*
  * *** GlobalNavigation  ***
@@ -77,7 +78,6 @@ const Title = ({ className, label }) => {
   );
 };
 
-const getAsPath = prop("asPath");
 const regExDepotId = /\/depot-(\d+)\/?/;
 const matchDepotId = compose(second, match(regExDepotId));
 

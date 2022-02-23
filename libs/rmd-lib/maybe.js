@@ -2,12 +2,9 @@
 /** @module maybe */
 
 /**
- *
- * #### * → b
- *
- * Predicate is false when null and undefined.
- *
  * @function
+ * @summary TODO <br/>Logic
+ * @description Executes fn if is not undefined
  * @param {*} - anything
  * @return {boolean} - true | false
  * @see javascript allonge

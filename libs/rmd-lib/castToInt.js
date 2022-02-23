@@ -3,11 +3,9 @@ import { isNumeric } from "./isNumeric";
 /** @module castToInt */
 
 /**
- * #### s → n
- *
- * Cast a string-number to int or if not possible the just the value
- * 
  * @function
+ * @summary s → Number <br/>Function
+ * @description Cast a string-number to int or if not possible the just the value
  * @param {string} s - some string like "1"
  * @return {integer} n - integer
  * @example

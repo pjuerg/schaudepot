@@ -5,9 +5,9 @@ import last from "ramda/src/last";
 /** @module splitAtLastSlash */
 
 /**
-* #### s → s 
-*
-* @function
+ * @function
+ * @summary  String → String <br/>String
+ * @description Splits the string at the last slash.
  * @param s - string
  * @return s - string
  */

@@ -3,11 +3,7 @@
 /*
  *  *** Constants  ***
  * -------------------
- * 
  */
-
-// ** Api **
-
 
 export const DEPOTS = [
   {
@@ -21,17 +17,6 @@ export const DEPOTS = [
   },
 ];
 
-export const ROUTE_HOME = "/";
-export const ROUTE_PERSON = "/person";
-export const ROUTE_PHYSICAL_OBJECT = "/physical_object";
-export const ROUTE_SITE = "/site";
-export const ROUTE_ITEM = "/item";
-export const ROUTE_ABOUT = "/ueber";
-export const ROUTE_DEPOT = "/depot";
-export const ROUTE_IMPRINT = "https://www.bbk-sachsenanhalt.de/impressum";
-export const ROUTE_PRIVACY = "https://www.bbk-sachsenanhalt.de/datenschutz";
-
-
 export const IMAGE_SIZE_MD = "640";
 export const IMAGE_SIZE_XS = "320";
 
@@ -39,7 +24,8 @@ export const IMAGE_SIZE_XS = "320";
 export const TITLE = "BBK, Bildende Kunst Sachsen-Anhalt";
 
 // export const BUTTON_COMPONENT = "button_component";
-export const BUTTON_COMPONENT_ITEMS_FROM_ARTIST = "Button_component_items_from_artist";
+export const BUTTON_COMPONENT_ITEMS_FROM_ARTIST =
+  "Button_component_items_from_artist";
 
 // ** linked.art and fields **
 
@@ -54,26 +40,18 @@ export const CREATED_BY = "created_by";
 export const CREATED_BY_CARRIED_OUT_BY = "created_by.carried_out_by";
 export const CREATED_BY_TIMESPAN = "created_by.timespan";
 export const ACCESS_POINT = "access_point";
+export const EQUIVALENT = "equivalent";
+export const SUBJECT_OF = "subject_of";
 
 export const HYDRA_MEMBER = "hydra:member";
 export const HYDRA_TOTAL_ITEMS = "hydra:totalItems";
 
 export const CONTENT = "content";
 export const _LABEL = "_label";
-export const LABEL = "label"
-export const VALUE = "value"
-export const FILTER = "filter"
+
+export const VALUE = "value";
+export const FILTER = "filter";
 export const BORN = "born";
 export const DIED = "died";
-export const MEMBER = "member";
-export const ITEMS = "items";
 
 export const STANDART_OMITS = ["id", "@context", "type"];
-
-
-// ** responsive shortcuts **
-export const XXL = "2xl"
-export const XL = "xl"
-export const LG = "lg"
-export const MD = "md"
-export const SM = "sm" // @remember not the same like in @see https://tailwindcss.com/docs/breakpoints

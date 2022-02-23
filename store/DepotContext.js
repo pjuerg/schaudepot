@@ -7,12 +7,11 @@ import always from "ramda/src/always";
 import evolve from "ramda/src/evolve";
 import insertAll from "ramda/src/insertAll";
 import map from "ramda/src/map";
-import prop from "ramda/src/prop";
 import thunkify from "ramda/src/thunkify";
 import assoc from "ramda/src/assoc";
 
-import { MEMBER } from "../utils/constants";
 import { transformPhysicalObjectListing } from "../values/physicalObject";
+import { getMember } from "../utils/getter";
 
 /*
  *  *** DepotContext  ***
@@ -39,7 +38,7 @@ const getSlides = thunkify((items, personId) => {
 });
 
 // getSlides :: [{*}] -> {*}
-const getItems = compose(prop(MEMBER), transformPhysicalObjectListing);
+const getItems = compose(getMember, transformPhysicalObjectListing);
 
 /**
  *

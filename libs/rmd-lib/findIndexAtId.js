@@ -6,10 +6,9 @@ import propEq from "ramda/src/propEq";
 /** @module findIndexAtId */
 
 /**
- * #### id → arr
- *
- *
  * @function
+ * @summary id → a <br/>List
+ * @description TODO
  * @param {*} id - the id to find
  * @param [{id:v}, ...]  - the id to find
  * @return {*} object - the object with the arr

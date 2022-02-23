@@ -3,10 +3,9 @@ import nth from "ramda/src/nth";
 /** @module second */
 
 /**
- * #### s → n
- *
- *
  * @function
+ * @summary [a] → a <br/>List
+ * @description Returns the second entry of a type with index.
  * @param s - Number
  * @return n - Number
  **/

@@ -17,6 +17,7 @@ import {
   RepresentationImage,
   Textbar,
 } from "../../../components/depot";
+import { getAsPath } from "../../../utils/getter";
 
 /*
  * *** Depot-Item-Page ***
@@ -25,7 +26,7 @@ import {
 
 export default function DepotItemPage() {
   const { items } = useContext(DepotStateContext);
-  const itemId = compose(splitAtLastSlash, prop("asPath"))(useRouter());
+  const itemId = compose(splitAtLastSlash, getAsPath)(useRouter());
   const item = maybe(findAtId(itemId))(items);
 
   return (

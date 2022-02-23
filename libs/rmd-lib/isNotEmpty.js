@@ -6,11 +6,9 @@ import isEmpty from "ramda/src/isEmpty";
 /** @module isNotEmpty */
 
 /**
- *
- * #### s → b
- *
- *
  * @function
+ * @summary * → Boolean <br/>Logic
+ * @description Predicate checks if not empty, contrary to ramda isEmpty
  * @param s - String
  * @return {boolean} - true | false
  **/

@@ -5,9 +5,9 @@ import always from "ramda/src/always";
 /** @module saveArray */
 
 /**
- * #### [a] → [a] 
- *
  * @function
+ * @summary [a] → [a] <br/>Logic
+ * @description returns always an array
  * @param a - Array
  * @return a - Array
  */

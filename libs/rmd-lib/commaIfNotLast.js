@@ -14,12 +14,9 @@ const delimiterIfNotLast = curry((sign, arr, index) => {
 });
 
 /**
- *
- * #### [a] → n → s
- *
- * adds a comma to string-array items, but not to the last item
- *
  * @function
+ * @summary [a] → Number → String <br/>list
+ * @description adds a comma to string-array items, but not to the last item
  * @param {String[]} a - array with strings
  * @param {Number} n - index of the current array item
  * @return {String} s - array with "comma", if its not last index

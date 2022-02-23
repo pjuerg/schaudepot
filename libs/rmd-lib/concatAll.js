@@ -7,10 +7,9 @@ import tail from "ramda/src/tail";
 /** @module concatAll */
 
 /**
- * #### [a] → [a] → [a]
- * 
- * 
  * @function
+ * @summary [a] → [a] → [a] <br/>list
+ * @description TODO
  * @see stackoverflow.com/questions/5467129/sort-javascript-object-by-key
  * @param {array} a - array
  * @return {array} a - Object

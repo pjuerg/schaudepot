@@ -6,12 +6,9 @@ import propEq from "ramda/src/propEq";
 /** @module findAtId */
 
 /**
- * #### v → [{id:v}] → {id:v} | undefined
- *
- * Returns an object or undefined,
- * curried
- * 
  * @function
+ * @summary  v → [{id:v}] → {id:v} | undefined<br/>List
+ * @description Returns an object or undefined. Curried.
  * @param s - String
  * @param {array.objects} arr - array with objects
  * @return {array} - array with object with id

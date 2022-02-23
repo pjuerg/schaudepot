@@ -7,10 +7,9 @@ import nth from "ramda/src/nth";
 /** @module secondSlashFromLastAtProp */
 
 /**
- * #### s → n
- *
- *
  * @function
+ * @summary {*} → String → String <br/>Object
+ * @description Splits a string by / of an object prop.
  * @param s - Number
  * @return n - Number
  **/

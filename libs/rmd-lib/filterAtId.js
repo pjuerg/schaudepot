@@ -5,12 +5,9 @@ import propEq from "ramda/src/propEq";
 /** @module filterAtId */
 
 /**
- * #### v → [{id:v}] -> [{id:v}] | []
- * 
- * Returns an Array 
- * curried
- *
  * @function
+ * @summary v → [{id:v}] -> [{id:v}] | [] <br/>List
+ * @description Returns an Array. Curried
  * @param {v} id - the id to find
  * @param {array.objects} arr - array with objects
  * @return {array} - array with object with id

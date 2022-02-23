@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { ROUTE_HOME } from "../../utils/constants";
+import { ROUTE_HOME } from "../../utils/routes";
 
 /*
  * *** Topbar Depot  ***

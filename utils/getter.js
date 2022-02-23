@@ -2,15 +2,17 @@
 
 import prop from "ramda/src/prop";
 
-import { ITEMS, LABEL, MEMBER } from "./constants";
-
 /*
  * *** getter  ***
- * --------------------------
+ * ---------------
  */
 
+export const LABEL = "label";
+export const MEMBER = "member";
+export const ITEMS = "items";
+export const AS_PATH = "asPath";
 
 export const getLabel = prop(LABEL);
 export const getMember = prop(MEMBER);
 export const getItems = prop(ITEMS);
-export const getId = prop("id");
+export const getAsPath = prop(AS_PATH);

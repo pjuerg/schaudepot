@@ -35,16 +35,15 @@ import {
   HYDRA_MEMBER,
   HYDRA_TOTAL_ITEMS,
   IDENTIFIED_BY,
-  LABEL,
   _LABEL,
   ACCESS_POINT,
   REFERRED_TO_BY,
   ADDITONAL_MEDIA,
-  MEMBER,
   STANDART_OMITS,
   TIMESPAN,
   VALUE,
 } from "../utils/constants";
+import { LABEL, MEMBER } from "../utils/getter";
 
 /*
  *  *** valueHelper  ***

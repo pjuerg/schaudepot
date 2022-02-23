@@ -4,11 +4,9 @@ import complement from "ramda/src/complement";
 /** @module falsy */
 
 /**
- * #### * → b
- *
- * Predicate is trze when false, undefined, null
- *
  * @function
+ * @summary * → Boolean <br/>Logic
+ * @description Predicate is true when false, undefined, null
  * @param {*} value - anything
  * @return {boolean} boolean - true | false
  **/

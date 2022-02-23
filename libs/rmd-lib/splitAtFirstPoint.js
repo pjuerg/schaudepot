@@ -5,11 +5,9 @@ import pipe from "ramda/src/pipe";
 /** @module splitAtFirstPoint */
 
 /**
- * #### s → s
- *
- * Splits a string at the first delimieter ".". With no point returns just the string.
- *
  * @function
+ * @summary String → String <br/>String
+ * @description Splits a string at the first delimieter ".". With no point returns just the string-
  * @param {String} - some String 
  * @return {String} - splitted string
  * * @example

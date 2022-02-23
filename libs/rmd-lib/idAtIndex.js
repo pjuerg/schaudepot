@@ -2,15 +2,15 @@
 import curry from "ramda/src/curry";
 import compose from "ramda/src/compose";
 import prop from "ramda/src/prop";
+import nth from "ramda/src/nth";
+
 
 /** @module idAtIndex */
 
-/**
- *
- * #### id → arr
- *
- *
+/** 
  * @function
+ * @summary id → arr <br/>List
+ * @description TODO
  * @param s - String
  * @return {boolean} - true | false
  **/

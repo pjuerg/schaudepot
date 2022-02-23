@@ -2,11 +2,9 @@
 /** @module toSnakeCase */
 
 /**
- * #### s → s
- *
- * dieser_satz_ist_snake_case_geschrieben
- * 
  * @function
+ * @summary String → String <br/>String
+ * @description dieser_satz_ist_snake_case_geschrieben
  * @param s - String
  * @return s - String
  **/

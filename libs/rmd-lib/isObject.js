@@ -2,11 +2,9 @@
 /** @module isObject */
 
 /**
- *
- * #### * → b
- *
- *
  * @function
+ * @summary * → Boolean <br/>Logic
+ * @description Predicate checks type object
  * @param {*} - Object
  * @return {boolean} - true | false
  **/

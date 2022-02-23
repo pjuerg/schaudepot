@@ -2,11 +2,9 @@
 /** @module isBoolean */
 
 /**
- *
- * #### b → b
- *
- *
  * @function
+ * @summary b → Boolean <br/>Logic
+ * @description Predicate checks type boolean
  * @param b - Boolean
  * @return {boolean} - true | false
  **/

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import Link from "next/link";
 import { getPreviewImage } from "../../utils/utilsImage";
-import { ROUTE_DEPOT } from "../../utils/constants";
+import { ROUTE_DEPOT } from "../../utils/routes";
 
 /*
  * *** DepotSystem  ***

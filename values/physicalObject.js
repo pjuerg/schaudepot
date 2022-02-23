@@ -16,7 +16,6 @@ import {  maybe } from "../libs/rmd-lib/maybe";
 import {
   TIMESPAN,
   STANDART_OMITS,
-  LABEL,
   ACCESS_POINT,
 } from "../utils/constants";
 import {
@@ -39,6 +38,7 @@ import {
   addPropAdditionalMedia,
   mapRenameLabelToValue,
 } from "./valueHelper";
+import { LABEL } from "../utils/getter";
 
 /*
  * *** PhysicalObject value object ***
@@ -94,7 +94,7 @@ export const transformPhysicalObject = maybe(
     addPropAdditionalMedia(), // position is crucial for using util fns
     evolve(physicalObjectTransformer),
     addPropByPath(TIMESPAN, pathTimespan),
-    renameKeys({ _label: LABEL }),
+    renameKeys({ _label: LABEL}),
     omit(["@context", "type", "equivalent"])
   )
 );

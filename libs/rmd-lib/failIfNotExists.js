@@ -3,11 +3,9 @@ import { fail } from "./fail";
 /** @module failIfNotExists */
 
 /**
- * #### * → Error | undefined
- *
- * Throws an error if not exists
- *
  * @function
+ * @summary * → String → Error | undefined <br/>Logic
+ * @description  Throws an error if not exists
  * @param * - anything
  * @return err - error
  **/

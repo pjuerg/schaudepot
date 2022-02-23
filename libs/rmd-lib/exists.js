@@ -1,11 +1,9 @@
 /** @module exists */
 
 /**
- * #### * → b
- *
- * Predicate is false when null and undefined.
- *
  * @function
+ * @summary * → Boolean <br/>Logic
+ * @description Predicate is false when null and undefined.
  * @param {*} a  - anything
  * @return {boolean} b - true | false
  **/

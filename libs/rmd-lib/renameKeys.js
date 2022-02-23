@@ -2,9 +2,9 @@
 /** @module renameKeys */
 
 /**
- * #### [a], {*} → {*} 
- *
  * @function
+ * @summary TODO <br/>List
+ * @description Rename the keys of an object
  * @param arr - array with keys
  * @param {*} - Object
  * @return {*} - Object

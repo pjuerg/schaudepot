@@ -23,10 +23,10 @@ import {
   CREATED_BY_CARRIED_OUT_BY,
   CREATED_BY_TIMESPAN,
   IDENTIFIED_BY,
-  LABEL,
   REFERRED_TO_BY,
 } from "./constants";
 import { GATEWAY } from "./api";
+import { LABEL } from "./getter";
 
 /*
  *  *** utilsImage  ***

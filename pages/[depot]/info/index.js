@@ -2,7 +2,8 @@
 
 import Head from "next/head";
 
-import { DEPOTS, ROUTE_HOME } from "../../../utils/constants";
+import { DEPOTS } from "../../../utils/constants";
+import { ROUTE_HOME } from "../../../utils/routes";
 import {
   CenteredContainer,
   DepotCards,
