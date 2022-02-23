@@ -55,7 +55,7 @@ const DepotContextInfo = () => {
 
 // *** export ***
 
-export const DevInfo = () => (
+export const DevInfoDepot = () => (
   // <div className="fixed bottom-8 right-8 px-4 py-2 mb-4 min-h-[12] bg-gray-800 text-white border">
   <div className="fixed bottom-8 right-8 px-4 py-2 mb-4 min-h-[12] bg-gray-800 text-white border">
     <div className="flex items-start justify-start">

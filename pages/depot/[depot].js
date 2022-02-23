@@ -1,10 +1,10 @@
-// pages/[depot]/index.js
+// pages/depot/index.js
 
 import Head from "next/head";
 
 import isNil from "ramda/src/isNil";
 
-import { useSWRPersonWithRouter } from "../../utils/useSWRPersonWithRouter";
+import { useSWRDepotPerson } from "../../utils/useSWRDepotPerson";
 import { H1 } from "../../components/designSystem";
 import {
   TextContainer,
@@ -20,7 +20,8 @@ import {
  */
 
 export default function DepotCoverPage() {
-  const transformedPersonData = useSWRPersonWithRouter();
+
+  const transformedPersonData = useSWRDepotPerson();
 
   // console.log(`transformed person`);
   // console.log(transformedPersonData);

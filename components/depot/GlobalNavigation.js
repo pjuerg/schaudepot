@@ -78,7 +78,7 @@ const Title = ({ className, label }) => {
   );
 };
 
-const regExDepotId = /\/depot-(\d+)\/?/;
+const regExDepotId = /\/depot\/(\d+)/;
 const matchDepotId = compose(second, match(regExDepotId));
 
 // isFrontpage:: s → b

@@ -6,6 +6,11 @@ export {
 } from "./TopBar";
 
 export { GlobalNavigation } from "./GlobalNavigation";
+
+export { PersonSlide } from "./slides/person";
+export { ItemSlide } from "./slides/item";
+export { AddendumSlide } from "./slides/addendum";
+
 export {
   SimpleLink,
   Textbar,

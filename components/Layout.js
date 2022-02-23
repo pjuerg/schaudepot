@@ -1,16 +1,11 @@
 // components/Layout.js
 
 import PropTypes from "prop-types";
-import { useContext } from "react";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { AnimatePresence, motion } from "framer-motion";
 
-import { animations } from "../utils/animations";
-import { DepotStateContext } from "../store/DepotContext";
+import LayoutTransition from "./LayoutTransition";
 import { TopBar, GlobalNavigation } from "./depot";
-import { DevInfo } from "./DevInfo";
-
+import { DevInfoDepot } from "./DevInfoDepot";
 
 /*
  *  *** Layout  ***
@@ -21,12 +16,6 @@ export default function Layout({
   children,
   title = "This is the default title",
 }) {
-  const { asPath } = useRouter();
-  const { direction } = useContext(DepotStateContext);
-  let animation = null;
-  if( direction === 1) animation = animations[0];
-  else if (direction === -1)  animation = animations[1];
-  
   return (
     <div>
       <Head>
@@ -38,21 +27,8 @@ export default function Layout({
 
       <TopBar />
       <GlobalNavigation />
-
-      <AnimatePresence exitBeforeEnter={true}>
-        <motion.div
-          key={asPath}
-          initial="initial"
-          animate={animation !== null && "animate"}
-          exit="exit"
-          variants={animation && animation.variants}
-          transition={animation && animation.transition}
-        >
-          {children}
-        </motion.div>
-      </AnimatePresence>
-      {/* TODO show only in dev with env-var */}
-      <DevInfo />
+      <LayoutTransition>{children}</LayoutTransition>
+      <DevInfoDepot />
     </div>
   );
 }

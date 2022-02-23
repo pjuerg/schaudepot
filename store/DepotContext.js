@@ -31,8 +31,8 @@ export const DepotStateContext = React.createContext(null);
 
 // getSlides :: [{*}], n -> [s]
 const getSlides = thunkify((items, personId) => {
-  const depot = `/depot-${personId}`;
-  const personSlides = [depot, `${depot}/person`, `${depot}/info`];
+  const depot = `/depot/${personId}`;
+  const personSlides = [depot, `${depot}/person`, `${depot}/addendum`];
   const itemSlides = map(({ id }) => `${depot}/item/${id}`, items);
   return insertAll(2, itemSlides, personSlides);
 });
@@ -71,7 +71,6 @@ function depotReducer(draft, action) {
       );
     case SUCCESS_LOAD_DEPOT_ACTION:
       const items = getItems(action.payload.data);
-      console.log("path", action.payload.path);
 
       return evolve(
         {

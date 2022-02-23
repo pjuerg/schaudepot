@@ -21,7 +21,7 @@ export const IMAGE_SIZE_MD = "640";
 export const IMAGE_SIZE_XS = "320";
 
 // ** global site **
-export const TITLE = "BBK, Bildende Kunst Sachsen-Anhalt";
+export const TITLE = "Private Künstlernachlässe Brandenburg";
 
 // export const BUTTON_COMPONENT = "button_component";
 export const BUTTON_COMPONENT_ITEMS_FROM_ARTIST =
