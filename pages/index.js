@@ -24,7 +24,7 @@ export default function Frontpage() {
       <CenteredContainer className="h-screen">
         <div>
           <H1>Frontpage werkdatenbank</H1>
-          <SimpleLink url={`${ROUTE_DEPOT}`}>Alle Schaudepots</SimpleLink>
+          <SimpleLink url={`${ROUTE_DEPOT}`}>Menüeintrag Schaudepots</SimpleLink>
         </div>
       </CenteredContainer>
     </div>

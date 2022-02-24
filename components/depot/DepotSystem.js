@@ -45,7 +45,7 @@ export const DepotCards = ({ depots }) => {
   return (
     <div className="flex">
       {depots.map(({ id }, index) => (
-        <SimpleLink key={index} url={`${ROUTE_DEPOT}-${id}`}>
+        <SimpleLink key={index} url={`${ROUTE_DEPOT}/${id}`}>
           <DepotCard className="mx-2" personId={id} />
         </SimpleLink>
       ))}

@@ -23,6 +23,7 @@ export const SET_DEPOT_PERSON_ID_ACTION = "SET_DEPOT_PERSON_ID_ACTION";
 export const LOAD_DEPOT_ACTION = "LOAD_DEPOT_ACTION";
 export const SUCCESS_LOAD_DEPOT_ACTION = "SUCCESS_LOAD_DEPOT_ACTION";
 export const SET_ANIMATION_DIRECTION = "SET_ANIMATION_DIRECTION";
+export const SET_KEY_NAVIGATION = "SET_KEY_NAVIGATION";
 
 /* Create the Context
  */
@@ -47,7 +48,7 @@ const getItems = compose(getMember, transformPhysicalObjectListing);
  * @returns
  */
 function depotReducer(draft, action) {
-  console.log("::Depot Reducer", action.type);
+  // console.log("::Depot Reducer", action.type);
 
   switch (action.type) {
     case SET_DEPOT_PERSON_ID_ACTION:
@@ -83,6 +84,9 @@ function depotReducer(draft, action) {
 
     case SET_ANIMATION_DIRECTION:
       return assoc("direction", action.payload, draft);
+      
+    case SET_KEY_NAVIGATION:
+      return assoc("keyNavigation", action.payload, draft);
 
     default:
       throw new Error(`reducer action.type ${action.type} did not match`);
@@ -93,6 +97,7 @@ function depotReducer(draft, action) {
  * First state of the provider
  */
 const initialState = {
+  keyNavigation: null,
   personId: null,
   items: null,
   slides: null,

@@ -26,6 +26,7 @@ export default function Frontpage() {
       <CenteredContainer className="h-screen">
         <div>
           <H1>Alle Schaudepots</H1>
+          <p className="p-2 my-8 text-lg bg-yellow-500">Vorwärts und rückwärts mit Pfeiltasten</p>
           <ul>
             {/* TODO Preload depots */}
             {DEPOTS.map(({ id }, index) => (

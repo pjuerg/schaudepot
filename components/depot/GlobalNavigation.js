@@ -7,12 +7,11 @@ import { useRouter } from "next/router";
 import equals from "ramda/src/equals";
 import compose from "ramda/src/compose";
 import findIndex from "ramda/src/findIndex";
-import is from "ramda/src/is";
 import not from "ramda/src/not";
 import match from "ramda/src/match";
 import test from "ramda/src/test";
-import prop from "ramda/src/prop";
 import curry from "ramda/src/curry";
+import debounce from "lodash.debounce";
 
 import { exists } from "../../libs/rmd-lib/exists";
 import { falsy } from "../../libs/rmd-lib/falsy";
@@ -21,7 +20,7 @@ import { second } from "../../libs/rmd-lib/second";
 import { castToInt } from "../../libs/rmd-lib/castToInt";
 import { useKeyPress } from "../../libs/hooks/useKeyPress";
 
-import { apiDepot, apiPerson } from "../../utils/api";
+import { apiDepot } from "../../utils/api";
 import { fetcher } from "../../utils/fetcher";
 import {
   DepotDispatchContext,
@@ -29,23 +28,24 @@ import {
   LOAD_DEPOT_ACTION,
   SET_ANIMATION_DIRECTION,
   SET_DEPOT_PERSON_ID_ACTION,
+  SET_KEY_NAVIGATION,
   SUCCESS_LOAD_DEPOT_ACTION,
 } from "../../store/DepotContext";
-import { transformPerson } from "../../values/person";
 import { getAsPath } from "../../utils/getter";
+import { useSWRDepotPerson } from "../../utils/useSWRDepotPerson";
 
 /*
  * *** GlobalNavigation  ***
  * --------------------------
  */
 
-const LinkBackForward = ({routeAnimatedTo, url, direction, children}) => (
+const LinkBackForward = ({ clickHandler, url, direction, children }) => (
   <div className="w-20 px-2">
     {exists(url) && (
       <Link href={`${url}`}>
         <a
           onClick={(e) => {
-            routeAnimatedTo(-direction, url, e);
+            clickHandler(direction, url, e);
           }}
           className="underline"
         >
@@ -55,11 +55,19 @@ const LinkBackForward = ({routeAnimatedTo, url, direction, children}) => (
     )}
   </div>
 );
-const ToolsBar = ({ className="", previousUrl, nextUrl, index, total, ...props }) => {
+const ToolsBar = ({
+  className = "",
+  navigation: { previousUrl, nextUrl, index, total },
+  ...props
+}) => {
   return (
     <div className={`${className} flex `}>
-      <LinkBackForward url={previousUrl} direction={1} {...props} >zurück</LinkBackForward>
-      <LinkBackForward url={nextUrl} direction={-1} {...props} >vor</LinkBackForward>
+      <LinkBackForward url={previousUrl} direction={-1} {...props}>
+        zurück
+      </LinkBackForward>
+      <LinkBackForward url={nextUrl} direction={1} {...props}>
+        vor
+      </LinkBackForward>
       <div className="ml-auto">
         {exists(index) && `${index + 1} ⁄ ${total}`}
       </div>
@@ -83,72 +91,84 @@ const matchDepotId = compose(second, match(regExDepotId));
 
 // isFrontpage:: s → b
 const isFrontpage = compose(not, test(regExDepotId));
-// isFrontpage:: {asPath} → n
-export const getPersonIdFromRouterPath = compose(
+
+// TODO make hook useDepotPersonId, also in swrDep....
+export const getDepotPersonIdFromPath = compose(
   castToInt,
   matchDepotId,
   getAsPath
 );
 
-
 // routeWithDispatch:: Dispatcher → router → Number → String → Event
 // Navigate with route.push to trigger the right animation
-const routeWithDispatch = curry((dispatch, router, direction, url, e) => {
+const pushRouteWithDirection = curry((dispatch, router, direction, url, e) => {
   e.preventDefault();
   dispatch({ type: SET_ANIMATION_DIRECTION, payload: direction });
   router.push(url);
 });
 
+const getNavigation = (path, slides) => {
+  let previousUrl;
+  let nextUrl;
+  let index;
+  let total;
+  if (slides) {
+    index = findIndex(equals(path))(slides);
+    total = slides.length;
+    previousUrl = index === 0 ? null : slides[index - 1];
+    nextUrl = index === slides.length - 1 ? null : slides[index + 1];
+  }
+  return {
+    nextUrl,
+    previousUrl,
+    index,
+    total,
+  };
+};
 
 export const GlobalNavigation = () => {
+  const { personId, slides, keyNavigation } = useContext(DepotStateContext);
   const dispatch = useContext(DepotDispatchContext);
-  const { personId, slides } = useContext(DepotStateContext);
   const router = useRouter();
-  const routeAnimatedTo = routeWithDispatch(dispatch, router)
   const arrowLeft = useKeyPress("ArrowLeft");
   const arrowRight = useKeyPress("ArrowRight");
   const path = getAsPath(router);
-  const currentPersonId = getPersonIdFromRouterPath(router);
+  const navigation = getNavigation(path, slides);
+  const currentPersonId = getDepotPersonIdFromPath(router);
   const hasDepotChanged = personId !== currentPersonId;
   const shouldLoadDepot = !slides && currentPersonId;
+  const transformedPerson = useSWRDepotPerson();
   const { data: dataDepot } = useSWR(
     shouldLoadDepot ? apiDepot(currentPersonId) : null,
     fetcher
   );
-  const { data: dataPerson } = useSWR(
-    is(Number, currentPersonId) ? apiPerson(currentPersonId) : null,
-    fetcher
-  );
-  const transformedPerson = transformPerson(dataPerson);
-
-  // previous, next and index
-  let previousUrl;
-  let nextUrl;
-  let index;
-  if (slides) {
-    index = findIndex(equals(path))(slides);
-    previousUrl = index === 0 ? null : slides[index - 1];
-    nextUrl = index === slides.length - 1 ? null : slides[index + 1];
-  }
-
-  // console.log("isFrontpage", isFrontpage);
-  // console.log("previousUrl", previousUrl);
-  // console.log("nextUrl", nextUrl);
-  // console.log("index", index);
 
   // keystroke navigation
+  // tricky! Needs a state in depotContext which is debounced,
+  // else arrows are to long true. the urls change and trigger more than one push ...
+  // Other Option; disable eslint in nextjs, but only globally, and remove navigation in array
   useEffect(() => {
-    if (truthy(arrowLeft) && exists(previousUrl)) {
-      dispatch({ type: SET_ANIMATION_DIRECTION, payload: -1 });
-      router.push(previousUrl);
-    } else if (truthy(arrowRight) && exists(nextUrl)) {
-      dispatch({ type: SET_ANIMATION_DIRECTION, payload: 1 });
-      router.push(nextUrl);
-    }
-  }, [arrowLeft, arrowRight, dispatch]);
+    const { nextUrl, previousUrl } = navigation;
+    const dispatchResetKeyNavigation = () =>
+      dispatch({ type: SET_KEY_NAVIGATION, payload: false });
+    const debounceReset = debounce(dispatchResetKeyNavigation, 350);
 
-  // url changed to new  a depot like depot-12/foo
-  // set person-id which is the suffix in depot-12 and set loading flag
+    if (truthy(arrowLeft) && falsy(keyNavigation) && exists(previousUrl)) {
+      dispatch({ type: SET_ANIMATION_DIRECTION, payload: -1 });
+      dispatch({ type: SET_KEY_NAVIGATION, payload: true });
+
+      router.push(previousUrl);
+      debounceReset();
+    } else if (truthy(arrowRight) && falsy(keyNavigation) && exists(nextUrl)) {
+      dispatch({ type: SET_ANIMATION_DIRECTION, payload: 1 });
+      dispatch({ type: SET_KEY_NAVIGATION, payload: true });
+      router.push(nextUrl);
+      debounceReset();
+    }
+  }, [arrowLeft, arrowRight, navigation, keyNavigation, router, dispatch]);
+
+  // // url changed to new  a depot like depot/12/person
+  // set person-id which is the suffix in depot/12/person and set loading flag
   useEffect(() => {
     if (hasDepotChanged) {
       dispatch({
@@ -189,11 +209,8 @@ export const GlobalNavigation = () => {
 
             <ToolsBar
               className="px-2 py-2"
-              previousUrl={previousUrl}
-              nextUrl={nextUrl}
-              index={index}
-              routeAnimatedTo={routeAnimatedTo}
-              total={slides && slides.length}
+              navigation={navigation}
+              clickHandler={pushRouteWithDirection(dispatch, router)}
             />
           </div>
         </div>
