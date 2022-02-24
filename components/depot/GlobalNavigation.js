@@ -21,7 +21,7 @@ import { castToInt } from "../../libs/rmd-lib/castToInt";
 import { useKeyPress } from "../../libs/hooks/useKeyPress";
 
 import { apiDepot } from "../../utils/api";
-import { fetcher } from "../../utils/fetcher";
+import { fetcher } from "../../libs/fetcher";
 import {
   DepotDispatchContext,
   DepotStateContext,

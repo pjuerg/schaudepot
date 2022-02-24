@@ -6,7 +6,7 @@ import useSWR from "swr";
 
 import is from "ramda/src/is";
 
-import { fetcher } from "./fetcher";
+import { fetcher } from "../libs/fetcher";
 import { apiPerson } from "./api";
 import { transformPerson } from "../values/person";
 import { getDepotPersonIdFromPath } from "../components/depot/GlobalNavigation";
