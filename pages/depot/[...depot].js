@@ -8,9 +8,8 @@ import isNil from "ramda/src/isNil";
 import test from "ramda/src/test";
 import equals from "ramda/src/equals";
 
-import { useSWRDepotPerson } from "../../utils/useSWRDepotPerson";
+
 import { DepotStateContext } from "../../store/DepotContext";
-import { H1 } from "../../components/designSystem";
 import {
   BigLoading,
   PersonSlide,

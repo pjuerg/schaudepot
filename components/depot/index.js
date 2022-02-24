@@ -7,9 +7,9 @@ export {
 
 export { GlobalNavigation } from "./GlobalNavigation";
 
-export { PersonSlide } from "./slides/person";
-export { ItemSlide } from "./slides/item";
-export { AddendumSlide } from "./slides/addendum";
+export { PersonSlide } from "./slides/Person";
+export { ItemSlide } from "./slides/Item";
+export { AddendumSlide } from "./slides/Addendum";
 
 export {
   SimpleLink,

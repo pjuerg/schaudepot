@@ -2,7 +2,7 @@
 import "../styles/tailwind.css";
 
 import { DepotProvider } from "../store/DepotContext";
-import Layout from "../components/layout";
+import Layout from "../components/Layout";
 
 /*
  * *** _app  ***
