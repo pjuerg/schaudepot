@@ -1,10 +1,10 @@
-// pages/depot/index.js
+// pages/kernbestand/[cover].js
 
 import Head from "next/head";
 
 import isNil from "ramda/src/isNil";
 
-import { useSWRDepotPerson } from "../../utils/useSWRDepotPerson";
+import { useSWRCoreStockPerson } from "../../utils/useSWRCoreStockPerson";
 import { H1 } from "../../components/designSystem";
 import {
   TextContainer,
@@ -12,19 +12,15 @@ import {
   BigLoading,
   RepresentationImage,
   Textbar,
-} from "../../components/depot/DepotSystem";
+} from "../../components/corestock/CoreStockSystem";
 
 /*
- * *** Depot-Cover-Page ***
+ * *** CoreStocl-Cover-Page ***
  * - - - - - - - - - - - - - - - -
  */
 
-export default function DepotCoverPage() {
-
-  const transformedPersonData = useSWRDepotPerson();
-
-  // console.log(`transformed person`);
-  // console.log(transformedPersonData);
+export default function CoreStockCoverPage() {
+  const transformedPersonData = useSWRCoreStockPerson();
 
   return (
     <div>

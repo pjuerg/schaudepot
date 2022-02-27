@@ -1,17 +1,17 @@
-// pages/index.js
+// pages/kernbestand/index.js
 
 import Head from "next/head";
 
 import { DEPOTS } from "../../utils/constants";
-import { ROUTE_DEPOT } from "../../utils/routes";
+import { ROUTE_CORESTOCK } from "../../utils/routes";
 import { H1 } from "../../components/designSystem";
 import {
   CenteredContainer,
   SimpleLink,
-} from "../../components/depot/DepotSystem";
+} from "../../components/corestock/CoreStockSystem";
 
 /*
- * *** All Depots-Front-Page ***
+ * *** All CoreStock-Front-Page ***
  * --------------------------
  */
 
@@ -31,7 +31,7 @@ export default function Frontpage() {
             {/* TODO Preload depots */}
             {DEPOTS.map(({ id }, index) => (
               <li key={index} className="p-4 mb-4 bg-gray-200">
-                <SimpleLink url={`${ROUTE_DEPOT}/${id}`}>
+                <SimpleLink url={`${ROUTE_CORESTOCK}/${id}`}>
                   Schaudepot Person {id}
                 </SimpleLink>
               </li>

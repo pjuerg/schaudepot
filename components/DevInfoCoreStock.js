@@ -1,4 +1,4 @@
-// components/DevInfo.js
+// components/DevInfoCoreStock.js
 
 import { useContext } from "react";
 
@@ -8,10 +8,10 @@ import compose from "ramda/src/compose";
 import { toString } from "../libs/rmd-lib/toString";
 import { sortObject } from "../libs/rmd-lib/sortObject";
 
-import {  DepotStateContext } from "../store/DepotContext";
+import {  CoreStockStateContext } from "../store/CoreStockContext";
 
 /*
- * *** DevWindow ***
+ * *** DevWindow CoreStock***
  *  - - - - - - -
  *
  * Show global states
@@ -44,8 +44,8 @@ const TableInfo = ({ data, title }) => (
 );
 
 
-const DepotContextInfo = () => {
-  const state = sortObject(useContext(DepotStateContext));
+const CoreStockContextInfo = () => {
+  const state = sortObject(useContext(CoreStockStateContext));
   return (
     <>
       <TableInfo data={state} title="Person Context" />
@@ -55,11 +55,11 @@ const DepotContextInfo = () => {
 
 // *** export ***
 
-export const DevInfoDepot = () => (
+export const DevInfoCoreStock = () => (
   // <div className="fixed bottom-8 right-8 px-4 py-2 mb-4 min-h-[12] bg-gray-800 text-white border">
   <div className="fixed bottom-8 right-8 px-4 py-2 mb-4 min-h-[12] bg-gray-800 text-white border">
     <div className="flex items-start justify-start">
-      <DepotContextInfo />
+      <CoreStockContextInfo />
     </div>
   </div>
 );

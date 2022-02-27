@@ -1,4 +1,4 @@
-// utils/useSWRPersonWithRouter.js
+// utils/useSWRCoreStockPerson.js
 
 import { useRouter } from "next/router";
 import useSWR from "swr";
@@ -9,15 +9,15 @@ import is from "ramda/src/is";
 import { fetcher } from "../libs/fetcher";
 import { apiPerson } from "./api";
 import { transformPerson } from "../values/person";
-import { getDepotPersonIdFromPath } from "../components/depot/GlobalNavigation";
+import { getCoreStockPersonIdFromPath } from "../components/corestock/GlobalNavigation";
 
 /*
- * *** useSWRDepotPerson  ***
+ * *** useSWRCoreStockPerson ***
  * --------------------------
  */
 
-export const useSWRDepotPerson = () => {
-  const id = getDepotPersonIdFromPath(useRouter());
+export const useSWRCoreStockPerson = () => {
+  const id = getCoreStockPersonIdFromPath(useRouter());
 
   const { data } = useSWR(is(Number, id) ? apiPerson(id) : null, fetcher);
   return transformPerson(data);

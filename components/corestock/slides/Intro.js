@@ -1,8 +1,8 @@
-// components/depot/slides/person.js
+// components/corestock/slides/intro.js
 
 
 import isNil from "ramda/src/isNil";
-import { useSWRDepotPerson } from "../../../utils/useSWRDepotPerson";
+import { useSWRCoreStockPerson } from "../../../utils/useSWRCoreStockPerson";
 import { H1 } from "../../designSystem";
 import {
   BigLoading,
@@ -10,10 +10,10 @@ import {
   Textbar,
   TextContainer,
   TwoColumnsContainer,
-} from "../DepotSystem";
+} from "../CoreStockSystem";
 
 /*
- * *** Person Slide  ***
+ * *** Intro Slide  ***
  * --------------------------
  */
 
@@ -30,9 +30,8 @@ const ArtistInfo = ({ label, id }) => {
   );
 };
 
-export const PersonSlide = () => {
-  
-  const transformedPersonData = useSWRDepotPerson();
+export const IntroSlide = () => {
+  const transformedPersonData = useSWRCoreStockPerson();
 
   return (
     <>

@@ -1,11 +1,11 @@
-// components/depot/Topbar.js
+// components/corestock/Topbar.js
 
 import Link from "next/link";
 
 import { ROUTE_HOME } from "../../utils/routes";
 
 /*
- * *** Topbar Depot  ***
+ * *** Topbar CoreStock  ***
  * --------------------------
  */
 

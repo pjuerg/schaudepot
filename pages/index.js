@@ -2,14 +2,12 @@
 
 import Head from "next/head";
 
-// import { DEPOTS } from "../utils/constants";
-// import { ROUTE_DEPOT } from "../utils/routes";
 import { H1 } from "../components/designSystem";
-import { CenteredContainer, SimpleLink } from "../components/depot/DepotSystem";
-import { ROUTE_DEPOT } from "../utils/routes";
+import { CenteredContainer, SimpleLink } from "../components/corestock/CoreStockSystem";
+import { ROUTE_CORESTOCK } from "../utils/routes";
 
 /*
- * *** Depot-Front-Page ***
+ * ** CoreStock-Front-Page ***
  * --------------------------
  */
 
@@ -24,7 +22,7 @@ export default function Frontpage() {
       <CenteredContainer className="h-screen">
         <div>
           <H1>Frontpage werkdatenbank</H1>
-          <SimpleLink url={`${ROUTE_DEPOT}`}>Menüeintrag Schaudepots</SimpleLink>
+          <SimpleLink url={`${ROUTE_CORESTOCK}`}>Menüeintrag Schaudepots</SimpleLink>
         </div>
       </CenteredContainer>
     </div>

@@ -1,7 +1,7 @@
-// components/depot/slides/item.js
+// components/corestock/slides/item.js
 
 import { useContext } from "react";
-import { DepotStateContext } from "../../../store/DepotContext";
+import { CoreStockStateContext } from "../../../store/CoreStockContext";
 
 import { useRouter } from "next/router";
 import isNil from "ramda/src/isNil";
@@ -16,7 +16,7 @@ import {
   CenteredContainer,
   RepresentationImage,
   Textbar,
-} from "../../../components/depot";
+} from "..";
 
 /*
  * *** Item Slide  ***
@@ -25,7 +25,7 @@ import {
 
 export const ItemSlide = () => {
   
-  const { items } = useContext(DepotStateContext);
+  const { items } = useContext(CoreStockStateContext);
   const itemId = compose(splitAtLastSlash, getAsPath)(useRouter());
   const item = maybe(findAtId(itemId))(items);
 

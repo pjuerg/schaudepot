@@ -1,13 +1,15 @@
+// components/corestock/CoreStockSystem.js
+
 import PropTypes from "prop-types";
 import Link from "next/link";
 import { getPreviewImage } from "../../utils/utilsImage";
-import { ROUTE_DEPOT } from "../../utils/routes";
+import { ROUTE_CORESTOCK } from "../../utils/routes";
 
 /*
- * *** DepotSystem  ***
+ * *** CoreStockSystem  ***
  * --------------------------
  *
- * Components for depot
+ * Components for CoreStock
  */
 
 export const SimpleLink = ({ className = "mt-4", url, children }) => (
@@ -41,19 +43,19 @@ export const RepresentationImage = ({ className = "", representation }) => {
   );
 };
 
-export const DepotCards = ({ depots }) => {
+export const CoreStockCards = ({ coreStocks }) => {
   return (
     <div className="flex">
-      {depots.map(({ id }, index) => (
-        <SimpleLink key={index} url={`${ROUTE_DEPOT}/${id}`}>
-          <DepotCard className="mx-2" personId={id} />
+      {coreStocks.map(({ id }, index) => (
+        <SimpleLink key={index} url={`${ROUTE_CORESTOCK}/${id}`}>
+          <CoreStockCard className="mx-2" personId={id} />
         </SimpleLink>
       ))}
     </div>
   );
 };
 
-const DepotCard = ({ className = "", personId }) => {
+const CoreStockCard = ({ className = "", personId }) => {
   return (
     <div
       className={`${className} flex items-center justify-center w-64 h-64 bg-gray-200`}

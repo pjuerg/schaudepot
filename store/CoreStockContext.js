@@ -1,4 +1,4 @@
-// store/searchContext.js
+// store/CoreContextContext.js
 
 import React, { useReducer } from "react";
 
@@ -12,29 +12,33 @@ import assoc from "ramda/src/assoc";
 
 import { transformPhysicalObjectListing } from "../values/physicalObject";
 import { getMember } from "../utils/getter";
+import { ROUTE_ADDENDUM, ROUTE_CORESTOCK, ROUTE_INTRO, ROUTE_ITEM } from "../utils/routes";
 
 /*
- *  *** DepotContext  ***
+ *  *** CoreStockContext  ***
  * ------------------------
- *
  */
 
-export const SET_DEPOT_PERSON_ID_ACTION = "SET_DEPOT_PERSON_ID_ACTION";
-export const LOAD_DEPOT_ACTION = "LOAD_DEPOT_ACTION";
-export const SUCCESS_LOAD_DEPOT_ACTION = "SUCCESS_LOAD_DEPOT_ACTION";
-export const SET_ANIMATION_DIRECTION = "SET_ANIMATION_DIRECTION";
-export const SET_KEY_NAVIGATION = "SET_KEY_NAVIGATION";
+export const SET_CORESTOCK_PERSON_ID_ACTION = "SET_CORESTOCK_PERSON_ID_ACTION";
+export const LOAD_CORESTOCK_ACTION = "LOAD_CORESTOCK_ACTION";
+export const SUCCESS_LOAD_CORESTOCK_ACTION = "SUCCESS_LOAD_CORESTOCK_ACTION";
+export const SET_CORESTOCK_ANIMATION_DIRECTION = "SET_CORSTOCK_ANIMATION_DIRECTION";
+export const SET_CORESTOCK_KEY_NAVIGATION = "SET_CORESTOCK_KEY_NAVIGATION";
 
 /* Create the Context
  */
-export const DepotDispatchContext = React.createContext(null);
-export const DepotStateContext = React.createContext(null);
+export const CoreStockDispatchContext = React.createContext(null);
+export const CoreStockStateContext = React.createContext(null);
 
 // getSlides :: [{*}], n -> [s]
 const getSlides = thunkify((items, personId) => {
-  const depot = `/depot/${personId}`;
-  const personSlides = [depot, `${depot}/person`, `${depot}/addendum`];
-  const itemSlides = map(({ id }) => `${depot}/item/${id}`, items);
+  const coreStockRoute = `${ROUTE_CORESTOCK}/${personId}`;
+  const personSlides = [
+    coreStockRoute,
+    `${coreStockRoute}${ROUTE_INTRO}`,
+    `${coreStockRoute}${ROUTE_ADDENDUM}`,
+  ];
+  const itemSlides = map(({ id }) => `${coreStockRoute}${ROUTE_ITEM}/${id}`, items);
   return insertAll(2, itemSlides, personSlides);
 });
 
@@ -47,11 +51,11 @@ const getItems = compose(getMember, transformPhysicalObjectListing);
  * @param {*} action
  * @returns
  */
-function depotReducer(draft, action) {
-  // console.log("::Depot Reducer", action.type);
+function coreStockReducer(draft, action) {
+  // console.log("::CoreStock-Reducer", action.type);
 
   switch (action.type) {
-    case SET_DEPOT_PERSON_ID_ACTION:
+    case SET_CORESTOCK_PERSON_ID_ACTION:
       return evolve(
         {
           personId: always(action.payload),
@@ -61,7 +65,7 @@ function depotReducer(draft, action) {
         draft
       );
 
-    case LOAD_DEPOT_ACTION:
+    case LOAD_CORESTOCK_ACTION:
       return evolve(
         {
           loading: always(true),
@@ -70,7 +74,7 @@ function depotReducer(draft, action) {
         },
         draft
       );
-    case SUCCESS_LOAD_DEPOT_ACTION:
+    case SUCCESS_LOAD_CORESTOCK_ACTION:
       const items = getItems(action.payload.data);
 
       return evolve(
@@ -82,10 +86,10 @@ function depotReducer(draft, action) {
         draft
       );
 
-    case SET_ANIMATION_DIRECTION:
+    case SET_CORESTOCK_ANIMATION_DIRECTION:
       return assoc("direction", action.payload, draft);
-      
-    case SET_KEY_NAVIGATION:
+
+    case SET_CORESTOCK_KEY_NAVIGATION:
       return assoc("keyNavigation", action.payload, draft);
 
     default:
@@ -108,14 +112,13 @@ const initialState = {
 /**
  * The provider
  */
-export const DepotProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(depotReducer, initialState);
+export const CoreStockProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(coreStockReducer, initialState);
 
   return (
-    <DepotDispatchContext.Provider value={dispatch}>
-      <DepotStateContext.Provider value={state}>
+    <CoreStockDispatchContext.Provider value={dispatch}>
+      <CoreStockStateContext.Provider value={state}>
         {children}
-      </DepotStateContext.Provider>
-    </DepotDispatchContext.Provider>
-  );
-};
+      </CoreStockStateContext.Provider>
+    </CoreStockDispatchContext.Provider>
+  )};

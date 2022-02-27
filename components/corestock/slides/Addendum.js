@@ -1,13 +1,8 @@
-// components/depot/slides/addendum.js
+// components/corestock/slides/addendum.js
 
 import { DEPOTS } from "../../../utils/constants";
 import { ROUTE_HOME } from "../../../utils/routes";
-import {
-  CenteredContainer,
-  DepotCards,
-  SimpleLink,
-  Textbar,
-} from "../../../components/depot";
+import { CenteredContainer, CoreStockCards, SimpleLink, Textbar } from "..";
 
 /*
  * *** Addendum Slide  ***
@@ -32,7 +27,7 @@ export const AddendumSlide = () => {
             </li>
           </ul>
         </div>
-        <DepotCards depots={DEPOTS} />
+        <CoreStockCards coreStocks={DEPOTS} />
       </div>
     </CenteredContainer>
   );

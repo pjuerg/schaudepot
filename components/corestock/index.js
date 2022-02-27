@@ -1,13 +1,10 @@
-// components/depot/index.js
+// components/corestock/index.js
 
-
-export {
-  TopBar
-} from "./TopBar";
+export { TopBar } from "./TopBar";
 
 export { GlobalNavigation } from "./GlobalNavigation";
 
-export { PersonSlide } from "./slides/Person";
+export { IntroSlide } from "./slides/Intro";
 export { ItemSlide } from "./slides/Item";
 export { AddendumSlide } from "./slides/Addendum";
 
@@ -16,8 +13,8 @@ export {
   Textbar,
   BigLoading,
   RepresentationImage,
-  DepotCards,
+  CoreStockCards,
   CenteredContainer,
   TwoColumnsContainer,
   TextContainer,
-} from "./DepotSystem";
+} from "./CoreStockSystem";

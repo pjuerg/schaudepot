@@ -1,4 +1,4 @@
-// pages/[depot]/person/index.js
+// pages/kernbestand/[...slides]
 
 import { useContext } from "react";
 import { useRouter } from "next/router";
@@ -9,34 +9,34 @@ import test from "ramda/src/test";
 import equals from "ramda/src/equals";
 
 
-import { DepotStateContext } from "../../store/DepotContext";
+import { CoreStockStateContext } from "../../store/CoreStockContext";
 import {
   BigLoading,
-  PersonSlide,
+  IntroSlide,
   AddendumSlide,
   ItemSlide,
-} from "../../components/depot";
+} from "../../components/corestock";
 
 /*
- * *** Depot-Subpages ***
+ * *** CoreStock-Subpages ***
  * - - - - - - - - - - - - - - - -
  */
 
-const regExPersonPage = /\/depot\/\d+\/person$/;
-const testPerson = test(regExPersonPage);
-const regExItemPage = /\/depot\/\d+\/item\/\d+$/;
+const regExIntroPage = /\/kernbestand\/\d+\/intro$/;
+const testIntro = test(regExIntroPage);
+const regExItemPage = /\/kernbestand\/\d+\/item\/\d+$/;
 const testItem = test(regExItemPage);
-const regExAddendumPage = /\/depot\/\d+\/addendum$/;
+const regExAddendumPage = /\/kernbestand\/\d+\/addendum$/;
 const testAddendum = test(regExAddendumPage);
 
-const PERSON = "PERSON";
+const INTRO = "INTRO";
 const ITEM = "ITEM";
 const ADDENDUM = "ADDENDUM";
 const ERROR = "ERROR";
 
 const getSlideType = (s) => {
-  if (testPerson(s)) {
-    return PERSON;
+  if (testIntro(s)) {
+    return INTRO;
   } else if (testItem(s)) {
     return ITEM;
   } else if (testAddendum(s)) {
@@ -46,9 +46,9 @@ const getSlideType = (s) => {
   }
 };
 
-export default function SlideContainer() {
+export default function CoreStockSlideContainerPage() {
   const { asPath } = useRouter();
-  const { slides } = useContext(DepotStateContext);
+  const { slides } = useContext(CoreStockStateContext);
   const slideType = getSlideType(asPath);
 
   // TODO head  for individuel slides with preloading
@@ -63,7 +63,7 @@ export default function SlideContainer() {
         <BigLoading />
       ) : (
         <>
-          {equals(slideType, PERSON) && <PersonSlide />}
+          {equals(slideType, INTRO) && <IntroSlide />}
           {equals(slideType, ITEM) && <ItemSlide />}
           {equals(slideType, ADDENDUM) && <AddendumSlide />}
         </>

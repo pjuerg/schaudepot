@@ -1,4 +1,4 @@
-// components/globalNavigation/GlobalNavigation.js
+// components/corestock/GlobalNavigation.js
 
 import { useContext, useEffect } from "react";
 import Link from "next/link";
@@ -20,19 +20,19 @@ import { second } from "../../libs/rmd-lib/second";
 import { castToInt } from "../../libs/rmd-lib/castToInt";
 import { useKeyPress } from "../../libs/hooks/useKeyPress";
 
-import { apiDepot } from "../../utils/api";
+import { apiCoreStock } from "../../utils/api";
 import { fetcher } from "../../libs/fetcher";
 import {
-  DepotDispatchContext,
-  DepotStateContext,
-  LOAD_DEPOT_ACTION,
-  SET_ANIMATION_DIRECTION,
-  SET_DEPOT_PERSON_ID_ACTION,
-  SET_KEY_NAVIGATION,
-  SUCCESS_LOAD_DEPOT_ACTION,
-} from "../../store/DepotContext";
+  CoreStockDispatchContext,
+  CoreStockStateContext,
+  LOAD_CORESTOCK_ACTION,
+  SET_CORESTOCK_ANIMATION_DIRECTION,
+  SET_CORESTOCK_PERSON_ID_ACTION,
+  SET_CORESTOCK_KEY_NAVIGATION,
+  SUCCESS_LOAD_CORESTOCK_ACTION,
+} from "../../store/CoreStockContext";
 import { getAsPath } from "../../utils/getter";
-import { useSWRDepotPerson } from "../../utils/useSWRDepotPerson";
+import { useSWRCoreStockPerson } from "../../utils/useSWRCoreStockPerson";
 
 /*
  * *** GlobalNavigation  ***
@@ -86,16 +86,16 @@ const Title = ({ className, label }) => {
   );
 };
 
-const regExDepotId = /\/depot\/(\d+)/;
-const matchDepotId = compose(second, match(regExDepotId));
+const regExCoreStockId = /\/kernbestand\/(\d+)/;
+const matchCoreStockId = compose(second, match(regExCoreStockId));
 
 // isFrontpage:: s → b
-const isFrontpage = compose(not, test(regExDepotId));
+const isFrontpage = compose(not, test(regExCoreStockId));
 
-// TODO make hook useDepotPersonId, also in swrDep....
-export const getDepotPersonIdFromPath = compose(
+// TODO make hook useCoreStockPersonId, also in swrDep....
+export const getCoreStockPersonIdFromPath = compose(
   castToInt,
-  matchDepotId,
+  matchCoreStockId,
   getAsPath
 );
 
@@ -103,7 +103,7 @@ export const getDepotPersonIdFromPath = compose(
 // Navigate with route.push to trigger the right animation
 const pushRouteWithDirection = curry((dispatch, router, direction, url, e) => {
   e.preventDefault();
-  dispatch({ type: SET_ANIMATION_DIRECTION, payload: direction });
+  dispatch({ type: SET_CORESTOCK_ANIMATION_DIRECTION, payload: direction });
   router.push(url);
 });
 
@@ -127,19 +127,19 @@ const getNavigation = (path, slides) => {
 };
 
 export const GlobalNavigation = () => {
-  const { personId, slides, keyNavigation } = useContext(DepotStateContext);
-  const dispatch = useContext(DepotDispatchContext);
+  const { personId, slides, keyNavigation } = useContext(CoreStockStateContext);
+  const dispatch = useContext(CoreStockDispatchContext);
   const router = useRouter();
   const arrowLeft = useKeyPress("ArrowLeft");
   const arrowRight = useKeyPress("ArrowRight");
   const path = getAsPath(router);
   const navigation = getNavigation(path, slides);
-  const currentPersonId = getDepotPersonIdFromPath(router);
-  const hasDepotChanged = personId !== currentPersonId;
-  const shouldLoadDepot = !slides && currentPersonId;
-  const transformedPerson = useSWRDepotPerson();
-  const { data: dataDepot } = useSWR(
-    shouldLoadDepot ? apiDepot(currentPersonId) : null,
+  const currentPersonId = getCoreStockPersonIdFromPath(router);
+  const hasCoreStockChanged = personId !== currentPersonId;
+  const shouldLoadCoreStock = !slides && currentPersonId;
+  const transformedPerson = useSWRCoreStockPerson();
+  const { data: dataCoreStock } = useSWR(
+    shouldLoadCoreStock ? apiCoreStock(currentPersonId) : null,
     fetcher
   );
 
@@ -150,51 +150,51 @@ export const GlobalNavigation = () => {
   useEffect(() => {
     const { nextUrl, previousUrl } = navigation;
     const dispatchResetKeyNavigation = () =>
-      dispatch({ type: SET_KEY_NAVIGATION, payload: false });
+      dispatch({ type: SET_CORESTOCK_KEY_NAVIGATION, payload: false });
     const debounceReset = debounce(dispatchResetKeyNavigation, 350);
 
     if (truthy(arrowLeft) && falsy(keyNavigation) && exists(previousUrl)) {
-      dispatch({ type: SET_ANIMATION_DIRECTION, payload: -1 });
-      dispatch({ type: SET_KEY_NAVIGATION, payload: true });
+      dispatch({ type: SET_CORESTOCK_ANIMATION_DIRECTION, payload: -1 });
+      dispatch({ type: SET_CORESTOCK_KEY_NAVIGATION, payload: true });
 
       router.push(previousUrl);
       debounceReset();
     } else if (truthy(arrowRight) && falsy(keyNavigation) && exists(nextUrl)) {
-      dispatch({ type: SET_ANIMATION_DIRECTION, payload: 1 });
-      dispatch({ type: SET_KEY_NAVIGATION, payload: true });
+      dispatch({ type: SET_CORESTOCK_ANIMATION_DIRECTION, payload: 1 });
+      dispatch({ type: SET_CORESTOCK_KEY_NAVIGATION, payload: true });
       router.push(nextUrl);
       debounceReset();
     }
   }, [arrowLeft, arrowRight, navigation, keyNavigation, router, dispatch]);
 
-  // // url changed to new  a depot like depot/12/person
-  // set person-id which is the suffix in depot/12/person and set loading flag
+  // // url changed to new  a core-stock like kernbestand/12/person
+  // set person-id which is the suffix in kernbestand/12/person and set loading flag
   useEffect(() => {
-    if (hasDepotChanged) {
+    if (hasCoreStockChanged) {
       dispatch({
-        type: SET_DEPOT_PERSON_ID_ACTION,
+        type: SET_CORESTOCK_PERSON_ID_ACTION,
         payload: currentPersonId || null,
       });
     }
-    if (shouldLoadDepot) {
-      dispatch({ type: LOAD_DEPOT_ACTION, payload: currentPersonId });
+    if (shouldLoadCoreStock) {
+      dispatch({ type: LOAD_CORESTOCK_ACTION, payload: currentPersonId });
     }
-  }, [currentPersonId, hasDepotChanged, shouldLoadDepot, dispatch]);
+  }, [currentPersonId, hasCoreStockChanged, shouldLoadCoreStock, dispatch]);
 
-  // if the current depot ergo the person changed
-  // the depot data is asyced fetched
+  // if the current core-stock ergo the person changed
+  // the core-stock data is asyced fetched
   // set the new data and turn of the loading flag
   useEffect(() => {
-    if (dataDepot) {
+    if (dataCoreStock) {
       dispatch({
-        type: SUCCESS_LOAD_DEPOT_ACTION,
+        type: SUCCESS_LOAD_CORESTOCK_ACTION,
         payload: {
-          data: dataDepot,
+          data: dataCoreStock,
           path: path,
         },
       });
     }
-  }, [dataDepot, path, dispatch]);
+  }, [dataCoreStock, path, dispatch]);
 
   return (
     <>

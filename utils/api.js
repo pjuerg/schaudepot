@@ -23,7 +23,7 @@ export const apiPhysicalObject = (itemId) => `${API_PHYSICAL_OBJECT}/${itemId}`;
 export const apiPhysicalObjects = (query) =>
   exists(query) ? `${API_PHYSICAL_OBJECT}?${query}` : API_PHYSICAL_OBJECT;
 
-export const apiDepot = (personId) =>
+export const apiCoreStock = (personId) =>
   `${GATEWAY_API_PATH}/physical_object?filter[coreset]=1&filter[person]=${personId}`;
 
 export const apiSite = () => `${GATEWAY_API_PATH}/site`;

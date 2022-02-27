@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 import Head from "next/head";
 
 import LayoutTransition from "./LayoutTransition";
-import { TopBar, GlobalNavigation } from "./depot";
-import { DevInfoDepot } from "./DevInfoDepot";
+import { TopBar, GlobalNavigation } from "./corestock";
+import { DevInfoCoreStock } from "./DevInfoCoreStock";
 
 /*
  *  *** Layout  ***
@@ -28,7 +28,7 @@ export default function Layout({
       <TopBar />
       <GlobalNavigation />
       <LayoutTransition>{children}</LayoutTransition>
-      <DevInfoDepot />
+      <DevInfoCoreStock />
     </div>
   );
 }
