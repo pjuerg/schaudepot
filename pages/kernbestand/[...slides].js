@@ -1,72 +1,63 @@
 // pages/kernbestand/[...slides]
 
 import { useContext } from "react";
+
 import { useRouter } from "next/router";
 import Head from "next/head";
-
-import isNil from "ramda/src/isNil";
-import test from "ramda/src/test";
-import equals from "ramda/src/equals";
+import useSWR from "swr";
 
 
-import { CoreStockStateContext } from "../../store/CoreStockContext";
+import { falsy } from "../../libs/rmd-lib/falsy";
+import { exists } from "../../libs/rmd-lib/exists";
+
+import { apiSite } from "../../utils/api";
+import { fetcher } from "../../libs/fetcher";
+import { CoresetStateContext } from "../../store/CoresetContext";
+import { useSWRCoresetPerson } from "../../utils/useSWRCoresetPerson";
+import { CoresetComponentFactory } from "../../components/coreset/CoresetComponentFactory";
 import {
   BigLoading,
+  CoverSlide,
   IntroSlide,
-  AddendumSlide,
   ItemSlide,
-} from "../../components/corestock";
+  AddendumSlide,
+} from "../../components/coreset";
 
 /*
- * *** CoreStock-Subpages ***
+ * *** Coreset-Slide-Container ***
  * - - - - - - - - - - - - - - - -
  */
 
-const regExIntroPage = /\/kernbestand\/\d+\/intro$/;
-const testIntro = test(regExIntroPage);
-const regExItemPage = /\/kernbestand\/\d+\/item\/\d+$/;
-const testItem = test(regExItemPage);
-const regExAddendumPage = /\/kernbestand\/\d+\/addendum$/;
-const testAddendum = test(regExAddendumPage);
-
-const INTRO = "INTRO";
-const ITEM = "ITEM";
-const ADDENDUM = "ADDENDUM";
-const ERROR = "ERROR";
-
-const getSlideType = (s) => {
-  if (testIntro(s)) {
-    return INTRO;
-  } else if (testItem(s)) {
-    return ITEM;
-  } else if (testAddendum(s)) {
-    return ADDENDUM;
-  } else {
-    return ERROR;
-  }
+const slidesComponents = {
+  cover: <CoverSlide />,
+  intro: <IntroSlide />,
+  item: <ItemSlide />,
+  addendum: <AddendumSlide />,
 };
 
-export default function CoreStockSlideContainerPage() {
+export default function SlidesContainerPage() {
   const { asPath } = useRouter();
-  const { slides } = useContext(CoreStockStateContext);
-  const slideType = getSlideType(asPath);
+  const { slides } = useContext(CoresetStateContext);
+  const personData = useSWRCoresetPerson();
+  const { data: dataSite } = useSWR(apiSite(), fetcher);
+  // TODO big inital load 
+  const allDataLoaded =
+    exists(slides) && exists(personData) && exists(dataSite);
 
-  // TODO head  for individuel slides with preloading
   return (
-    <div className="h-screen">
+    <div className="h-screen bg-gray-200 px-4 pb-4 pt-24 border-white border-b-[1rem] border-x-[1rem]">
       <Head>
-        <title>TODO</title>
+        <title>TODO head for individuel slides with preloading</title>
         <meta name="description" content="TODO" />
       </Head>
 
-      {isNil(slides) ? (
+      {falsy(allDataLoaded) ? (
         <BigLoading />
       ) : (
-        <>
-          {equals(slideType, INTRO) && <IntroSlide />}
-          {equals(slideType, ITEM) && <ItemSlide />}
-          {equals(slideType, ADDENDUM) && <AddendumSlide />}
-        </>
+        <CoresetComponentFactory
+          path={asPath}
+          components={slidesComponents}
+        />
       )}
     </div>
   );

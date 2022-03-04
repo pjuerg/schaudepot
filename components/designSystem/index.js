@@ -5,7 +5,10 @@ export {
   H1bold,
   H2,
   H2Large,
+  IconSign,
+  IkonScale,
   ThumbnailCaption,
+  HtmlTextWithScrollbar,
 } from "./Elements";
 
 export {

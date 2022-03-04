@@ -1,4 +1,4 @@
-// components/DevInfoCoreStock.js
+// components/DevInfoCoreset.js
 
 import { useContext } from "react";
 
@@ -8,10 +8,10 @@ import compose from "ramda/src/compose";
 import { toString } from "../libs/rmd-lib/toString";
 import { sortObject } from "../libs/rmd-lib/sortObject";
 
-import {  CoreStockStateContext } from "../store/CoreStockContext";
+import {  CoresetStateContext } from "../store/CoresetContext";
 
 /*
- * *** DevWindow CoreStock***
+ * *** DevWindow Coreset***
  *  - - - - - - -
  *
  * Show global states
@@ -44,8 +44,8 @@ const TableInfo = ({ data, title }) => (
 );
 
 
-const CoreStockContextInfo = () => {
-  const state = sortObject(useContext(CoreStockStateContext));
+const CoresetContextInfo = () => {
+  const state = sortObject(useContext(CoresetStateContext));
   return (
     <>
       <TableInfo data={state} title="Person Context" />
@@ -55,11 +55,11 @@ const CoreStockContextInfo = () => {
 
 // *** export ***
 
-export const DevInfoCoreStock = () => (
+export const DevInfoCoreset = () => (
   // <div className="fixed bottom-8 right-8 px-4 py-2 mb-4 min-h-[12] bg-gray-800 text-white border">
   <div className="fixed bottom-8 right-8 px-4 py-2 mb-4 min-h-[12] bg-gray-800 text-white border">
     <div className="flex items-start justify-start">
-      <CoreStockContextInfo />
+      <CoresetContextInfo />
     </div>
   </div>
 );

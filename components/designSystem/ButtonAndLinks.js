@@ -10,14 +10,12 @@ import Link from "next/link";
  *
  */
 
-// TODO default whiteSpace is stupid
+
 const LinkButton = ({
   className,
-  wrapperClassName = "inline-block py-8",
   label,
   url,
 }) => (
-  <div className={`${wrapperClassName} `}>
     <Link href={url}>
       <a
         className={`${className} inline-flex rounded-sm items-center transition-colors duration-200 ease-in serifSemibold border border-gray-600 hover:bg-red hover:border-red`}
@@ -25,7 +23,6 @@ const LinkButton = ({
         {label}
       </a>
     </Link>
-  </div>
 ); 
 LinkButton.propTypes = {
   className: PropTypes.string.isRequired,
@@ -35,35 +32,33 @@ LinkButton.propTypes = {
 };
 
 export const PrimaryButtonXL = (props) => (
-  <LinkButton {...props} className="px-4 py-2 text-gray-100 bg-gray-600 " />
+  <LinkButton {...props} className="px-4 py-2 text-gray-100 bg-gray-700 " />
 );
 
 export const PrimaryButtonSM = (props) => (
   <LinkButton
     {...props}
-    wrapperClassName="py-0"
     className="px-2 py-1 text-xs text-gray-100 bg-gray-700"
   />
 );
 
-export const SecondaryButtonXL = (props) => (
+export const SecondaryButtonXL = ({ className="", ...props }) => (
   <LinkButton
     {...props}
-    className="px-4 py-2 text-gray-600 hover:text-gray-100"
+    className={`${className} px-4 py-2 text-gray-600 hover:text-gray-100`}
   />
 );
 
-export const SecondaryButton = (props) => (
+export const SecondaryButton = ({className="", ...props}) => (
   <LinkButton
     {...props}
-    className="px-4 py-1 text-sm text-gray-600 hover:text-gray-100"
+    className={`${className} px-4 py-1 text-sm text-gray-600 hover:text-gray-100`}
   />
 );
 
 export const SecondaryButtonSM = (props) => (
   <LinkButton
     {...props}
-    wrapperClassName="py-0"
     className="px-2 py-1 text-xs text-gray-600 hover:text-gray-100 "
   />
 );

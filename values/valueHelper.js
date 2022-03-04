@@ -18,11 +18,10 @@ import over from "ramda/src/over";
 import mergeLeft from "ramda/src/mergeLeft";
 import lensProp from "ramda/src/lensProp";
 
-import { renameKeys } from "../libs/rmd-lib/renameKeys";
 import { splitAtLastSlash } from "../libs/rmd-lib/splitAtLastSlash";
+import { renameKeys } from "../libs/rmd-lib/renameKeys";
 
 import { hasOnlyPreview } from "../utils/utilsImage";
-
 import {
   BORN,
   CLASSIFIED_AS,

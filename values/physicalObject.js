@@ -11,7 +11,8 @@ import path from "ramda/src/path";
 import assoc from "ramda/src/assoc";
 
 import { renameKeys } from "../libs/rmd-lib/renameKeys";
-import {  maybe } from "../libs/rmd-lib/maybe";
+import { maybe } from "../libs/rmd-lib/maybe";
+
 
 import {
   TIMESPAN,
@@ -94,7 +95,7 @@ export const transformPhysicalObject = maybe(
     addPropAdditionalMedia(), // position is crucial for using util fns
     evolve(physicalObjectTransformer),
     addPropByPath(TIMESPAN, pathTimespan),
-    renameKeys({ _label: LABEL}),
+    renameKeys({ _label: LABEL }),
     omit(["@context", "type", "equivalent"])
   )
 );
@@ -144,5 +145,3 @@ export const transformPhysicalObjectListing = compose(
   renameKeysListing,
   omit(STANDART_OMITS)
 );
-
-

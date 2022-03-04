@@ -1,4 +1,4 @@
-// store/CoreContextContext.js
+// store/CoresetContext.js
 
 import React, { useReducer } from "react";
 
@@ -12,33 +12,33 @@ import assoc from "ramda/src/assoc";
 
 import { transformPhysicalObjectListing } from "../values/physicalObject";
 import { getMember } from "../utils/getter";
-import { ROUTE_ADDENDUM, ROUTE_CORESTOCK, ROUTE_INTRO, ROUTE_ITEM } from "../utils/routes";
+import { ROUTE_ADDENDUM, ROUTE_CORESET, ROUTE_INTRO, ROUTE_ITEM } from "../utils/routes";
 
 /*
- *  *** CoreStockContext  ***
+ *  *** CoresetContext  ***
  * ------------------------
  */
 
-export const SET_CORESTOCK_PERSON_ID_ACTION = "SET_CORESTOCK_PERSON_ID_ACTION";
-export const LOAD_CORESTOCK_ACTION = "LOAD_CORESTOCK_ACTION";
-export const SUCCESS_LOAD_CORESTOCK_ACTION = "SUCCESS_LOAD_CORESTOCK_ACTION";
-export const SET_CORESTOCK_ANIMATION_DIRECTION = "SET_CORSTOCK_ANIMATION_DIRECTION";
-export const SET_CORESTOCK_KEY_NAVIGATION = "SET_CORESTOCK_KEY_NAVIGATION";
+export const SET_CORESET_PERSON_ID_ACTION = "SET_CORESET_PERSON_ID_ACTION";
+export const LOAD_CORESET_ACTION = "LOAD_CORESET_ACTION";
+export const SUCCESS_LOAD_CORESET_ACTION = "SUCCESS_LOAD_CORESET_ACTION";
+export const SET_CORESET_ANIMATION_DIRECTION = "SET_CORESET_ANIMATION_DIRECTION";
+export const SET_CORESET_KEY_NAVIGATION = "SET_CORESET_KEY_NAVIGATION";
 
 /* Create the Context
  */
-export const CoreStockDispatchContext = React.createContext(null);
-export const CoreStockStateContext = React.createContext(null);
+export const CoresetDispatchContext = React.createContext(null);
+export const CoresetStateContext = React.createContext(null);
 
 // getSlides :: [{*}], n -> [s]
 const getSlides = thunkify((items, personId) => {
-  const coreStockRoute = `${ROUTE_CORESTOCK}/${personId}`;
+  const coresetRoute = `${ROUTE_CORESET}/${personId}`;
   const personSlides = [
-    coreStockRoute,
-    `${coreStockRoute}${ROUTE_INTRO}`,
-    `${coreStockRoute}${ROUTE_ADDENDUM}`,
+    coresetRoute,
+    `${coresetRoute}${ROUTE_INTRO}`,
+    `${coresetRoute}${ROUTE_ADDENDUM}`,
   ];
-  const itemSlides = map(({ id }) => `${coreStockRoute}${ROUTE_ITEM}/${id}`, items);
+  const itemSlides = map(({ id }) => `${coresetRoute}${ROUTE_ITEM}/${id}`, items);
   return insertAll(2, itemSlides, personSlides);
 });
 
@@ -51,11 +51,11 @@ const getItems = compose(getMember, transformPhysicalObjectListing);
  * @param {*} action
  * @returns
  */
-function coreStockReducer(draft, action) {
-  // console.log("::CoreStock-Reducer", action.type);
+function coresetReducer(draft, action) {
+  // console.log("::Coreset-Reducer", action.type);
 
   switch (action.type) {
-    case SET_CORESTOCK_PERSON_ID_ACTION:
+    case SET_CORESET_PERSON_ID_ACTION:
       return evolve(
         {
           personId: always(action.payload),
@@ -65,7 +65,7 @@ function coreStockReducer(draft, action) {
         draft
       );
 
-    case LOAD_CORESTOCK_ACTION:
+    case LOAD_CORESET_ACTION:
       return evolve(
         {
           loading: always(true),
@@ -74,7 +74,7 @@ function coreStockReducer(draft, action) {
         },
         draft
       );
-    case SUCCESS_LOAD_CORESTOCK_ACTION:
+    case SUCCESS_LOAD_CORESET_ACTION:
       const items = getItems(action.payload.data);
 
       return evolve(
@@ -86,10 +86,10 @@ function coreStockReducer(draft, action) {
         draft
       );
 
-    case SET_CORESTOCK_ANIMATION_DIRECTION:
+    case SET_CORESET_ANIMATION_DIRECTION:
       return assoc("direction", action.payload, draft);
 
-    case SET_CORESTOCK_KEY_NAVIGATION:
+    case SET_CORESET_KEY_NAVIGATION:
       return assoc("keyNavigation", action.payload, draft);
 
     default:
@@ -101,24 +101,24 @@ function coreStockReducer(draft, action) {
  * First state of the provider
  */
 const initialState = {
-  keyNavigation: null,
-  personId: null,
-  items: null,
-  slides: null,
   loading: false,
-  direction: null,
+  keyNavigation: undefined,
+  direction: undefined,
+  personId: undefined,
+  items: undefined,
+  slides: undefined,
 };
 
 /**
  * The provider
  */
-export const CoreStockProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(coreStockReducer, initialState);
+export const CoresetProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(coresetReducer, initialState);
 
   return (
-    <CoreStockDispatchContext.Provider value={dispatch}>
-      <CoreStockStateContext.Provider value={state}>
+    <CoresetDispatchContext.Provider value={dispatch}>
+      <CoresetStateContext.Provider value={state}>
         {children}
-      </CoreStockStateContext.Provider>
-    </CoreStockDispatchContext.Provider>
+      </CoresetStateContext.Provider>
+    </CoresetDispatchContext.Provider>
   )};

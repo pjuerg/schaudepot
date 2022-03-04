@@ -7,9 +7,9 @@ import { exists } from "../libs/rmd-lib/exists";
  * --------------------------
  */
 
-export const GATEWAY = "https://private-kuenstlernachlaesse-brandenburg.de";
+export const GATEWAY = "https://werkdatenbank.bbk-sachsenanhalt.de";
 const API_PATH = "/linked-art.php";
-export const GATEWAY_API_PATH = `${GATEWAY}${API_PATH}`;
+const GATEWAY_API_PATH = `${GATEWAY}${API_PATH}`;
 const API_PATH_PERSON = `${GATEWAY_API_PATH}/person`;
 const API_PHYSICAL_OBJECT = `${GATEWAY_API_PATH}/physical_object`;
 
@@ -23,7 +23,7 @@ export const apiPhysicalObject = (itemId) => `${API_PHYSICAL_OBJECT}/${itemId}`;
 export const apiPhysicalObjects = (query) =>
   exists(query) ? `${API_PHYSICAL_OBJECT}?${query}` : API_PHYSICAL_OBJECT;
 
-export const apiCoreStock = (personId) =>
+export const apiCoreset = (personId) =>
   `${GATEWAY_API_PATH}/physical_object?filter[coreset]=1&filter[person]=${personId}`;
 
 export const apiSite = () => `${GATEWAY_API_PATH}/site`;

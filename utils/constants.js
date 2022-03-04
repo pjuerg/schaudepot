@@ -5,15 +5,19 @@
  * -------------------
  */
 
+
+
+
+
 export const DEPOTS = [
   {
-    id: 15,
+    id: 19,
   },
   {
-    id: 16,
+    id: 27,
   },
   {
-    id: 10,
+    id: 35,
   },
 ];
 
@@ -21,11 +25,11 @@ export const IMAGE_SIZE_MD = "640";
 export const IMAGE_SIZE_XS = "320";
 
 // ** global site **
-export const TITLE = "Private Künstlernachlässe Brandenburg";
+export const TITLE = "BBK, Bildende Kunst Sachsen-Anhalt";
 
 // export const BUTTON_COMPONENT = "button_component";
-export const BUTTON_COMPONENT_ITEMS_FROM_ARTIST =
-  "Button_component_items_from_artist";
+export const BUTTON_COMPONENT_ITEMS_FROM_ARTIST = "Button_component_items_from_artist";
+export const LINK_PERSON_PAGE = "Link_Person_Page"; 
 
 // ** linked.art and fields **
 
@@ -49,9 +53,11 @@ export const HYDRA_TOTAL_ITEMS = "hydra:totalItems";
 export const CONTENT = "content";
 export const _LABEL = "_label";
 
-export const VALUE = "value";
-export const FILTER = "filter";
+export const VALUE = "value"
+export const FILTER = "filter"
 export const BORN = "born";
 export const DIED = "died";
 
 export const STANDART_OMITS = ["id", "@context", "type"];
+
+

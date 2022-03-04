@@ -1,0 +1,133 @@
+/* styles/components/filterSelect.css */
+
+/* purgecss start ignore */
+
+/* wrapper */
+.dsSelect {
+  @apply relative z-30;
+}
+
+.dsSelect-InputWrapper {
+  @apply flex md:mr-2 lg:mr-4 2xl:mr-6;
+}
+
+/* div with label and and buttons  */
+.dsSelect-BtnLabel {
+  @apply flex px-2 pb-1 text-sm font-semibold hover:text-red;
+  @apply transition-colors duration-150 ease-in rounded-sm hover:bg-gray-200;
+  /* 
+  TODO in layer directive
+  btn-bg-transition btn-bg-transition--gray 
+  */
+  label {
+    @apply inline-block group-hover:text-red;
+  }
+
+  /* selected label */
+  label > span {
+    @apply font-bold text-red;
+  }
+}
+
+@screen 2xl {
+  .dsSelect-BtnLabel {
+    @apply text-base;
+  }
+}
+
+
+.dsSelect-noOptionsLabel {
+  @apply mr-2 text-sm font-semibold text-gray-300 lg:mr-4 2xl:mr-6 2xl:text-base;
+}
+
+/* dsSelect-labelWrapper > button */
+.dsSelect-btnOpen {
+  @apply flex text-xl leading-none;
+
+  > span {
+    @apply w-3 transform -rotate-90;
+  }
+}
+
+.s-open .dsSelect-btnOpen > span {
+  @apply rotate-90 translate-x-1;
+}
+
+/* dsSelect-labelWrapper > button */
+.dsSelect-btnClear {
+  @apply relative inline-block px-1 text-2xl leading-none -top-1.5 hover:text-red;
+  /* @apply absolute inline-block p-1 text-2xl leading-none right-2 -top-3 hover:text-red; */
+  > span {
+    /* @apply inline-block; */
+  }
+}
+
+/* menu ul */
+.dsSelect-menu {
+  @apply absolute py-4 overflow-x-hidden overflow-y-auto text-sm text-white bg-gray-700 rounded-b-sm shadow-md outline-none opacity-0 max-h-64;
+  @apply transition-opacity duration-500 ease-in-out;
+  > li {
+    @apply relative px-4 py-1 cursor-pointer whitespace-nowrap;
+  }
+  > li.s-highlighted {
+    @apply text-white bg-red;
+  }
+}
+.s-open .dsSelect-menu {
+  @apply transition-opacity duration-500 ease-in-out opacity-100;
+}
+
+/* ** mobil canvas variant */
+/* -------------------------*/
+
+.dsSelect--mobilCanvas {
+  .dsSelect-InputWrapper {
+    @apply mr-0;
+  }
+
+  .dsSelect-BtnLabel {
+    @apply flex items-center flex-grow h-10 px-4 my-2 text-base font-semibold bg-gray-300 rounded-sm;
+  }
+
+  /* selected label */
+  .dsSelect-BtnLabel {
+    @apply hover:bg-gray-700 hover:text-gray-100;
+
+    label > span {
+      @apply text-sm text-red;
+    }
+  }
+
+  .dsSelect-noOptionsLabel {
+    @apply py-4 ml-2 text-base font-semibold text-gray-400;
+  }
+
+  .dsSelect-menu {
+    @apply ml-0 -mt-2 min-w-[242px];
+  }
+}
+
+.s-open.dsSelect--mobilCanvas .dsSelect-BtnLabel {
+  @apply border-b border-gray-200 rounded-b-none;
+}
+
+/* ** bigger variant for main row */
+/* ---------------------------------*/
+
+.dsSelect--xl.dsSelect {
+  @apply z-40;
+
+  .dsSelect-BtnLabel {
+    @apply flex items-center flex-grow h-10 text-xs font-normal bg-gray-200 rounded-r-sm md:text-base;
+
+    /* selected label */
+    label > span {
+      @apply font-normal text-gray-900 hover:text-red;
+    }
+  }
+
+  .dsSelect--xl .dsSelect-btnClear {
+    /* @apply -top-1; */
+  }
+}
+/* purgecss end ignore */

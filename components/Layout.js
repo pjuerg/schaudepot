@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 import Head from "next/head";
 
 import LayoutTransition from "./LayoutTransition";
-import { TopBar, GlobalNavigation } from "./corestock";
-import { DevInfoCoreStock } from "./DevInfoCoreStock";
+import { TopBar, CoresetNavigation } from "./coreset";
+// import { DevInfoCoreset } from "./DevInfoCoreset";
 
 /*
  *  *** Layout  ***
@@ -26,9 +26,9 @@ export default function Layout({
       </Head>
 
       <TopBar />
-      <GlobalNavigation />
+      <CoresetNavigation />
       <LayoutTransition>{children}</LayoutTransition>
-      <DevInfoCoreStock />
+      {/* <DevInfoCoreset /> */}
     </div>
   );
 }

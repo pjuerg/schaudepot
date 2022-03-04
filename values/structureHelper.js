@@ -13,9 +13,8 @@ import path from "ramda/src/path";
 import equals from "ramda/src/equals";
 import propOr from "ramda/src/propOr";
 
-import {
-  findId,
-} from "../utils/utilsRamda";
+import { findAtId } from "../libs/rmd-lib/findAtId";
+
 import {
   CONTENT,
   HYDRA_MEMBER,
@@ -49,7 +48,7 @@ export const findByIdentifier = curry((identifier, obj) =>
 // path to data call side to API_SITE, like about text
 export const pathCarriesHtml = path(["carries", 0, CONTENT]);
 
-const isWithLabel = anyPass([has("idData"), has("label")]);
+const isWithLabel = anyPass([has("idData"), has(LABEL)]);
 
 // add labels for fields with no label in linkedart
 // labels are fetched in api/site with same structure like linkart
@@ -98,7 +97,7 @@ const isDataInSection = curry((data, objField) => {
 
   // break: data-object exist, if objField has an idData
   // there has to be an entry
-  if (idData && !findId(idData, dataAtKey)) return false;
+  if (idData && !findAtId(idData, dataAtKey)) return false;
 
   return true;
 });

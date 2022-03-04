@@ -1,13 +1,14 @@
 // pages/index.js
 
 import Head from "next/head";
+import Link from "next/link";
 
-import { H1 } from "../components/designSystem";
-import { CenteredContainer, SimpleLink } from "../components/corestock/CoreStockSystem";
-import { ROUTE_CORESTOCK } from "../utils/routes";
+
+import { CenteredContainer } from "../components/coreset/CoresetDesignSystem";
+import { ROUTE_CORESET } from "../utils/routes";
 
 /*
- * ** CoreStock-Front-Page ***
+ * ** Coreset-Front-Page ***
  * --------------------------
  */
 
@@ -21,8 +22,9 @@ export default function Frontpage() {
 
       <CenteredContainer className="h-screen">
         <div>
-          <H1>Frontpage werkdatenbank</H1>
-          <SimpleLink url={`${ROUTE_CORESTOCK}`}>Menüeintrag Schaudepots</SimpleLink>
+          <h1>Frontpage werkdatenbank</h1>
+          <Link href={`${ROUTE_CORESET}`}><a>Menüeintrag Schaudepots</a></Link>
+
         </div>
       </CenteredContainer>
     </div>

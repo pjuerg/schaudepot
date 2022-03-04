@@ -9,5 +9,4 @@
  * @return {boolean} - true | false
  **/
 
-export const isArray = (str) =>
-  typeof str === "string" || str instanceof String;
+export const isArray = (para) => para && para.constructor === Array;

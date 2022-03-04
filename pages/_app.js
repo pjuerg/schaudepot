@@ -1,7 +1,7 @@
 // pages/_app.js
 import "../styles/tailwind.css";
 
-import { CoreStockProvider } from "../store/CoreStockContext";
+import { CoresetProvider } from "../store/CoresetContext";
 import Layout from "../components/Layout";
 
 /*
@@ -11,11 +11,11 @@ import Layout from "../components/Layout";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <CoreStockProvider>
+    <CoresetProvider>
       <Layout>
-        <Component {...pageProps} />;
+         <Component {...pageProps} />;
       </Layout>
-    </CoreStockProvider>
+    </CoresetProvider>
   );
 }
 

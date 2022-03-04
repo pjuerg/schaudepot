@@ -1,0 +1,17 @@
+/* styles/components/searchInfo.css */
+
+
+.SearchInfo {
+  @apply flex;
+
+  .SearchInfo-label {
+    @apply mr-1 italic
+  }
+
+  .SearchInfo-row:first-child {
+    @apply mr-2 
+  }
+  .SearchInfo-filterName {
+    @apply font-bold
+  }
+}

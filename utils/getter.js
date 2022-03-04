@@ -2,10 +2,11 @@
 
 import prop from "ramda/src/prop";
 
+
 /*
- * *** getter  ***
- * ---------------
- */
+* *** getter  ***
+* ---------------
+*/
 
 export const LABEL = "label";
 export const MEMBER = "member";

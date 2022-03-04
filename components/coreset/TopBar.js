@@ -1,11 +1,11 @@
-// components/corestock/Topbar.js
+// components/coreset/Topbar.js
 
 import Link from "next/link";
 
 import { ROUTE_HOME } from "../../utils/routes";
 
 /*
- * *** Topbar CoreStock  ***
+ * *** Topbar Coreset  ***
  * --------------------------
  */
 
