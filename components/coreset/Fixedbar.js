@@ -1,7 +1,7 @@
 // components/coreset/Fixedbar.js
 
 import Link from "next/link";
-import { linkContact, linkImprint, pageTitle } from "../../depotConfigs";
+import { linkContact, linkImprint, pageTitle } from "../../coresetConfigs";
 
 import { ROUTE_HOME } from "../../utils/routes";
 

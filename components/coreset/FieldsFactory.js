@@ -36,7 +36,7 @@ import {
 export const FieldsFactory = ({ data, fields, className = "", ...props }) => {
 
   return (
-    <div className={`${className} mb-16`}>
+    <div className={`${className}`}>
       {fields.map((rowStructure, index) => {
         const { key } = rowStructure;
         const dataAtKey = prop(key, data);

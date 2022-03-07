@@ -88,11 +88,12 @@ export const IntroSlide = () => {
     <TwoColumnsContainer className="h-full pb-10">
       <RepresentationPortraitImage {...personData} />
 
-      <TextContainer className="relative flex flex-col h-full px-8 pt-20 pb-10">
-        <h1 className="pb-4 text-3xl font-bold lg:text-4xl">
-          {personData.label}
+      <TextContainer className="relative flex flex-col h-full px-8 pb-10">
+        <h1 className="pb-4 text-3xl font-semibold lg:text-4xl">
+          Über {personData.label}
         </h1>
         <FieldsFactory
+          className="pb-8"
           data={personData}
           {...head(cleandFieldStructure)}
           {...classNameFieldConfigs}
@@ -100,7 +101,7 @@ export const IntroSlide = () => {
 
         {/* html scrollbar */}
         <div
-          className={`field-markdown-styles h-full grow overflow-y-auto `}
+          className={`slide-markdown-styles h-full grow overflow-y-auto `}
           dangerouslySetInnerHTML={{ __html: scrollbarHtml }}
         />
         {/* gradientfor the scrollbar */}

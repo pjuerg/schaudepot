@@ -32,7 +32,7 @@
 /* *** slide image *** */
 
 .linkedArtImg--slide {
-   @apply h-full drop-shadow-md; 
+   @apply h-full drop-shadow-lg; 
 
   .linkedArtImg-wrapper {
     @apply flex flex-col items-center justify-center h-full transform-none;
@@ -46,7 +46,7 @@
 /* *** slide slidePortrait *** */
 
 .linkedArtImg--slidePortrait{
-   @apply h-[80%] drop-shadow-md;
+   @apply h-[80%] drop-shadow-lg;
 
   .linkedArtImg-wrapper {
     @apply flex flex-col items-center justify-center h-full transform-none;

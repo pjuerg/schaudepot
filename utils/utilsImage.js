@@ -17,7 +17,7 @@ import init from "ramda/src/init";
 
 import { exists } from "../libs/rmd-lib/exists";
 
-import { gateway } from "../depotConfigs";
+import { gateway } from "../coresetConfigs";
 import {
   ACCESS_POINT,
   CREATED_BY_CARRIED_OUT_BY,

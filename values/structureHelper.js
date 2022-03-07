@@ -83,7 +83,6 @@ export const addLabelsFromSiteApi = curry(
 );
 
 
-
 const isDataInSection = curry((data, objField) => {
   const { key, idData } = objField;
   const dataAtKey = prop(key, data);

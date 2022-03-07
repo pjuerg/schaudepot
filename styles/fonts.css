@@ -25,7 +25,7 @@
        url(/fonts/source-sans-pro-v14-latin-200italic.svg#SourceSansPro) format('svg'); 
 } */
 /* source-sans-pro-300 - latin */
-/* @font-face {
+@font-face {
   font-display: swap;
   font-family: 'Source Sans Pro';
   font-style: normal;
@@ -35,7 +35,7 @@
        url(/fonts/source-sans-pro-v14-latin-300.woff) format('woff'), 
        url(/fonts/source-sans-pro-v14-latin-300.ttf) format('truetype'),
        url(/fonts/source-sans-pro-v14-latin-300.svg#SourceSansPro) format('svg'); 
-} */
+}
 /* source-sans-pro-300italic - latin */
 /* @font-face {
   font-display: swap;

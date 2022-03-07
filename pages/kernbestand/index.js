@@ -1,7 +1,7 @@
 // pages/kernbestand/index.js
 
 import Link from "next/link";
-import { depotExamples } from "../../depotConfigs";
+import { coresetExamples } from "../../coresetConfigs";
 
 import { ROUTE_CORESET } from "../../utils/routes";
 
@@ -22,7 +22,7 @@ export default function Frontpage() {
             mit Pfeiltasten
           </p>
           <ul>
-            {depotExamples.map(({ id }, index) => (
+            {coresetExamples.map(({ id }, index) => (
               <li key={index} className="p-4 mb-4 bg-gray-300">
                 <Link href={`${ROUTE_CORESET}/${id}`}>
                   <a className="hover:underline">Schaudepot Person {id}</a>

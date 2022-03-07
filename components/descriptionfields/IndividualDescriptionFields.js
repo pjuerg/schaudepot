@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import propOr from "ramda/src/propOr";
 
-import { gateway } from "../../depotConfigs";
+import { gateway } from "../../coresetConfigs";
 import { ROUTE_ITEM } from "../../utils/routes";
 import { DescriptionLabel } from "./GenericDescriptionFields";
 

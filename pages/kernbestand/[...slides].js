@@ -9,7 +9,7 @@ import { falsy } from "../../libs/rmd-lib/falsy";
 import { exists } from "../../libs/rmd-lib/exists";
 import { fetcher } from "../../libs/fetcher";
 
-import { pageSectionTitle } from "../../depotConfigs";
+import { pageSectionTitle } from "../../coresetConfigs";
 import { apiSite } from "../../utils/api";
 import { CoresetStateContext } from "../../store/CoresetContext";
 import { useSWRCoresetPerson } from "../../utils/useSWRCoresetPerson";
@@ -52,9 +52,9 @@ export default function SlidesContainerPage() {
           {pageSectionTitle}
         </title>
       </Head>
-      <div className="h-screen pt-24">
+      <div className="h-screen pt-36">
         {falsy(allDataLoaded) ? (
-          <Loading className="items-center justify-center" />
+          <Loading className="items-center justify-center h-[80%]" />
         ) : (
           <SlideFactory path={asPath} components={slidesComponents} />
         )}

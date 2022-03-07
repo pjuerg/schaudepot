@@ -10,7 +10,7 @@ import {
   TwoColumnsContainer,
 } from "../Container";
 import { RepresentationPortraitImage } from "../RepresentationPortraitImage";
-import { pageSectionTitle } from "../../../depotConfigs";
+import { pageSectionTitle } from "../../../coresetConfigs";
 import Head from "next/head";
 /*
  * *** Cover Slide  ***
@@ -49,26 +49,24 @@ export const CoverSlide = () => {
     useSWRCoresetPersonAndStructure(fieldStructure);
 
   return (
+    <TwoColumnsContainer className="h-full">
+      <RepresentationPortraitImage {...personData} />
 
-      <TwoColumnsContainer className="h-full">
-        <RepresentationPortraitImage {...personData} />
-
-        <TextContainer>
-          <h1 className="pb-8 text-3xl font-bold lg:text-4xl">
-            {personData.label}
-            <br />
-            <span className="font-normal">Kernbestand</span>
-          </h1>
-          <p className="pb-4 text-2xl">
-            14 Grafiken, 13 Collagen und 4 Zeichnungen stellen den Kernbestand
-            im Nachlas ....
-          </p>
-          <p className="pb-16 text-2xl">
-            In diesen Schaudepo ... kurzer Text zur Idee dieses Schaudepots,
-            kann generisch sein Lorem ipsum dolor sit amet, consetetur
-            sadipscing.
-          </p>
-          {/* <h3 className="pb-3 text-sm text-gray-600">
+      <TextContainer>
+        <h1 className="pb-8 text-3xl font-semibold lg:text-4xl">
+          {personData.label}
+          <br />
+          <span className="font-light">Kernbestand</span>
+        </h1>
+        <p className="pb-4 text-2xl font-light">
+          14 Grafiken, 13 Collagen und 4 Zeichnungen stellen den Kernbestand im
+          Nachlas ....
+        </p>
+        <p className="pb-4 text-2xl font-light">
+          In diesen Schaudepo ... kurzer Text zur Idee dieses Schaudepots, kann
+          generisch sein Lorem ipsum dolor sit amet, consetetur sadipscing.
+        </p>
+        {/* <h3 className="pb-3 text-sm text-gray-600">
           Weitere Information finden Sie
         </h3>
 
@@ -77,8 +75,7 @@ export const CoverSlide = () => {
           {...head(cleandFieldStructure)}
           {...classNameFieldConfigs}
         /> */}
-        </TextContainer>
-      </TwoColumnsContainer>
-    
+      </TextContainer>
+    </TwoColumnsContainer>
   );
 };

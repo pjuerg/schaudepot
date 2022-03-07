@@ -26,7 +26,6 @@ import { Loading } from "../Loading";
 export const IMAGE_SIZE_MD = "640";
 export const IMAGE_SIZE_XS = "320";
 
-
 export const useImageLoadingState = (imgRef, hasImage) => {
   const [loaded, setLoaded] = useState(false);
 
@@ -58,7 +57,9 @@ const ImageWrapper = forwardRef(
     // console.log('link', loaded, showLoading);
     return (
       <>
-        {loaded===false && showLoading && <Loading className="loadingCentered" />}
+        {loaded === false && showLoading && (
+          <Loading className="pt-48 loadingCentered" />
+        )}
 
         <div className="relative linkedArtImg-wrapper">
           {icon && icon}
@@ -126,7 +127,7 @@ LinkedArtImage.defaultProps = {
   alt: "",
   className: "",
   hasRepresentation: true,
-  showLoading:false,
+  showLoading: false,
 };
 LinkedArtImage.propTypes = {
   // array with width and height to get landscape or not

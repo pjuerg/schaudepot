@@ -28,7 +28,7 @@ import { ThreeColumnsContainer } from "../Container";
 import { maybe } from "../../../libs/rmd-lib/maybe";
 import { classNameFieldConfigs } from "./coverSlide";
 import Head from "next/head";
-import { pageSectionTitle } from "../../../depotConfigs";
+import { pageSectionTitle } from "../../../coresetConfigs";
 
 /*
  * *** Item Slide  ***
@@ -64,40 +64,37 @@ export const ItemSlide = () => {
   );
   const imgData= maybe(head)(representation)
   return (
+    <div className="flex flex-col h-full ">
+      <div className="grow h-[80%] py-8">
+        <LinkedArtImage
+          {...getPreviewImage(representation)}
+          className="linkedArtImg--slide"
+          showLoading={true}
+        />
+      </div>
 
-      
-      <div className="flex flex-col h-full">
-        <div className="grow h-[80%] ">
-          <LinkedArtImage
-            {...getPreviewImage(representation)}
-            className="linkedArtImg--slide"
-            showLoading={true}
+      <ThreeColumnsContainer className="px-12  h-[20%]">
+        <div>
+          <h1 className="pt-4 pb-1 font-semibold leading-tight">
+            {itemData.label}
+          </h1>
+          <FieldsFactory
+            data={itemData}
+            {...head(cleandFieldStructure)}
+            {...classNameFieldConfigs}
           />
         </div>
 
-        <ThreeColumnsContainer className="px-12  h-[20%]">
-          <div>
-            <h1 className="pt-4 pb-2 font-bold leading-tight">
-              {itemData.label}
-            </h1>
-            <FieldsFactory
-              data={itemData}
-              {...head(cleandFieldStructure)}
-              {...classNameFieldConfigs}
-            />
+        {imgData && hasAnyRepresentationInfo(imgData) && (
+          <div className="pt-16 ">
+            <div className="text-sm">Bildnachweis</div>
+            <div>{getRepresentationLegend(imgData)}</div>
+            <div className="text-sm">{getRepresentationCreator(imgData)}</div>
+            <div className="text-sm">{getRepresentationCopyright(imgData)}</div>
           </div>
-          <div></div>
-          {imgData && hasAnyRepresentationInfo(imgData) && (
-            <div>
-              <div>{getRepresentationLegend(imgData)}</div>
-              <div className="text-sm">{getRepresentationCreator(imgData)}</div>
-              <div className="text-sm">
-                {getRepresentationCopyright(imgData)}
-              </div>
-            </div>
-          )}
-        </ThreeColumnsContainer>
-      </div>
-    
+        )}
+        <div></div>
+      </ThreeColumnsContainer>
+    </div>
   );
 };

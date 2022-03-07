@@ -35,16 +35,14 @@ LinkButton.propTypes = {
   wrapperClassName: PropTypes.string,
 };
 
-const PrimaryButtonXL = (props) => (
-  <LinkButton
-    {...props}
-  />
+const PrimaryButtonXL = ({ className = "", ...props }) => (
+  <LinkButton className={`${className} px-4 py-2 bg-teal text-gray-100 hover:bg-yellow-400 hover:text-teal `} {...props} />
 );
 
 const SecondaryButtonXL = ({ className = "", ...props }) => (
   <LinkButton
+    className={`${className} px-4 py-2 text-teal hover:bg-yellow-400`}
     {...props}
-    className={`${className} px-4 py-2 text-teal `}
   />
 );
 

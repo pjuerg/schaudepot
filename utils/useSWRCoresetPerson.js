@@ -35,7 +35,7 @@ export const useSWRCoresetPersonAndStructure = (fieldStructure) => {
 
 export const useSWRCoresetPerson = () => {
   const id = getCoresetPersonIdFromPath(useRouter());
-
   const { data } = useSWR(is(Number, id) ? apiPerson(id) : null, fetcher);
+
   return transformPerson(data);
 };

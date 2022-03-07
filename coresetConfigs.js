@@ -2,6 +2,7 @@
 
 
 
+// export const gateway = "https://private-kuenstlernachlaesse-brandenburg.de";
 export const gateway = "https://werkdatenbank.bbk-sachsenanhalt.de";
 export const apiPath = "/linked-art.php";
 
@@ -13,7 +14,7 @@ export const linkContact =
   "https://private-kuenstlernachlaesse-brandenburg.de/index.php?pn=contact";
 
 
-export const depotExamples = [
+export const coresetExamples = [
   {
     id: 19,
   },
@@ -24,3 +25,15 @@ export const depotExamples = [
     id: 35,
   },
 ];
+
+// export const coreSetExamples = [
+//   {
+//     id: 15,
+//   },
+//   {
+//     id: 16,
+//   },
+//   {
+//     id: 10,
+//   },
+// ];

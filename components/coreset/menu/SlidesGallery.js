@@ -26,7 +26,7 @@ const typoThumbClassname = "border-2 border-white p-4";
 
 const Thumb = ({ className = "", children }) => (
   <div
-    className={`${className} h-28  bg-white font-bold leading-none drop-shadow-md`}
+    className={`${className} h-28  bg-white font-semibold leading-none drop-shadow-md`}
   >
     {children}
   </div>

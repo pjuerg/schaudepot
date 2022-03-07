@@ -8,14 +8,14 @@
   @apply text-base leading-tight;
 
   h3 {
-    @apply pt-8 pb-4 text-lg font-bold;
+    @apply pt-8 pb-4 text-4xl font-light first-letter:uppercase;
   }
   p {
     @apply pb-2;
   }
   b,
   strong {
-    @apply font-semibold;
+    @apply font-light;
   }
   i,
   em {

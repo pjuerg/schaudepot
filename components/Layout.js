@@ -6,7 +6,9 @@ import Head from "next/head";
 import LayoutTransition from "./LayoutTransition";
 import { Navigation as CoresetNavigation } from "./coreset";
 import { Fixedbar as CoresetFixedbar } from "./coreset";
-import { pageSectionTitle, pageTitle } from "../depotConfigs";
+import { pageSectionTitle, pageTitle } from "../coresetConfigs";
+import { isCoresetFrontpage } from "./coreset/menu/Navigation";
+import { useRouter } from "next/router";
 // import { DevInfoCoreset } from "./DevInfoCoreset";
 
 /*
@@ -15,14 +17,14 @@ import { pageSectionTitle, pageTitle } from "../depotConfigs";
  */
 
 export default function Layout({
-  children,
-  title = "This is the default title",
-
+  children
 }) {
+  const {asPath} =useRouter()
   return (
     <>
       <Head>
-        <title>{pageTitle} / {pageSectionTitle}
+        <title>
+          {pageTitle} / {pageSectionTitle}
         </title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -31,8 +33,8 @@ export default function Layout({
         <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
         <link rel="manifest" href="/favicon/manifest.webmanifest" />
       </Head>
-
       <CoresetFixedbar />
+      {isCoresetFrontpage(asPath) && <CoresetNavigation />}
       <CoresetNavigation />
       <LayoutTransition>{children}</LayoutTransition>
       {/* <DevInfoCoreset /> */}
@@ -43,3 +45,4 @@ Layout.propTypes = {
   title: PropTypes.string,
   children: PropTypes.any.isRequired,
 };
+

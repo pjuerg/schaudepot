@@ -30,8 +30,8 @@ import { castToInt } from "../../../libs/rmd-lib/castToInt";
 import { useKeyPress } from "../../../libs/hooks/useKeyPress";
 import { fetcher } from "../../../libs/fetcher";
 
-        import TypoStar from "../../../assets/typoStar.svg";
-   
+import TypoStar from "../../../assets/typoStar.svg";
+
 import { apiCoreset } from "../../../utils/api";
 import { useSWRCoresetPerson } from "../../../utils/useSWRCoresetPerson";
 import { ROUTE_CORESET } from "../../../utils/routes";
@@ -51,105 +51,122 @@ import { SlidesGallery } from "./SlidesGallery";
  * --------------------
  */
 
-const LinkBackForward = ({
+const LinkWidthDirection = ({
   className = "",
   clickHandler,
   url,
   direction,
   children,
-}) => (
-  <div className={`${className} px-4 group`}>
-    <Link href={`${url}`}>
-      <a
-        onClick={(e) => {
-          clickHandler(direction, url, e);
-        }}
-        className="flex items-center"
-      >
-        {children}
-      </a>
-    </Link>
+  disabled,
+}) => {
+  className = `${className} px-4 flex items-center`;
+  return (
+    <>
+      {truthy(disabled) ? (
+        <div className={`${className} opacity-50`}>{children}</div>
+      ) : (
+        <Link href={`${url}`}>
+          <a
+            className={`${className} group`}
+            onClick={(e) => {
+              clickHandler(direction, url, e);
+            }}
+          >
+            {children}
+          </a>
+        </Link>
+      )}
+    </>
+  );
+};
+
+const classNameIcon = "group-hover:text-yellow-400 text-teal text-4xl";
+
+const Label = ({ className, children }) => (
+  <div className={`${className} text-sm group-hover:text-yellow-400 text-teal`}>
+    {children}
   </div>
 );
 
 const ToolsBar = ({
   isOpenItemMenu,
-  className = "",
   navigation: { startUrl, previousUrl, nextUrl, index, total },
   switchItemsMenuHandler,
   ...props
 }) => {
   return (
-    <div className={`${className} flex  items-center text-4xl`}>
-      <LinkBackForward
-        className={` -ml-4`}
+    <div className={`flex items-center`}>
+      <LinkWidthDirection
+        className={`-ml-4`}
         url={startUrl}
         direction={-1}
+        disabled={index === 0 ? true : false}
         {...props}
       >
-        <MdFirstPage className="group-hover:text-yellow-400 text-teal" />
-        <div className="text-sm group-hover:text-yellow-400">Start</div>
-      </LinkBackForward>
+        <MdFirstPage className={classNameIcon} />
+        <Label>Start</Label>
+      </LinkWidthDirection>
 
-      <LinkBackForward
-        className={``}
+      <LinkWidthDirection
         url={previousUrl}
         direction={-1}
         {...props}
+        disabled={index === 0 ? true : false}
       >
-        <MdChevronLeft className="hover:text-yellow-400 text-teal" />
-      </LinkBackForward>
+        <MdChevronLeft className={classNameIcon} />
+      </LinkWidthDirection>
 
-      <div className="text-sm ">Blättern</div>
+      <Label>Blättern</Label>
 
-      <LinkBackForward className={``} url={nextUrl} direction={1} {...props}>
-        <MdChevronRight className="hover:text-yellow-400 text-teal" />
-      </LinkBackForward>
+      <LinkWidthDirection
+        url={nextUrl}
+        direction={1}
+        {...props}
+        disabled={index === total -1 ? true : false}
+      >
+        <MdChevronRight className={classNameIcon} />
+      </LinkWidthDirection>
 
+      {/* open slideGallery */}
       <button
         className="flex items-center px-4 group"
         onClick={switchItemsMenuHandler}
       >
-        <MdViewModule className="group-hover:text-yellow-400 text-teal" />
-        <div className="pl-1 text-sm group-hover:text-yellow-400 text-teal">
-          Gallerie
-        </div>
+        <MdViewModule className={classNameIcon} />
+        <Label className="pl-1">Gallerie</Label>
       </button>
-      {/* <div className="ml-auto">
-        {exists(index) && `${index + 1} ⁄ ${total}`}
-      </div> */}
-      {/* <div>play</div>
-      <div>gallery</div> */}
+
+      {/* index counter */}
+      <div className="ml-2 px-2 py-0.5  text-sm text-gray-100 bg-teal">
+        {exists(index) && `${index + 1} | ${total}`}
+      </div>
     </div>
   );
 };
 
-
-
-const Title = ({
-  className,
-  label,
-  isOpenItemMenu,
-  switchItemsMenuHandler,
-}) => {
+const Title = ({ label, isOpenItemMenu, switchItemsMenuHandler }) => {
+  const classNameOpen = "hover:text-yellow-400 cursor-pointer";
+  const classNamneClosed = "border-b";
   return (
-    <div
-      className={`${className} ${
-        isOpenItemMenu && "hover:text-yellow-400 cursor-pointer"
-      } text-teal text-2xl font-semibold `}
-      onClick={()=> { isOpenItemMenu && switchItemsMenuHandler()}}
+    <h2
+      className={`${
+        isOpenItemMenu ? classNameOpen : classNamneClosed
+      } text-teal text-2xl font-semibold px-2 py-1  border-teal`}
+      onClick={() => {
+        isOpenItemMenu && switchItemsMenuHandler();
+      }}
     >
       Schaudepot: {exists(label) ? label : "laden ..."}
-    </div>
-  ); 
-      
+      <TypoStar className="absolute top-5 -left-3" />
+    </h2>
+  );
 };
 
 const regExCoresetId = /\/kernbestand\/(\d+)/;
 const matchCoresetId = compose(second, match(regExCoresetId));
 
 // isCoresetFrontpage:: s → b
-const isCoresetFrontpage = compose(not, test(regExCoresetId));
+export const isCoresetFrontpage = compose(not, test(regExCoresetId));
 
 // TODO make hook useCoresetPersonId, also in swrDep....
 export const getCoresetPersonIdFromPath = compose(
@@ -171,6 +188,7 @@ const getNavigation = (path, slides, personId) => {
   if (!slides) return {};
 
   const index = findIndex(equals(path))(slides);
+
   return {
     index,
     total: slides.length,
@@ -254,33 +272,22 @@ export const Navigation = () => {
 
   return (
     <>
-      {falsy(isCoresetFrontpage(path)) && (
-        <div className={`fixed z-50 inline-flex p-4 top-10 left-8`}>
-          <div className="relative top-1 left-2">
-            <TypoStar />
-          </div>
-          <div className="ml-2 ">
-            <Title
-              isOpenItemMenu={isOpenItemMenu}
-              switchItemsMenuHandler={switchItemsMenuHandler}
-              className={`${
-                !isOpenItemMenu && "border-b"
-              } px-2 py-1  border-teal`}
-              {...transformedPerson}
-            />
-            {falsy(isOpenItemMenu) && (
-              <ToolsBar
-                isOpenItemMenu={isOpenItemMenu}
-                className="px-2 py-2"
-                navigation={navigation}
-                clickHandler={pushRouteWithDirection(dispatch, router)}
-                switchItemsMenuHandler={switchItemsMenuHandler}
-              />
-            )}
-          </div>
-        </div>
-      )}
-      {isOpenItemMenu && (
+      <div className={`fixed z-50 inline-flex flex-col p-4 top-10 left-12`}>
+        <Title
+          isOpenItemMenu={isOpenItemMenu}
+          switchItemsMenuHandler={switchItemsMenuHandler}
+          {...transformedPerson}
+        />
+        {falsy(isOpenItemMenu) && (
+          <ToolsBar
+            isOpenItemMenu={isOpenItemMenu}
+            navigation={navigation}
+            clickHandler={pushRouteWithDirection(dispatch, router)}
+            switchItemsMenuHandler={switchItemsMenuHandler}
+          />
+        )}
+      </div>
+      {truthy(isOpenItemMenu) && (
         <SlidesGallery
           isOpenItemMenu={isOpenItemMenu}
           slides={slides}

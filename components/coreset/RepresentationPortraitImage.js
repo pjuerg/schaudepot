@@ -11,7 +11,8 @@ export const RepresentationPortraitImage = ({ representation }) => {
         showLoading={true}
       />
       {hasAnyRepresentationInfo(imgData) && (
-        <div>
+        <div className="pt-4">
+          <div className="text-sm">Bildnachweis</div>
           <div>{getRepresentationLegend(imgData)}</div>
           <div className="text-sm">{getRepresentationCreator(imgData)}</div>
           <div className="text-sm">{getRepresentationCopyright(imgData)}</div>

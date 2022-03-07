@@ -1,6 +1,6 @@
 //  utils/api.js
 
-import { apiPath, gateway } from "../depotConfigs";
+import { apiPath, gateway } from "../coresetConfigs";
 import { exists } from "../libs/rmd-lib/exists";
 
 /*

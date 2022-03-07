@@ -134,7 +134,6 @@ export const BasicDescriptionFieldFactory = ({
   const { textOnly } = rowStructure;
   const link = condLink(dataAtKey);
 
-  console.log("dataAtKey", dataAtKey);
   if (truthy(textOnly)) {
     return <Text {...dataAtKey} {...props} />;
   } else if (isFilter(link)) {
