@@ -70,10 +70,13 @@ const CloseButton = ({ clickHandler }) => {
       className="absolute text-5xl leading-none cursor-pointer top-4 right-2 md:right-8 group"
     >
       <div>
-        <span className="pr-2 text-xs text-teal group-hover:underline">
+        <span className="pr-2 text-xs text-teal group-hover:text-yellow-400">
           schließen
         </span>
-        <span className="text-teal" dangerouslySetInnerHTML={{ __html: "&#10005;" }} />
+        <span
+          className="text-teal group-hover:text-yellow-400"
+          dangerouslySetInnerHTML={{ __html: "&#10005;" }}
+        />
       </div>
     </div>
   );

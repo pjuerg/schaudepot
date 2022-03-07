@@ -15,6 +15,13 @@ import curry from "ramda/src/curry";
 import prop from "ramda/src/prop";
 import debounce from "lodash.debounce";
 
+import {
+  MdChevronRight,
+  MdViewModule,
+  MdChevronLeft,
+  MdFirstPage,
+} from "react-icons/md";
+
 import { exists } from "../../../libs/rmd-lib/exists";
 import { falsy } from "../../../libs/rmd-lib/falsy";
 import { truthy } from "../../../libs/rmd-lib/truthy";
@@ -23,6 +30,8 @@ import { castToInt } from "../../../libs/rmd-lib/castToInt";
 import { useKeyPress } from "../../../libs/hooks/useKeyPress";
 import { fetcher } from "../../../libs/fetcher";
 
+        import TypoStar from "../../../assets/typoStar.svg";
+   
 import { apiCoreset } from "../../../utils/api";
 import { useSWRCoresetPerson } from "../../../utils/useSWRCoresetPerson";
 import { ROUTE_CORESET } from "../../../utils/routes";
@@ -49,19 +58,17 @@ const LinkBackForward = ({
   direction,
   children,
 }) => (
-  <div className={`${className} px-4`}>
-    {exists(url) && (
-      <Link href={`${url}`}>
-        <a
-          onClick={(e) => {
-            clickHandler(direction, url, e);
-          }}
-          className="underline"
-        >
-          {children}
-        </a>
-      </Link>
-    )}
+  <div className={`${className} px-4 group`}>
+    <Link href={`${url}`}>
+      <a
+        onClick={(e) => {
+          clickHandler(direction, url, e);
+        }}
+        className="flex items-center"
+      >
+        {children}
+      </a>
+    </Link>
   </div>
 );
 
@@ -73,39 +80,69 @@ const ToolsBar = ({
   ...props
 }) => {
   return (
-    <div className={`${className} flex `}>
+    <div className={`${className} flex  items-center text-4xl`}>
       <LinkBackForward
-        className="-ml-4"
+        className={` -ml-4`}
         url={startUrl}
         direction={-1}
         {...props}
       >
-        Start
+        <MdFirstPage className="group-hover:text-yellow-400 text-teal" />
+        <div className="text-sm group-hover:text-yellow-400">Start</div>
       </LinkBackForward>
-      <LinkBackForward url={previousUrl} direction={-1} {...props}>
-        zurück
+
+      <LinkBackForward
+        className={``}
+        url={previousUrl}
+        direction={-1}
+        {...props}
+      >
+        <MdChevronLeft className="hover:text-yellow-400 text-teal" />
       </LinkBackForward>
-      <LinkBackForward url={nextUrl} direction={1} {...props}>
-        vor
+
+      <div className="text-sm ">Blättern</div>
+
+      <LinkBackForward className={``} url={nextUrl} direction={1} {...props}>
+        <MdChevronRight className="hover:text-yellow-400 text-teal" />
       </LinkBackForward>
-      <button className="px-4 underline" onClick={switchItemsMenuHandler}>
-        Gallerie
+
+      <button
+        className="flex items-center px-4 group"
+        onClick={switchItemsMenuHandler}
+      >
+        <MdViewModule className="group-hover:text-yellow-400 text-teal" />
+        <div className="pl-1 text-sm group-hover:text-yellow-400 text-teal">
+          Gallerie
+        </div>
       </button>
-      <div className="ml-auto">
+      {/* <div className="ml-auto">
         {exists(index) && `${index + 1} ⁄ ${total}`}
-      </div>
+      </div> */}
       {/* <div>play</div>
       <div>gallery</div> */}
     </div>
   );
 };
 
-const Title = ({ className, label }) => {
+
+
+const Title = ({
+  className,
+  label,
+  isOpenItemMenu,
+  switchItemsMenuHandler,
+}) => {
   return (
-    <div className={`${className} font-bold`}>
+    <div
+      className={`${className} ${
+        isOpenItemMenu && "hover:text-yellow-400 cursor-pointer"
+      } text-teal text-2xl font-semibold `}
+      onClick={()=> { isOpenItemMenu && switchItemsMenuHandler()}}
+    >
       Schaudepot: {exists(label) ? label : "laden ..."}
     </div>
-  );
+  ); 
+      
 };
 
 const regExCoresetId = /\/kernbestand\/(\d+)/;
@@ -126,7 +163,7 @@ export const getCoresetPersonIdFromPath = compose(
 const pushRouteWithDirection = curry((dispatch, router, direction, url, e) => {
   e.preventDefault();
   dispatch({ type: SET_CORESET_ANIMATION_DIRECTION, payload: direction });
-  router.push(url);
+  url && router.push(url);
 });
 
 const getNavigation = (path, slides, personId) => {
@@ -151,7 +188,7 @@ export const Navigation = () => {
   const router = useRouter();
   const arrowLeft = useKeyPress("ArrowLeft");
   const arrowRight = useKeyPress("ArrowRight");
-  const {asPath:path} = router;
+  const { asPath: path } = router;
   const navigation = getNavigation(path, slides, personId);
   const currentPersonId = getCoresetPersonIdFromPath(router);
   const hasCoresetChanged = personId !== currentPersonId;
@@ -218,15 +255,17 @@ export const Navigation = () => {
   return (
     <>
       {falsy(isCoresetFrontpage(path)) && (
-        <div
-          className={`${
-            falsy(isOpenItemMenu) ? "bg-gray-300/30 text-teal" : "text-teal"
-          } fixed z-50 inline-flex p-4  top-20 left-8`}
-        >
-          <div className="">*</div>
+        <div className={`fixed z-50 inline-flex p-4 top-10 left-8`}>
+          <div className="relative top-1 left-2">
+            <TypoStar />
+          </div>
           <div className="ml-2 ">
             <Title
-              className="px-2 py-2 border-b border-teal"
+              isOpenItemMenu={isOpenItemMenu}
+              switchItemsMenuHandler={switchItemsMenuHandler}
+              className={`${
+                !isOpenItemMenu && "border-b"
+              } px-2 py-1  border-teal`}
               {...transformedPerson}
             />
             {falsy(isOpenItemMenu) && (
