@@ -17,26 +17,24 @@ import init from "ramda/src/init";
 
 import { exists } from "../libs/rmd-lib/exists";
 
-import { GATEWAY } from "./api";
+import { gateway } from "../depotConfigs";
 import {
   ACCESS_POINT,
   CREATED_BY_CARRIED_OUT_BY,
   CREATED_BY_TIMESPAN,
   IDENTIFIED_BY,
   REFERRED_TO_BY,
-} from "./constants";
-import { LABEL } from "./getter";
+} from "../values/constants";
 /*
  *  *** utilsImage  ***
- * -----------------------
- *
+ * ----------------------- 
  */
 
 const regExImageFormat = /.*\/png|.*\/jpeg/;
 export const IsFormatImage = test(regExImageFormat);
 
 // *** representation image ***
-const propEqLabel = propEq(LABEL);
+const propEqLabel = propEq('label');
 
 export const hasPortraitOrPreview = anyPass([
   propEqLabel("Preview"),
@@ -92,7 +90,7 @@ export const hasAnyRepresentationInfo = (data) => {
   return false;
 };
 
-const pathServerImage = (fileName) => `${GATEWAY}${fileName}`;
+const pathServerImage = (fileName) => `${gateway}${fileName}`;
 const imageWithPath = compose(pathServerImage, prop(ACCESS_POINT));
 
 const imgSuffix = compose(last, split("."));

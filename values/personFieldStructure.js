@@ -8,7 +8,7 @@ import {
   ADDITONAL_MEDIA,
   BUTTON_COMPONENT_ITEMS_FROM_ARTIST,
   EQUIVALENT,
-} from "../utils/constants";
+} from "./constants";
 
 /*
  *  *** person menu structure  ***

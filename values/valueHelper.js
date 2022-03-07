@@ -41,8 +41,7 @@ import {
   STANDART_OMITS,
   TIMESPAN,
   VALUE,
-} from "../utils/constants";
-import { LABEL, MEMBER } from "../utils/getter";
+} from "./constants";
 
 /*
  *  *** valueHelper  ***
@@ -101,7 +100,7 @@ export const listingTransformer = {
  * generic listing renaming
  */
 export const renameKeysListing = renameKeys({
-  [HYDRA_MEMBER]: MEMBER,
+  [HYDRA_MEMBER]: "member",
   [HYDRA_TOTAL_ITEMS]: "totalItems",
   [HYDRA_VIEW]: "view",
 });
@@ -136,10 +135,10 @@ export const cleanFilter = over(idFilterLens, lastSlashId);
 
 export const cleanIdFromLink = over(idLens, lastSlashId);
 
-export const renameLabel = renameKeys({ _label: LABEL });
+export const renameLabel = renameKeys({ _label: "label" });
 export const renameContentToValue = renameKeys({ content: VALUE });
 export const renameLabelToValue = renameKeys({ _label: VALUE });
-export const renameTypeToLabel = renameKeys({ type: LABEL });
+export const renameTypeToLabel = renameKeys({ type: "label" });
 export const renameIdFilter = renameKeys({ id: FILTER });
 
 export const omitType = omit(["type"]);
@@ -175,7 +174,7 @@ const representationTransformer = {
 };
 
 export const transformRepresentationImage = compose(
-  renameKeys({ [_LABEL]: LABEL }),
+  renameKeys({ [_LABEL]: "label"}),
   omit(["id", "type", "classified_as", "created_by"]),
   evolve(representationTransformer),
   addPropByPath(

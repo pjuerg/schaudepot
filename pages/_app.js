@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <CoresetProvider>
       <Layout>
-         <Component {...pageProps} />;
+         <Component {...pageProps} />
       </Layout>
     </CoresetProvider>
   );

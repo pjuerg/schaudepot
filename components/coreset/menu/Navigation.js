@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import useSWR from "swr";
 import { useRouter } from "next/router";
+
 import equals from "ramda/src/equals";
 import compose from "ramda/src/compose";
 import findIndex from "ramda/src/findIndex";
@@ -11,20 +12,20 @@ import not from "ramda/src/not";
 import match from "ramda/src/match";
 import test from "ramda/src/test";
 import curry from "ramda/src/curry";
+import prop from "ramda/src/prop";
 import debounce from "lodash.debounce";
 
-import { exists } from "../../libs/rmd-lib/exists";
-import { falsy } from "../../libs/rmd-lib/falsy";
-import { truthy } from "../../libs/rmd-lib/truthy";
-import { second } from "../../libs/rmd-lib/second";
-import { castToInt } from "../../libs/rmd-lib/castToInt";
-import { useKeyPress } from "../../libs/hooks/useKeyPress";
-import { fetcher } from "../../libs/fetcher";
+import { exists } from "../../../libs/rmd-lib/exists";
+import { falsy } from "../../../libs/rmd-lib/falsy";
+import { truthy } from "../../../libs/rmd-lib/truthy";
+import { second } from "../../../libs/rmd-lib/second";
+import { castToInt } from "../../../libs/rmd-lib/castToInt";
+import { useKeyPress } from "../../../libs/hooks/useKeyPress";
+import { fetcher } from "../../../libs/fetcher";
 
-import { apiCoreset } from "../../utils/api";
-import { getAsPath } from "../../utils/getter";
-import { useSWRCoresetPerson } from "../../utils/useSWRCoresetPerson";
-import { ROUTE_CORESET } from "../../utils/routes";
+import { apiCoreset } from "../../../utils/api";
+import { useSWRCoresetPerson } from "../../../utils/useSWRCoresetPerson";
+import { ROUTE_CORESET } from "../../../utils/routes";
 import {
   CoresetDispatchContext,
   CoresetStateContext,
@@ -33,12 +34,12 @@ import {
   SET_CORESET_PERSON_ID_ACTION,
   SET_CORESET_KEY_NAVIGATION,
   SUCCESS_LOAD_CORESET_ACTION,
-} from "../../store/CoresetContext";
-import { CoresetItemsMenu } from "./CoresetItemsMenu";
+} from "../../../store/CoresetContext";
+import { SlidesGallery } from "./SlidesGallery";
 
 /*
- * *** CoresetNavigation  ***
- * --------------------------
+ * *** Navigation  ***
+ * --------------------
  */
 
 const LinkBackForward = ({
@@ -101,7 +102,7 @@ const ToolsBar = ({
 
 const Title = ({ className, label }) => {
   return (
-    <div className={`${className} `}>
+    <div className={`${className} font-bold`}>
       Schaudepot: {exists(label) ? label : "laden ..."}
     </div>
   );
@@ -117,7 +118,7 @@ const isCoresetFrontpage = compose(not, test(regExCoresetId));
 export const getCoresetPersonIdFromPath = compose(
   castToInt,
   matchCoresetId,
-  getAsPath
+  prop("asPath")
 );
 
 // routeWithDispatch:: Dispatcher → router → Number → String → Event
@@ -142,7 +143,7 @@ const getNavigation = (path, slides, personId) => {
   };
 };
 
-export const CoresetNavigation = () => {
+export const Navigation = () => {
   const [isOpenItemMenu, openItemsMenu] = useState(false);
   const switchItemsMenuHandler = () => openItemsMenu(!isOpenItemMenu);
   const { personId, slides, keyNavigation } = useContext(CoresetStateContext);
@@ -150,7 +151,7 @@ export const CoresetNavigation = () => {
   const router = useRouter();
   const arrowLeft = useKeyPress("ArrowLeft");
   const arrowRight = useKeyPress("ArrowRight");
-  const path = getAsPath(router);
+  const {asPath:path} = router;
   const navigation = getNavigation(path, slides, personId);
   const currentPersonId = getCoresetPersonIdFromPath(router);
   const hasCoresetChanged = personId !== currentPersonId;
@@ -218,14 +219,14 @@ export const CoresetNavigation = () => {
     <>
       {falsy(isCoresetFrontpage(path)) && (
         <div
-          className={`${falsy(
-            isOpenItemMenu
-          ) ? "bg-gray-200/30" : "text-white"} fixed z-50 inline-flex p-4  top-20 left-8`}
+          className={`${
+            falsy(isOpenItemMenu) ? "bg-gray-300/30 text-teal" : "text-teal"
+          } fixed z-50 inline-flex p-4  top-20 left-8`}
         >
           <div className="">*</div>
           <div className="ml-2 ">
             <Title
-              className="px-2 py-2 border-b border-gray-800"
+              className="px-2 py-2 border-b border-teal"
               {...transformedPerson}
             />
             {falsy(isOpenItemMenu) && (
@@ -241,7 +242,7 @@ export const CoresetNavigation = () => {
         </div>
       )}
       {isOpenItemMenu && (
-        <CoresetItemsMenu
+        <SlidesGallery
           isOpenItemMenu={isOpenItemMenu}
           slides={slides}
           closeHandler={switchItemsMenuHandler}

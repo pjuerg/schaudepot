@@ -33,7 +33,8 @@ import {
  * TODO merge with SectionsFields, problem is design
  */
 
-export const FieldsFactory = ({ data, fields, className = "" }) => {
+export const FieldsFactory = ({ data, fields, className = "", ...props }) => {
+
   return (
     <div className={`${className} mb-16`}>
       {fields.map((rowStructure, index) => {
@@ -58,6 +59,8 @@ export const FieldsFactory = ({ data, fields, className = "" }) => {
             <BasicDescriptionFieldFactory
               key={index}
               dataAtKey={objFromString}
+              rowStructure={rowStructure}
+              {...props}
             />
           );
         }
@@ -73,6 +76,7 @@ export const FieldsFactory = ({ data, fields, className = "" }) => {
               key={index}
               dataAtKey={dataAtKey}
               rowStructure={rowStructure}
+              {...props}
             />
           );
         }
@@ -83,6 +87,7 @@ export const FieldsFactory = ({ data, fields, className = "" }) => {
               key={index}
               dataAtKey={dataAtKey}
               rowStructure={rowStructure}
+              {...props}
             />
           );
         } else {

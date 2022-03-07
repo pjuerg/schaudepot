@@ -4,11 +4,11 @@
 
 /* purgecss start ignore */
 
-.field-markdown-styles {
-  @apply text-lg;
+.slide-markdown-styles {
+  @apply text-base leading-tight;
 
   h3 {
-    @apply pt-8 pb-4 text-2xl serifMedium;
+    @apply pt-8 pb-4 text-lg font-bold;
   }
   p {
     @apply pb-2;
@@ -27,47 +27,3 @@
 }
 
 /* purgecss end ignore */
-
-/* ** images ** */
-
-/* ** utils ** */
-
-.anchorHtml {
-  @apply text-gray-600 hover:text-red;
-}
-.bg-white-alpha-60 {
-  background-color: rgba(255, 255, 255, 0.6);
-}
-.btn-bg-transition {
-  @apply px-2 transition-colors duration-200 ease-in rounded-sm;
-}
-.btn-bg-transition--gray {
-  @apply hover:bg-gray-300;
-}
-
-.btn-bg-transition--white:hover {
-  background-color: rgba(255, 255, 255, 0.6);
-}
-
-.serifSemibold {
-  @apply font-serif font-semibold tracking-wide;
-}
-
-.serifMedium {
-  @apply font-serif font-medium tracking-wide;
-}
-
-.loadingCentered {
-  @apply justify-center py-48;
-}
-
-.bottom_fade {
-  width: 100%;
-  height: 100px;
-  z-index: 1;
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-  background: url("/css/bottom-fade.png") bottom center no-repeat;
-} 
-

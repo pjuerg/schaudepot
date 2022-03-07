@@ -7,11 +7,6 @@
   which gets styles with different subclasses like @see http://smacss.com
 
   Different cases for LazyLoadImage
-  1. linkedArtImg--itemGallery
-  2. linkedArtImg--personGallery
-  3. linkedArtImg--itemDetail
-  4. linkedArtImg--personDetail
-  5. linkedArtImg--imageZoom
 
 */
 
@@ -33,118 +28,11 @@
   filter: grayscale(0);
 }
 
-/* *** itemGaller image & personGallery image *** */
 
-.linkedArtImg--personGallery,
-.linkedArtImg--itemGallery {
-  @apply h-full;
-
-  .linkedArtImg-wrapper {
-    @apply flex flex-col justify-center h-full;
-    @apply hover:text-red;
-  }
-  .linkedArtImg-wrapper:hover {
-    figcaption > div:first-child {
-      @apply underline;
-    }
-    .linkedArtImg-src {
-      transition: 0.3s ease-in-out;
-      filter: grayscale(100%);
-    }
-  }
-}
-/* *** personGallery image *** */
-
-.linkedArtImg--personGallery {
-  .linkedArtImg-wrapper {
-    @apply justify-start  !important;
-  }
-}
-
-/* *** detail item image && detail artist image *** */
-
-/* detail image layout  to fit into viewport
-* or scale it its to small
-*/
-.linkedArtImg--itemDetail {
-  @apply min-h-[55vh];
-}
-
-.linkedArtImg--personDetail {
-  @apply min-h-[35vh];
-}
-
-.linkedArtImg--personDetail,
-.linkedArtImg--itemDetail {
-  @apply flex items-center justify-center mb-16 md:items-start md:justify-start;
-}
-
-.linkedArtImg--itemDetail,
-.linkedArtImg--personDetail {
-  .linkedArtImg-wrapper {
-    @apply flex w-full h-auto;
-  }
-  .linkedArtImg-src {
-    @apply h-auto min-w-full;
-  }
-}
-
-/* state s-fitInHeight is not exactly portrait, something liken width / height < 0.6 */
-.s-fitInHeight.linkedArtImg--itemDetail {
-  @apply h-[55vh];
-}
-.s-fitInHeight.linkedArtImg--personDetail {
-  @apply h-[35vh];
-}
-.s-fitInHeight.linkedArtImg--itemDetail,
-.s-fitInHeight.linkedArtImg--personDetail {
-  .linkedArtImg-wrapper {
-    @apply w-auto h-full;
-  }
-  .linkedArtImg-src {
-    @apply w-auto h-full;
-  }
-}
-
-/* detail image icon, hover state */
-
-.linkedArtImg--personDetail,
-.linkedArtImg--itemDetail {
-  .linkedArtImg-icon {
-    @apply absolute z-10 flex items-center justify-center w-8 h-8 text-2xl rounded-sm shadow-md right-4 bottom-4;
-    background-color: rgba(255, 255, 255, 0.6);
-  }
-
-  .linkedArtImg-icon:hover,
-  .linkedArtImg-wrapper:hover .linkedArtImg-src {
-    @apply grayscale;
-  }
-
-  .linkedArtImg-wrapper .linkedArtImg-icon {
-    @apply text-4xl transition-all duration-500 ease-in-out transform scale-100;
-  }
-
-  .linkedArtImg-wrapper:hover .linkedArtImg-icon {
-    @apply scale-110;
-    background-color: rgba(255, 255, 255, 0.9);
-  }
-}
-
-/* *** zoom  image *** */
-
-.linkedArtImg--imageZoom {
-  @apply relative z-0 h-[100vh];
-
-  .linkedArtImg-wrapper {
-    @apply flex items-center justify-center h-full;
-  }
-  .linkedArtImg-src {
-    @apply h-[98%] w-[98%] pb-[1%] pt-[0.5%] border-0 object-contain;
-  }
-}
+/* *** slide image *** */
 
 .linkedArtImg--slide {
-   @apply h-full; 
+   @apply h-full drop-shadow-md; 
 
   .linkedArtImg-wrapper {
     @apply flex flex-col items-center justify-center h-full transform-none;
@@ -154,8 +42,11 @@
   
   }
 }
+
+/* *** slide slidePortrait *** */
+
 .linkedArtImg--slidePortrait{
-   @apply h-[80%]; 
+   @apply h-[80%] drop-shadow-md;
 
   .linkedArtImg-wrapper {
     @apply flex flex-col items-center justify-center h-full transform-none;
@@ -165,6 +56,8 @@
   
   }
 }
+
+/* *** coreset menu gallery*** */
 
 .linkedArtImg--coresetMenu{
    @apply h-full; 

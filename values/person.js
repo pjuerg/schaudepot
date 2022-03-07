@@ -18,7 +18,7 @@ import {
   BORN,
   DIED,
   ADDITONAL_MEDIA,
-} from "../utils/constants";
+} from "./constants";
 
 
 import {
@@ -41,7 +41,6 @@ import {
   pathDiedTookPlaceAt,
   addPropAdditionalMedia,
 } from "./valueHelper";
-import { LABEL } from "../utils/getter";
 
 /*
  * *** person value object ***
@@ -90,7 +89,7 @@ export const transformPerson = maybe(
     addPropByPath("died.timespan", pathDiedTimespan),
     addPropByPath("born.timespan", pathBornTimespan),
     addPropByPath("born.took_place_at", pathBornTookPlaceAt),
-    renameKeys({ _label: LABEL }),
+    renameKeys({ _label: "label" }),
     omit(["@context", "type"])
   )
 );

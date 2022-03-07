@@ -7,7 +7,7 @@ import {
   TIMESPAN,
   ADDITONAL_MEDIA,
   SUBJECT_OF,
-} from "../utils/constants";
+} from "./constants";
 
 /*
  *  *** physical object menu structure  ***

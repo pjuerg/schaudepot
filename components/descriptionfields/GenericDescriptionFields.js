@@ -17,31 +17,39 @@ import length from "ramda/src/length";
 
 import { filterAtId } from "../../libs/rmd-lib/filterAtId";
 import { regExFilter, condLink } from "../../utils/utilsRoutes";
-import { LABEL } from "../../utils/getter";
 import {
   FORMAT_INTERNAL_LINK,
   FORMAT_TEXT_HTML,
   FORMAT_TEXT_URI_LIST,
 } from "../../utils/utilsFields";
+import { truthy } from "../../libs/rmd-lib/truthy";
 
 /*
  * *** GenericDescriptionFields  ***
  * ----------------------------------
  */
 
-export const DescriptionLabel = ({ label = "", multipleValues, children }) => (
-  <dl
-    className={`flex flex-col  ${
-      !multipleValues ? "py-2.5" : "py-1"
-    } lg:flex-row`}
-  >
-    <dt className="flex-none py-1 text-sm text-gray-600 md:py-0 lg:w-36 xl:w-44 lg:pr-4 ">
-      {label}
-      {label && ":"}
-    </dt>
-    <dd>{children}</dd>
-  </dl>
-);
+export const DescriptionLabel = ({
+  classNameDesriptionLabelConfigs,
+  label = "",
+  multipleValues,
+  children,
+}) => {
+  let py = !multipleValues ? "py-2.5" : "py-1";
+  py = classNameDesriptionLabelConfigs?.py ?? py;
+
+  return (
+    <dl className={`${py} flex flex-col lg:flex-row`}>
+      <dt
+        className={`flex-none text-sm text-gray-600 md:py-0 lg:w-36 xl:w-44 lg:pr-4`}
+      >
+        {label}
+        {label && ":"}
+      </dt>
+      <dd>{children}</dd>
+    </dl>
+  );
+};
 DescriptionLabel.propTypes = {
   label: PropTypes.string,
   multipleValues: PropTypes.bool,
@@ -49,18 +57,16 @@ DescriptionLabel.propTypes = {
 };
 
 const FilterLink = ({ label, value, href, ...props }) => {
-   return (
-
-  <DescriptionLabel label={label} {...props}>
-    <dd>
+  return (
+    <DescriptionLabel label={label} {...props}>
       <span className="inline-block my-1 lg:my-0 px-3 py-0.5 serifSemibold rounded-sm transition-colors duration-200 text-gray-100 bg-gray-700 text-[13px] hover:bg-red-light">
         <Link href={href}>
           <a>{value}</a>
         </Link>
       </span>
-    </dd>
-  </DescriptionLabel>
-)};
+    </DescriptionLabel>
+  );
+};
 FilterLink.propTypes = {
   label: PropTypes.string,
   values: PropTypes.string,
@@ -69,11 +75,9 @@ FilterLink.propTypes = {
 
 const InternalLink = ({ href, value, label, ...props }) => (
   <DescriptionLabel label={label} {...props}>
-    <dd>
-      <Link href={href}>
-        <a className="underline">{value}</a>
-      </Link>
-    </dd>
+    <Link href={href}>
+      <a className="underline">{value}</a>
+    </Link>
   </DescriptionLabel>
 );
 InternalLink.propTypes = {
@@ -84,7 +88,7 @@ InternalLink.propTypes = {
 
 const HtmlText = ({ value, label, ...props }) => (
   <DescriptionLabel label={label} {...props}>
-    <dd
+    <div
       className="field-markdown-styles"
       dangerouslySetInnerHTML={{ __html: value }}
     />
@@ -97,11 +101,9 @@ HtmlText.propTypes = {
 
 const ExternalLink = ({ value, label, ...props }) => (
   <DescriptionLabel label={label} {...props}>
-    <dd className="text-lg">
-      <a className="underline cursor-pointer" href={value}>
-        {value}
-      </a>
-    </dd>
+    <a className="text-lg underline cursor-pointer" href={value}>
+      {value}
+    </a>
   </DescriptionLabel>
 );
 ExternalLink.propTypes = {
@@ -109,13 +111,13 @@ ExternalLink.propTypes = {
   label: PropTypes.string,
 };
 
-const Text = ({ value, label }) => (
-  <DescriptionLabel label={label}>
-    <dd className="text-lg">
-        {value}
-    </dd>
+const Text = ({ value, label, classNameFieldConfigs, ...props }) => {
+ const textSize =  classNameFieldConfigs?.textSize ?? "text-lg";
+ return  (
+  <DescriptionLabel label={label} {...props}>
+    <div className={`${textSize}`}>{value}</div>
   </DescriptionLabel>
-);
+)};
 Text.propTypes = {
   value: PropTypes.string,
   label: PropTypes.string,
@@ -123,20 +125,28 @@ Text.propTypes = {
 
 const isFilter = test(regExFilter);
 
-export const BasicDescriptionFieldFactory = ({ dataAtKey }) => {
+export const BasicDescriptionFieldFactory = ({
+  dataAtKey,
+  rowStructure,
+  ...props
+}) => {
   const { format } = dataAtKey;
+  const { textOnly } = rowStructure;
   const link = condLink(dataAtKey);
 
-  if (isFilter(link)) {
-    return <FilterLink {...dataAtKey} href={link}/>;
+  console.log("dataAtKey", dataAtKey);
+  if (truthy(textOnly)) {
+    return <Text {...dataAtKey} {...props} />;
+  } else if (isFilter(link)) {
+    return <FilterLink href={link} {...dataAtKey} {...props} />;
   } else if (!isFilter(link) && isNil(format)) {
-    return <Text {...dataAtKey} />;
+    return <Text {...dataAtKey} {...props} />;
   } else if (format === FORMAT_INTERNAL_LINK) {
-    return <InternalLink {...dataAtKey} href={link}/>;
+    return <InternalLink href={link} {...dataAtKey} {...props} />;
   } else if (format === FORMAT_TEXT_HTML) {
-    return <HtmlText {...dataAtKey} />;
+    return <HtmlText {...dataAtKey} {...props} />;
   } else if (format === FORMAT_TEXT_URI_LIST) {
-    return <ExternalLink {...dataAtKey} />;
+    return <ExternalLink {...dataAtKey} {...props} />;
   } else {
     return null;
   }
@@ -147,8 +157,10 @@ BasicDescriptionFieldFactory.propTypes = {
 
 export const BasicDescriptionFieldsByArrayWithDataId = ({
   dataAtKey,
-  rowStructure: { idData },
+  rowStructure,
+  ...props
 }) => {
+  const { idData } = rowStructure;
   const arrDataAtKey = filterAtId(idData, dataAtKey);
 
   // break
@@ -157,7 +169,12 @@ export const BasicDescriptionFieldsByArrayWithDataId = ({
   return (
     <>
       {arrDataAtKey.map((dataObj, index) => (
-        <BasicDescriptionFieldFactory key={index} dataAtKey={dataObj} />
+        <BasicDescriptionFieldFactory
+          key={index}
+          dataAtKey={dataObj}
+          rowStructure={rowStructure}
+          {...props}
+        />
       ))}
     </>
   );
@@ -168,29 +185,38 @@ BasicDescriptionFieldsByArrayWithDataId.propTypes = {
 };
 
 // countLabelVarations: [{label}, {label},...] -> Number
-const countLabelVarations = compose(equals(1), length, uniq, pluck(LABEL));
+const countLabelVarations = compose(equals(1), length, uniq, pluck("label"));
 
 export const BasicDescriptionFieldsByArrayWithoutDataId = ({
   dataAtKey,
-  rowStructure: { label },
+  rowStructure,
+  ...props
 }) => {
   // break
   if (isEmpty(dataAtKey)) return null;
 
+  const { label } = rowStructure;
   const hasGroupOneLabel = countLabelVarations(dataAtKey);
 
   return (
     <>
       {dataAtKey.map((dataObj, index) => {
         // add label from rowstructure if necessary
-        dataObj = unless(has(LABEL), assoc(LABEL, label))(dataObj);
+        dataObj = unless(has("label"), assoc("label", label))(dataObj);
         // if all labels are the same only show the first label
         // easy hack just empty string for label
         if (hasGroupOneLabel && index > 0) {
           dataObj.label = "";
         }
         dataObj = assoc("multipleValues", true, dataObj);
-        return <BasicDescriptionFieldFactory key={index} dataAtKey={dataObj} />;
+        return (
+          <BasicDescriptionFieldFactory
+            key={index}
+            dataAtKey={dataObj}
+            rowStructure={rowStructure}
+            {...props}
+          />
+        );
       })}
     </>
   );

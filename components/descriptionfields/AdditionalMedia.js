@@ -8,7 +8,7 @@ import __ from "ramda/src/__";
 import tail from "ramda/src/tail";
 
 import { splitAtLastSlash } from "../../libs/rmd-lib/splitAtLastSlash";
-import { ACCESS_POINT } from "../../utils/constants";
+import { ACCESS_POINT } from "../../values/constants";
 import { GATEWAY } from "../../utils/api";
 import {
   getImageData,

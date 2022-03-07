@@ -20,8 +20,7 @@ import {
   HYDRA_MEMBER,
   IDENTIFIED_BY,
   _LABEL,
-} from "../utils/constants";
-import { LABEL } from "../utils/getter";
+} from "./constants";
 
 /*
  * *** delete empty sections in structure  ***
@@ -48,7 +47,7 @@ export const findByIdentifier = curry((identifier, obj) =>
 // path to data call side to API_SITE, like about text
 export const pathCarriesHtml = path(["carries", 0, CONTENT]);
 
-const isWithLabel = anyPass([has("idData"), has(LABEL)]);
+const isWithLabel = anyPass([has("idData"), has('label')]);
 
 // add labels for fields with no label in linkedart
 // labels are fetched in api/site with same structure like linkart
@@ -68,7 +67,7 @@ export const addLabelsFromSiteApi = curry(
       const identifier = `${valuePrefix}.${key}`;
 
       return assoc(
-        LABEL,
+        'label',
         findLabelByIdentifier(key, identifier, dataSite),
         obj
       );

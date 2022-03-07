@@ -18,7 +18,7 @@ import {
   TIMESPAN,
   STANDART_OMITS,
   ACCESS_POINT,
-} from "../utils/constants";
+} from "./constants";
 import {
   lastSlashId,
   renameKeysListing,
@@ -39,7 +39,6 @@ import {
   addPropAdditionalMedia,
   mapRenameLabelToValue,
 } from "./valueHelper";
-import { LABEL } from "../utils/getter";
 
 /*
  * *** PhysicalObject value object ***
@@ -95,7 +94,7 @@ export const transformPhysicalObject = maybe(
     addPropAdditionalMedia(), // position is crucial for using util fns
     evolve(physicalObjectTransformer),
     addPropByPath(TIMESPAN, pathTimespan),
-    renameKeys({ _label: LABEL }),
+    renameKeys({ _label: "label" }),
     omit(["@context", "type", "equivalent"])
   )
 );

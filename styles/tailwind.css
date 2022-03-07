@@ -6,9 +6,6 @@
 @import "base.css";
 
 @import "tailwindcss/components";
-@import "components/canvasMobilFilter.css";
-@import "components/searchInfo.css";
-@import "components/filterSelect.css";
 @import "components/linkedArtImage.css";
 
 @import "tailwindcss/utilities";

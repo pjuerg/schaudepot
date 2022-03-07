@@ -3,7 +3,10 @@
 const colors = require("tailwindcss/colors");
 
 module.exports = {
-  content: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     fontFamily: {
       sans: ['"Source Sans Pro"', "sans-serif"],
@@ -20,6 +23,9 @@ module.exports = {
         light: "#CF2340",
         DEFAULT: "#CF233C",
         dark: "#991a2f",
+      },
+      teal: {
+        DEFAULT: "#4e5559",
       },
     },
     extend: {

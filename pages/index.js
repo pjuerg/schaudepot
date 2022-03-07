@@ -1,10 +1,7 @@
 // pages/index.js
 
-import Head from "next/head";
 import Link from "next/link";
 
-
-import { CenteredContainer } from "../components/coreset/CoresetDesignSystem";
 import { ROUTE_CORESET } from "../utils/routes";
 
 /*
@@ -14,19 +11,13 @@ import { ROUTE_CORESET } from "../utils/routes";
 
 export default function Frontpage() {
   return (
-    <div>
-      <Head>
-        <title>From Somewhere</title>
-        <meta name="description" content="DO" />
-      </Head>
-
-      <CenteredContainer className="h-screen">
-        <div>
-          <h1>Frontpage werkdatenbank</h1>
-          <Link href={`${ROUTE_CORESET}`}><a>Menüeintrag Schaudepots</a></Link>
-
-        </div>
-      </CenteredContainer>
-    </div>
+    <>
+      <div className="mx-auto text-xl mt-60 w-60 ">
+        <h1 className="font-bold">Frontpage werkdatenbank</h1>
+        <Link href={`${ROUTE_CORESET}`}>
+          <a className="underline">Menüeintrag Schaudepots</a>
+        </Link>
+      </div>
+    </>
   );
 }

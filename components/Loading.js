@@ -1,8 +1,7 @@
 // components/designSystem/Loading.js
 
 import PropTypes from "prop-types";
-import { Error404Block } from "../error404block";
-import LoadingSpin from "../../assets/loading.svg";
+import LoadingSpin from "../assets/loading.svg";
 
 /*
  *  *** Loading  ***
@@ -10,10 +9,30 @@ import LoadingSpin from "../../assets/loading.svg";
  *
  */
 
+
+const Error404Block = () => (
+  <div className="flex items-center justify-center h-[60vh]">
+    <div className="max-w-lg">
+      <h1>
+        Fehler 404{" "}
+        <span className="px-2 font-bold bg-yellow-600">
+          URL existiert nicht
+        </span>{" "}
+      </h1>
+      <p className="text-lg">
+        Bitte überprüfen Sie die URL in ihrem Webbrowser. Dieser Link existiert
+        nicht mehr. Die Ursache kann ein veralterter Link oder Bookmarkeintrag
+        sein.
+      </p>
+    </div>
+  </div>
+);
+
+
 export const Loading = ({ className = "", hasLabel = true }) => {
   return (
     <div
-      className={`${className} flex items-center serifSemibold text-xs  text-gray-400`}
+      className={`${className} flex items-center serifSemibold text-xs  text-teal`}
     >
       {hasLabel && <div>Laden...</div>}
       <div>

@@ -6,28 +6,29 @@ import useSWR from "swr";
 
 import compose from "ramda/src/compose";
 import head from "ramda/src/head";
+import prop from "ramda/src/prop";
 
 import { splitAtLastSlash } from "../../../libs/rmd-lib/splitAtLastSlash";
-import { second } from "../../../libs/rmd-lib/second";
 import { findAtId } from "../../../libs/rmd-lib/findAtId";
 import { fetcher } from "../../../libs/fetcher";
 
 import { getPreviewImage, getRepresentationCopyright, getRepresentationCreator, getRepresentationLegend, hasAnyRepresentationInfo } from "../../../utils/utilsImage";
-import { getAsPath } from "../../../utils/getter";
 import {
   CLASSIFIED_AS,
   IDENTIFIED_BY,
-  MEMBER_OF,
-  REFERRED_TO_BY,
+
   TIMESPAN,
-} from "../../../utils/constants";
+} from "../../../values/constants";
 import { apiSite } from "../../../utils/api";
 import { CoresetStateContext } from "../../../store/CoresetContext";
 import { removeEmptySectionsAndAddMissingLabels } from "../../../values/structureHelper";
 import { FieldsFactory } from "../FieldsFactory";
 import { LinkedArtImage } from "../../linkedartimage";
-import { ThreeColumnsContainer } from "../CoresetDesignSystem";
+import { ThreeColumnsContainer } from "../Container";
 import { maybe } from "../../../libs/rmd-lib/maybe";
+import { classNameFieldConfigs } from "./coverSlide";
+import Head from "next/head";
+import { pageSectionTitle } from "../../../depotConfigs";
 
 /*
  * *** Item Slide  ***
@@ -38,7 +39,7 @@ import { maybe } from "../../../libs/rmd-lib/maybe";
 const titleFields = [
   { key: TIMESPAN },
   { key: IDENTIFIED_BY, idData: "300404620" },
-  { key: CLASSIFIED_AS, idData: "300435443" },
+  { key: CLASSIFIED_AS, idData: "300435443", textOnly:true },
 ];
 
 const fieldStructure = [
@@ -47,7 +48,7 @@ const fieldStructure = [
 
 const useItemDataWithRouter = () => {
   const { items } = useContext(CoresetStateContext);
-  const itemId = compose(splitAtLastSlash, getAsPath)(useRouter());
+  const itemId = compose(splitAtLastSlash, prop("asPath"))(useRouter());
   return findAtId(itemId, items);
 };
 
@@ -63,26 +64,40 @@ export const ItemSlide = () => {
   );
   const imgData= maybe(head)(representation)
   return (
-    <div className="flex flex-col h-full">
-      <div className="grow h-[80%] ">
-        <LinkedArtImage
-          {...getPreviewImage(representation)}
-          className="linkedArtImg--slide"
-          showLoading={true}
-        />
-      </div>
 
-      <ThreeColumnsContainer className="px-12  h-[20%]">
-        <div>{itemData.label}</div>
-        <FieldsFactory data={itemData} {...head(cleandFieldStructure)} />
-        {imgData && hasAnyRepresentationInfo(imgData) && (
+      
+      <div className="flex flex-col h-full">
+        <div className="grow h-[80%] ">
+          <LinkedArtImage
+            {...getPreviewImage(representation)}
+            className="linkedArtImg--slide"
+            showLoading={true}
+          />
+        </div>
+
+        <ThreeColumnsContainer className="px-12  h-[20%]">
           <div>
-            <div>{getRepresentationLegend(imgData)}</div>
-            <div className="text-sm">{getRepresentationCreator(imgData)}</div>
-            <div className="text-sm">{getRepresentationCopyright(imgData)}</div>
+            <h1 className="pt-4 pb-2 font-bold leading-tight">
+              {itemData.label}
+            </h1>
+            <FieldsFactory
+              data={itemData}
+              {...head(cleandFieldStructure)}
+              {...classNameFieldConfigs}
+            />
           </div>
-        )}
-      </ThreeColumnsContainer>
-    </div>
+          <div></div>
+          {imgData && hasAnyRepresentationInfo(imgData) && (
+            <div>
+              <div>{getRepresentationLegend(imgData)}</div>
+              <div className="text-sm">{getRepresentationCreator(imgData)}</div>
+              <div className="text-sm">
+                {getRepresentationCopyright(imgData)}
+              </div>
+            </div>
+          )}
+        </ThreeColumnsContainer>
+      </div>
+    
   );
 };

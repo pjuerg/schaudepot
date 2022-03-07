@@ -1,12 +1,12 @@
-// components/coreset/CoresetComponentFactory.js
+// components/coreset/SlideFactory.js
 import PropTypes from "prop-types";
 import React from "react";
 
 import test from "ramda/src/test";
 
 /*
- * *** CoresetComponentFactory  ***
- * -------------------------------- 
+ * *** SlideFactory***
+ * ------------------- 
  */
 
 const regExCoverPage = /\/kernbestand\/\d+$/g;
@@ -18,7 +18,14 @@ const testItem = test(regExItemPage);
 const regExAddendumPage = /\/kernbestand\/\d+\/addendum$/;
 const testAddendum = test(regExAddendumPage);
 
-export const CoresetComponentFactory = ({ components, ...props  }) => {
+
+/**
+ * Abstraction for  
+ * @see CoresetItemsMenu
+ * @see [...slides]
+ * @remember cloneElement to pass the path-property
+ */
+export const SlideFactory = ({ components, ...props  }) => {
   const {path} = props;
   
   if (testCover(path)) {
@@ -32,14 +39,14 @@ export const CoresetComponentFactory = ({ components, ...props  }) => {
   } else {
     return (
       <p className="mt-64 text-2xl text-center text-red">
-        [...slides] CoresetComponentFactory match to router path
+        [...slides] SlideFactory match to router path
         <br />
         {path}
       </p>
     );
   }
 };
-CoresetComponentFactory.propTypes = {
+SlideFactory.propTypes = {
   path: PropTypes.string.isRequired,
   components: PropTypes.any,
 };

@@ -3,7 +3,7 @@ import { useRef, useState, useEffect, forwardRef, memo } from "react";
 import PropTypes from "prop-types";
 
 import Link from "next/link";
-import { Loading } from "../designSystem";
+import { Loading } from "../Loading";
 
 // import __ from "ramda/src/__";
 // import split from "ramda/src/split";
@@ -22,6 +22,10 @@ import { Loading } from "../designSystem";
 // const roundTo10 = (n) => Math.ceil(n / 10) * 10;
 // const isPortrait = (w, h) => roundTo10(w) > roundTo10(h);
 // const isPortraitByDimension = apply(isPortrait);
+
+export const IMAGE_SIZE_MD = "640";
+export const IMAGE_SIZE_XS = "320";
+
 
 export const useImageLoadingState = (imgRef, hasImage) => {
   const [loaded, setLoaded] = useState(false);

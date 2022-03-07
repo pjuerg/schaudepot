@@ -9,9 +9,10 @@ import insertAll from "ramda/src/insertAll";
 import map from "ramda/src/map";
 import thunkify from "ramda/src/thunkify";
 import assoc from "ramda/src/assoc";
+import prop from "ramda/src/prop";
 
 import { transformPhysicalObjectListing } from "../values/physicalObject";
-import { getMember } from "../utils/getter";
+
 import { ROUTE_ADDENDUM, ROUTE_CORESET, ROUTE_INTRO, ROUTE_ITEM } from "../utils/routes";
 
 /*
@@ -43,7 +44,7 @@ const getSlides = thunkify((items, personId) => {
 });
 
 // getSlides :: [{*}] -> {*}
-const getItems = compose(getMember, transformPhysicalObjectListing);
+const getItems = compose(prop("member"), transformPhysicalObjectListing);
 
 /**
  *

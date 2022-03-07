@@ -24,7 +24,6 @@ import { isNotEmpty } from "../libs/rmd-lib/isNotEmpty";
 
 import { ROUTE_ITEM, ROUTE_PERSON } from "./routes";
 
-
 /*
  *  *** utilsRoutes  ***
  * ---------------------

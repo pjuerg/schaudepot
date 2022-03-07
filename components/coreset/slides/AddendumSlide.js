@@ -1,18 +1,16 @@
 // components/coreset/slides/addendum.js
 
-import useSWR from "swr";
-import head from "ramda/src/head";
+import PropTypes from "prop-types";
 
-import { fetcher } from "../../../libs/fetcher";
-
-import { ATTRIBUTED_BY, LINK_PERSON_PAGE } from "../../../utils/constants";
-import { useSWRCoresetPerson } from "../../../utils/useSWRCoresetPerson";
+import { ATTRIBUTED_BY, LINK_PERSON_PAGE } from "../../../values/constants";
+import { useSWRCoresetPersonAndStructure } from "../../../utils/useSWRCoresetPerson";
 import { ROUTE_CORESET } from "../../../utils/routes";
-import { apiSite } from "../../../utils/api";
-import { removeEmptySectionsAndAddMissingLabels } from "../../../values/structureHelper";
-import { H2, PrimaryButtonXL, SecondaryButtonXL } from "../../designSystem";
+
+
 import { FieldsFactory } from "../FieldsFactory";
-import { TextContainer, TwoColumnsContainer } from "../CoresetDesignSystem";
+import { TextContainer, TwoColumnsContainer } from "../Container";
+import { classNameFieldConfigs } from "./coverSlide";
+import Link from "next/link";
 
 /*
  * *** Addendum Slide  ***
@@ -20,40 +18,72 @@ import { TextContainer, TwoColumnsContainer } from "../CoresetDesignSystem";
  * @remember all loadind in central page [...slides].js
  */
 
+
+const LinkButton = ({ className, label, url }) => (
+  <Link href={url}>
+    <a
+      className={`${className} inline-flex rounded-sm items-center transition-colors duration-200 ease-in  font-semibold border border-teal hover:bg-yellow-300 hover:border-yellow-300`}
+    >
+      {label}
+    </a>
+  </Link>
+);
+LinkButton.propTypes = {
+  className: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  wrapperClassName: PropTypes.string,
+};
+
+const PrimaryButtonXL = (props) => (
+  <LinkButton
+    {...props}
+  />
+);
+
+const SecondaryButtonXL = ({ className = "", ...props }) => (
+  <LinkButton
+    {...props}
+    className={`${className} px-4 py-2 text-teal `}
+  />
+);
+
+
+/**
+ * System to generate fields from linkedart-api 
+ */
 const coverFields = [
   { key: LINK_PERSON_PAGE, label: "in der Werkdatenbank" },
-  { key: ATTRIBUTED_BY },
+  { key: ATTRIBUTED_BY, textOnly:true },
 ];
-
 const fieldStructure = [{ fields: coverFields }];
 
 export const AddendumSlide = () => {
-    const personData = useSWRCoresetPerson();
-
-      const { data: dataSite } = useSWR(apiSite(), fetcher);
-
-      const cleandFieldStructure = removeEmptySectionsAndAddMissingLabels(
-        "person",
-        dataSite,
-        fieldStructure,
-        personData
-      );
-
+  // already loaded in @see [...slides].js
+  // @remember all loadind in central page [...slides].js
+  const { personData, cleandFieldStructure } =
+    useSWRCoresetPersonAndStructure(fieldStructure);
+ 
   return (
     <>
       <TwoColumnsContainer>
         <div></div>
         <TextContainer>
-          <H2>
+          <h1 className="text-xl font-bold">
             Weitere Informationen zu
             <br />
             {personData.label}
-          </H2>
-          <FieldsFactory data={personData} {...head(cleandFieldStructure)} />
-          {/* TODO Button in Fieldstructure */}
-          <h3 className="pb-3 text-sm text-gray-600">
-            Weitere mit
-          </h3>
+          </h1>
+          <br />
+          <br />
+          <br />
+          {/* <FieldsFactory
+            data={personData}
+            {...head(cleandFieldStructure)}
+            {...classNameDesriptionConfigs}
+          /> */}
+          <h3 className="pb-3 text-sm text-gray-600">Weiter mit</h3>
+ 
           <PrimaryButtonXL
             label={`Alle Kernbestände`}
             url={`${ROUTE_CORESET}`}
@@ -66,5 +96,5 @@ export const AddendumSlide = () => {
       </TwoColumnsContainer>
       {/* <CoresetCards className="mt-12" coresets={DEPOTS} /> */}
     </>
-  );    
+  );
 };

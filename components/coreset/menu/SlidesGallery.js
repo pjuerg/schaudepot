@@ -1,31 +1,33 @@
-// components/coreset/CoresetItemsMenu.js
+// components/coreset/navigation/gallery.js
 
 import { useContext } from "react";
 import { useRouter } from "next/router";
 import { AnimatePresence, motion } from "framer-motion";
 import thunkify from "ramda/src/thunkify";
 
-import useScrollBlock from "../../libs/hooks/useScrollBlock";
-import { splitAtLastSlash } from "../../libs/rmd-lib/splitAtLastSlash";
-import { findAtId } from "../../libs/rmd-lib/findAtId";
+import useScrollBlock from "../../../libs/hooks/useScrollBlock";
+import { splitAtLastSlash } from "../../../libs/rmd-lib/splitAtLastSlash";
+import { findAtId } from "../../../libs/rmd-lib/findAtId";
 
-import { animations } from "../../utils/animations";
-import { IMAGE_SIZE_MD } from "../../utils/constants";
-import { getPreviewImage } from "../../utils/utilsImage";
-import { CoresetComponentFactory } from "./CoresetComponentFactory";
-import { CoresetStateContext } from "../../store/CoresetContext";
-import { LinkedArtImage } from "../linkedartimage";
-import { IconSign } from "../designSystem";
+import { animations } from "../../../utils/animations";
+
+import { getPreviewImage } from "../../../utils/utilsImage";
+import { SlideFactory } from "../SlideFactory";
+import { CoresetStateContext } from "../../../store/CoresetContext";
+import { LinkedArtImage } from "../../linkedartimage";
+import { IMAGE_SIZE_MD } from "../../linkedartimage/LinkedArtImage";
 
 /*
- * *** CoresetMenu  ***
+ * *** SlidesGallery ***
  * ---------------------
  */
 
 const typoThumbClassname = "border-2 border-white p-4";
 
 const Thumb = ({ className = "", children }) => (
-  <div className={`${className} h-28  bg-gray-200  font-bold leading-none`}>
+  <div
+    className={`${className} h-28  bg-white font-bold leading-none drop-shadow-md`}
+  >
     {children}
   </div>
 );
@@ -61,32 +63,24 @@ const ThumbComponents = {
 };
 
 // TODO almost identical to @see CloseButton ImageZoom
-const CloseButton = ({clickHandler}) => {
+const CloseButton = ({ clickHandler }) => {
   return (
     <div
       onClick={clickHandler}
       className="absolute text-5xl leading-none cursor-pointer top-4 right-2 md:right-8 group"
     >
       <div>
-        <span className="pr-2 text-xs text-gray-100 serifSemibold group-hover:text-red ">
+        <span className="pr-2 text-xs text-teal group-hover:underline">
           schließen
         </span>
-        <IconSign
-          sign="&#10005;"
-          className="text-gray-100 group-hover:text-red"
-        />
+        <span className="text-teal" dangerouslySetInnerHTML={{ __html: "&#10005;" }} />
       </div>
     </div>
   );
 };
 
-/*
- * *** CoresetItemsMenu ***
- * -------------------------
- *
- */
 
-export const CoresetItemsMenu = ({ isOpenItemMenu, slides, closeHandler }) => {
+export const SlidesGallery = ({ isOpenItemMenu, slides, closeHandler }) => {
   const router = useRouter();
   const animation = isOpenItemMenu ? animations[0] : animations[2];
   const [blockScroll, allowScroll] = useScrollBlock();
@@ -111,7 +105,7 @@ export const CoresetItemsMenu = ({ isOpenItemMenu, slides, closeHandler }) => {
         variants={animation.variants}
         transition={animation.transition}
         onClick={closeClickHandler}
-        className="fixed left-4  top-20 pt-20 z-40 h-[calc(100vh-96px)] w-[calc(100vw-32px)] bg-gray-800 overflow-y-auto"
+        className="fixed left-0 top-10 pt-28 z-40 h-[calc(100vh-40px)]  bg-gray-300 overflow-y-auto"
       >
         <CloseButton clickHandler={closeClickHandler} />
         <div className="grid grid-cols-6 gap-2 px-16 ">
@@ -122,10 +116,7 @@ export const CoresetItemsMenu = ({ isOpenItemMenu, slides, closeHandler }) => {
                 className="p-2 cursor-pointer"
                 onClick={thumbClickHandler(route)}
               >
-                <CoresetComponentFactory
-                  path={route}
-                  components={ThumbComponents}
-                />
+                <SlideFactory path={route} components={ThumbComponents} />
               </div>
             ))}
         </div>

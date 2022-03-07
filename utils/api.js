@@ -1,5 +1,6 @@
 //  utils/api.js
 
+import { apiPath, gateway } from "../depotConfigs";
 import { exists } from "../libs/rmd-lib/exists";
 
 /*
@@ -7,9 +8,7 @@ import { exists } from "../libs/rmd-lib/exists";
  * --------------------------
  */
 
-export const GATEWAY = "https://werkdatenbank.bbk-sachsenanhalt.de";
-const API_PATH = "/linked-art.php";
-const GATEWAY_API_PATH = `${GATEWAY}${API_PATH}`;
+const GATEWAY_API_PATH = `${gateway}${apiPath}`;
 const API_PATH_PERSON = `${GATEWAY_API_PATH}/person`;
 const API_PHYSICAL_OBJECT = `${GATEWAY_API_PATH}/physical_object`;
 

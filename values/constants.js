@@ -1,31 +1,10 @@
-// utils/constants.js
+// values/constants.js
 
 /*
  *  *** Constants  ***
  * -------------------
  */
 
-
-
-
-
-export const DEPOTS = [
-  {
-    id: 19,
-  },
-  {
-    id: 27,
-  },
-  {
-    id: 35,
-  },
-];
-
-export const IMAGE_SIZE_MD = "640";
-export const IMAGE_SIZE_XS = "320";
-
-// ** global site **
-export const TITLE = "BBK, Bildende Kunst Sachsen-Anhalt";
 
 // export const BUTTON_COMPONENT = "button_component";
 export const BUTTON_COMPONENT_ITEMS_FROM_ARTIST = "Button_component_items_from_artist";
