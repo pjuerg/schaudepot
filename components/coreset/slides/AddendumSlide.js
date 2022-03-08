@@ -22,7 +22,7 @@ import Link from "next/link";
 const LinkButton = ({ className, label, url }) => (
   <Link href={url}>
     <a
-      className={`${className} inline-flex rounded-sm items-center transition-colors duration-200 ease-in  font-semibold border border-teal hover:bg-yellow-300 hover:border-yellow-300`}
+      className={`${className} inline-flex rounded-sm items-center transition-colors duration-200 ease-in  font-semibold border border-gray-500 hover:bg-yellow-300 hover:border-yellow-300`}
     >
       {label}
     </a>
@@ -36,12 +36,12 @@ LinkButton.propTypes = {
 };
 
 const PrimaryButtonXL = ({ className = "", ...props }) => (
-  <LinkButton className={`${className} px-4 py-2 bg-teal text-gray-100 hover:bg-yellow-400 hover:text-teal `} {...props} />
+  <LinkButton className={`${className} px-4 py-2 bg-gray-500 text-gray-100 hover:bg-yellow-400 hover:text-gray-800 `} {...props} />
 );
 
 const SecondaryButtonXL = ({ className = "", ...props }) => (
   <LinkButton
-    className={`${className} px-4 py-2 text-teal hover:bg-yellow-400`}
+    className={`${className} px-4 py-2 text-gray-800 hover:bg-yellow-400`}
     {...props}
   />
 );
@@ -67,7 +67,7 @@ export const AddendumSlide = () => {
       <TwoColumnsContainer>
         <div></div>
         <TextContainer>
-          <h1 className="text-xl font-bold">
+          <h1 className="text-xl font-bold leading-tight">
             Weitere Informationen zu
             <br />
             {personData.label}
@@ -80,7 +80,7 @@ export const AddendumSlide = () => {
             {...head(cleandFieldStructure)}
             {...classNameDesriptionConfigs}
           /> */}
-          <h3 className="pb-3 text-sm text-gray-600">Weiter mit</h3>
+          {/* <h3 className="pb-3 text-sm text-gray-600">Weiter mit</h3> */}
  
           <PrimaryButtonXL
             label={`Alle Kernbestände`}

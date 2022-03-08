@@ -4,7 +4,7 @@ import { LinkedArtImage } from "../linkedartimage";
 export const RepresentationPortraitImage = ({ representation }) => {
   const imgData = representation[0];
   return (
-    <div className="flex flex-col items-center justify-center h-full">
+    <div className="flex flex-col items-center justify-center h-full font-light">
       <LinkedArtImage
         {...getPreviewImage(representation)}
         className="linkedArtImg--slidePortrait"

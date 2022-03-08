@@ -43,6 +43,7 @@ import {
   SET_CORESET_PERSON_ID_ACTION,
   SET_CORESET_KEY_NAVIGATION,
   SUCCESS_LOAD_CORESET_ACTION,
+  IS_SLIDEGALLERY_OPEN_ACTION,
 } from "../../../store/CoresetContext";
 import { SlidesGallery } from "./SlidesGallery";
 
@@ -59,7 +60,7 @@ const LinkWidthDirection = ({
   children,
   disabled,
 }) => {
-  className = `${className} px-4 flex items-center`;
+  className = `${className} px-2 flex items-center`;
   return (
     <>
       {truthy(disabled) ? (
@@ -80,10 +81,12 @@ const LinkWidthDirection = ({
   );
 };
 
-const classNameIcon = "group-hover:text-yellow-400 text-teal text-4xl";
+const classNameIcon = "group-hover:text-yellow-400 text-gray-600 text-4xl";
 
 const Label = ({ className, children }) => (
-  <div className={`${className} text-sm group-hover:text-yellow-400 text-teal`}>
+  <div
+    className={`${className} text-sm group-hover:text-yellow-400 font-light text-gray-600`}
+  >
     {children}
   </div>
 );
@@ -91,20 +94,20 @@ const Label = ({ className, children }) => (
 const ToolsBar = ({
   isOpenItemMenu,
   navigation: { startUrl, previousUrl, nextUrl, index, total },
-  switchItemsMenuHandler,
+  switchSlidesGalleryHandler,
   ...props
 }) => {
   return (
     <div className={`flex items-center`}>
       <LinkWidthDirection
-        className={`-ml-4`}
+        className={`-ml-2`}
         url={startUrl}
         direction={-1}
         disabled={index === 0 ? true : false}
         {...props}
       >
         <MdFirstPage className={classNameIcon} />
-        <Label>Start</Label>
+        <Label className="-ml-1">Start</Label>
       </LinkWidthDirection>
 
       <LinkWidthDirection
@@ -122,7 +125,7 @@ const ToolsBar = ({
         url={nextUrl}
         direction={1}
         {...props}
-        disabled={index === total -1 ? true : false}
+        disabled={index === total - 1 ? true : false}
       >
         <MdChevronRight className={classNameIcon} />
       </LinkWidthDirection>
@@ -130,34 +133,41 @@ const ToolsBar = ({
       {/* open slideGallery */}
       <button
         className="flex items-center px-4 group"
-        onClick={switchItemsMenuHandler}
+        onClick={switchSlidesGalleryHandler}
       >
         <MdViewModule className={classNameIcon} />
-        <Label className="pl-1">Gallerie</Label>
+        <Label className="pl-0">Gallerie</Label>
       </button>
 
       {/* index counter */}
-      <div className="ml-2 px-2 py-0.5  text-sm text-gray-100 bg-teal">
-        {exists(index) && `${index + 1} | ${total}`}
+      <div className="-ml-3 px-2 py-0.5  text-sm text-gray-gray-600 font-light">
+        {exists(index) && (
+          <>
+            <span>{index + 1}</span>
+            <span className="px-1">von</span>
+            <span>{total}</span>
+          </>
+        )}
       </div>
     </div>
   );
 };
 
-const Title = ({ label, isOpenItemMenu, switchItemsMenuHandler }) => {
-  const classNameOpen = "hover:text-yellow-400 cursor-pointer";
-  const classNamneClosed = "border-b";
+const Title = ({ label, isOpenItemMenu, switchSlidesGalleryHandler }) => {
+  const classNameOpen =
+    "hover:bg-yellow-400 hover:text-gray-800 rounded-sm text-gray-100 cursor-pointer";
+  const classNamneClosed = "border-b text-gray-600";
   return (
     <h2
       className={`${
         isOpenItemMenu ? classNameOpen : classNamneClosed
-      } text-teal text-2xl font-semibold px-2 py-1  border-teal`}
+      } text-2xl font-light px-2 py-1  border-gray-600`}
       onClick={() => {
-        isOpenItemMenu && switchItemsMenuHandler();
+        isOpenItemMenu && switchSlidesGalleryHandler();
       }}
     >
       Schaudepot: {exists(label) ? label : "laden ..."}
-      <TypoStar className="absolute top-5 -left-3" />
+      {/* <TypoStar className="absolute top-5 -left-3" /> */}
     </h2>
   );
 };
@@ -200,7 +210,6 @@ const getNavigation = (path, slides, personId) => {
 
 export const Navigation = () => {
   const [isOpenItemMenu, openItemsMenu] = useState(false);
-  const switchItemsMenuHandler = () => openItemsMenu(!isOpenItemMenu);
   const { personId, slides, keyNavigation } = useContext(CoresetStateContext);
   const dispatch = useContext(CoresetDispatchContext);
   const router = useRouter();
@@ -216,6 +225,11 @@ export const Navigation = () => {
     shouldLoadCoreset ? apiCoreset(currentPersonId) : null,
     fetcher
   );
+
+  const switchSlidesGalleryHandler = () => {
+    openItemsMenu(!isOpenItemMenu);
+    dispatch({type: IS_SLIDEGALLERY_OPEN_ACTION,  payload: !isOpenItemMenu });
+  };
 
   // keystroke navigation
   // tricky! Needs a state in depotContext which is debounced,
@@ -275,7 +289,7 @@ export const Navigation = () => {
       <div className={`fixed z-50 inline-flex flex-col p-4 top-10 left-12`}>
         <Title
           isOpenItemMenu={isOpenItemMenu}
-          switchItemsMenuHandler={switchItemsMenuHandler}
+          switchSlidesGalleryHandler={switchSlidesGalleryHandler}
           {...transformedPerson}
         />
         {falsy(isOpenItemMenu) && (
@@ -283,7 +297,7 @@ export const Navigation = () => {
             isOpenItemMenu={isOpenItemMenu}
             navigation={navigation}
             clickHandler={pushRouteWithDirection(dispatch, router)}
-            switchItemsMenuHandler={switchItemsMenuHandler}
+            switchSlidesGalleryHandler={switchSlidesGalleryHandler}
           />
         )}
       </div>
@@ -291,7 +305,7 @@ export const Navigation = () => {
         <SlidesGallery
           isOpenItemMenu={isOpenItemMenu}
           slides={slides}
-          closeHandler={switchItemsMenuHandler}
+          closeHandler={switchSlidesGalleryHandler}
         />
       )}
     </>

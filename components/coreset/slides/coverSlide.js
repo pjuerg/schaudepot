@@ -27,8 +27,12 @@ import Head from "next/head";
  * @see GenericDescriptionFields.Fields
  */
 export const classNameFieldConfigs = {
-  classNameDesriptionLabelConfigs: { py: 0 },
-  classNameFieldConfigs: {textSize: 'text-sm'}
+  classNameDesriptionLabelConfigs: {
+    py: 0,
+    font: "font-light",
+    minW: "min-w-[6rem] ",
+  },
+  classNameFieldConfigs: { textSize: "text-sm font-base" },
 };
 
 

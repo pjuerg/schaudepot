@@ -75,7 +75,7 @@ export const ItemSlide = () => {
 
       <ThreeColumnsContainer className="px-12  h-[20%]">
         <div>
-          <h1 className="pt-4 pb-1 font-semibold leading-tight">
+          <h1 className="pt-4 pb-1 leading-tight ">
             {itemData.label}
           </h1>
           <FieldsFactory
@@ -86,7 +86,7 @@ export const ItemSlide = () => {
         </div>
 
         {imgData && hasAnyRepresentationInfo(imgData) && (
-          <div className="pt-16 ">
+          <div className="pt-16 font-light">
             <div className="text-sm">Bildnachweis</div>
             <div>{getRepresentationLegend(imgData)}</div>
             <div className="text-sm">{getRepresentationCreator(imgData)}</div>

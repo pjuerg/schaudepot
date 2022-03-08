@@ -37,11 +37,13 @@ export const DescriptionLabel = ({
 }) => {
   let py = !multipleValues ? "py-2.5" : "py-1";
   py = classNameDesriptionLabelConfigs?.py ?? py;
+  const font = classNameDesriptionLabelConfigs?.font ?? "";
+  const minW = classNameDesriptionLabelConfigs?.minW ?? "min-w-[8rem]"; 
 
   return (
     <dl className={`${py} flex flex-col lg:flex-row`}>
       <dt
-        className={`flex-none text-sm text-gray-600 md:py-0 lg:w-36 xl:w-44 lg:pr-4`}
+        className={`${font} ${minW} flex-none text-sm text-gray-600 md:py-0 lg:pr-4`}
       >
         {label}
         {label && ":"}
@@ -112,12 +114,13 @@ ExternalLink.propTypes = {
 };
 
 const Text = ({ value, label, classNameFieldConfigs, ...props }) => {
- const textSize =  classNameFieldConfigs?.textSize ?? "text-lg";
- return  (
-  <DescriptionLabel label={label} {...props}>
-    <div className={`${textSize}`}>{value}</div>
-  </DescriptionLabel>
-)};
+  const textSize = classNameFieldConfigs?.textSize ?? "text-lg";
+  return (
+    <DescriptionLabel label={label} {...props}>
+      <div className={`${textSize}`}>{value}</div>
+    </DescriptionLabel>
+  );
+};
 Text.propTypes = {
   value: PropTypes.string,
   label: PropTypes.string,
