@@ -23,8 +23,9 @@ import { ROUTE_ADDENDUM, ROUTE_CORESET, ROUTE_INTRO, ROUTE_ITEM } from "../utils
 export const SET_CORESET_PERSON_ID_ACTION = "SET_CORESET_PERSON_ID_ACTION";
 export const LOAD_CORESET_ACTION = "LOAD_CORESET_ACTION";
 export const SUCCESS_LOAD_CORESET_ACTION = "SUCCESS_LOAD_CORESET_ACTION";
-export const SET_CORESET_ANIMATION_DIRECTION = "SET_CORESET_ANIMATION_DIRECTION";
-export const SET_CORESET_KEY_NAVIGATION = "SET_CORESET_KEY_NAVIGATION";
+export const SET_CORESET_ANIMATION_DIRECTION_ACTION =
+  "SET_CORESET_ANIMATION_DIRECTION_ACTION";
+export const SET_CORESET_KEY_NAVIGATION_ACTION = "SET_CORESET_KEY_NAVIGATION_ACTION";
 export const IS_SLIDEGALLERY_OPEN_ACTION = "IS_SLIDEGALLERY_OPEN_ACTION";
 
 /* Create the Context
@@ -59,7 +60,7 @@ function coresetReducer(draft, action) {
   switch (action.type) {
     case IS_SLIDEGALLERY_OPEN_ACTION:
       return assoc("isSlidegalleryOpen", action.payload, draft);
-      
+
     case SET_CORESET_PERSON_ID_ACTION:
       return evolve(
         {
@@ -91,10 +92,10 @@ function coresetReducer(draft, action) {
         draft
       );
 
-    case SET_CORESET_ANIMATION_DIRECTION:
+    case SET_CORESET_ANIMATION_DIRECTION_ACTION:
       return assoc("direction", action.payload, draft);
 
-    case SET_CORESET_KEY_NAVIGATION:
+    case SET_CORESET_KEY_NAVIGATION_ACTION:
       return assoc("keyNavigation", action.payload, draft);
 
     default:

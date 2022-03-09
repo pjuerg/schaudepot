@@ -43,9 +43,9 @@ import {
   CoresetDispatchContext,
   CoresetStateContext,
   LOAD_CORESET_ACTION,
-  SET_CORESET_ANIMATION_DIRECTION,
+  SET_CORESET_ANIMATION_DIRECTION_ACTION,
   SET_CORESET_PERSON_ID_ACTION,
-  SET_CORESET_KEY_NAVIGATION,
+  SET_CORESET_KEY_NAVIGATION_ACTION,
   SUCCESS_LOAD_CORESET_ACTION,
   IS_SLIDEGALLERY_OPEN_ACTION,
 } from "../../../store/CoresetContext";
@@ -209,7 +209,7 @@ export const getCoresetPersonIdFromPath = compose(
 // Navigate with route.push to trigger the right animation
 const pushRouteWithDirection = curry((dispatch, router, direction, url, e) => {
   e.preventDefault();
-  dispatch({ type: SET_CORESET_ANIMATION_DIRECTION, payload: direction });
+  dispatch({ type: SET_CORESET_ANIMATION_DIRECTION_ACTION, payload: direction });
   url && router.push(url);
 });
 
@@ -260,18 +260,18 @@ export const Navigation = () => {
   useEffect(() => {
     const { nextUrl, previousUrl } = navigation;
     const dispatchResetKeyNavigation = () =>
-      dispatch({ type: SET_CORESET_KEY_NAVIGATION, payload: false });
+      dispatch({ type: SET_CORESET_KEY_NAVIGATION_ACTION, payload: false });
     const debounceReset = debounce(dispatchResetKeyNavigation, 350);
 
     if (truthy(arrowLeft) && falsy(keyNavigation) && exists(previousUrl)) {
-      dispatch({ type: SET_CORESET_ANIMATION_DIRECTION, payload: -1 });
-      dispatch({ type: SET_CORESET_KEY_NAVIGATION, payload: true });
+      dispatch({ type: SET_CORESET_ANIMATION_DIRECTION_ACTION, payload: -1 });
+      dispatch({ type: SET_CORESET_KEY_NAVIGATION_ACTION, payload: true });
 
       router.push(previousUrl);
       debounceReset();
     } else if (truthy(arrowRight) && falsy(keyNavigation) && exists(nextUrl)) {
-      dispatch({ type: SET_CORESET_ANIMATION_DIRECTION, payload: 1 });
-      dispatch({ type: SET_CORESET_KEY_NAVIGATION, payload: true });
+      dispatch({ type: SET_CORESET_ANIMATION_DIRECTION_ACTION, payload: 1 });
+      dispatch({ type: SET_CORESET_KEY_NAVIGATION_ACTION, payload: true });
       router.push(nextUrl);
       debounceReset();
     }
