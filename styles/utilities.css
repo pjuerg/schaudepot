@@ -8,7 +8,7 @@
   @apply text-base leading-tight;
 
   h3 {
-    @apply pt-8 pb-4 text-4xl font-light first-letter:uppercase;
+    @apply pt-8 pb-4 font-bold first-letter:uppercase;
   }
   p {
     @apply pb-2;

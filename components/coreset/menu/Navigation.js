@@ -29,8 +29,12 @@ import { second } from "../../../libs/rmd-lib/second";
 import { castToInt } from "../../../libs/rmd-lib/castToInt";
 import { useKeyPress } from "../../../libs/hooks/useKeyPress";
 import { fetcher } from "../../../libs/fetcher";
+import {
+  useResponsiveShortcut,
+  SM,
+} from "../../../libs/hooks/useResponsiveShortcut";
 
-import TypoStar from "../../../assets/typoStar.svg";
+// import TypoStar from "../../../assets/typoStar.svg";
 
 import { apiCoreset } from "../../../utils/api";
 import { useSWRCoresetPerson } from "../../../utils/useSWRCoresetPerson";
@@ -60,7 +64,7 @@ const LinkWidthDirection = ({
   children,
   disabled,
 }) => {
-  className = `${className} px-2 flex items-center`;
+  className = `${className} px-1 md:px-2 flex items-center`;
   return (
     <>
       {truthy(disabled) ? (
@@ -92,13 +96,16 @@ const Label = ({ className, children }) => (
 );
 
 const ToolsBar = ({
+  isMobil,
   isOpenItemMenu,
   navigation: { startUrl, previousUrl, nextUrl, index, total },
   switchSlidesGalleryHandler,
   ...props
 }) => {
   return (
-    <div className={`flex items-center`}>
+    <div
+      className={`flex items-center lg:border-t border-gray-600 text-gray-600`}
+    >
       <LinkWidthDirection
         className={`-ml-2`}
         url={startUrl}
@@ -107,7 +114,7 @@ const ToolsBar = ({
         {...props}
       >
         <MdFirstPage className={classNameIcon} />
-        <Label className="-ml-1">Start</Label>
+        {!isMobil && <Label className="md:-ml-1">Start</Label>}
       </LinkWidthDirection>
 
       <LinkWidthDirection
@@ -136,15 +143,19 @@ const ToolsBar = ({
         onClick={switchSlidesGalleryHandler}
       >
         <MdViewModule className={classNameIcon} />
-        <Label className="pl-0">Gallerie</Label>
+        {!isMobil && <Label className="pl-0">Gallerie</Label>}
       </button>
 
       {/* index counter */}
-      <div className="-ml-3 px-2 py-0.5  text-sm text-gray-gray-600 font-light">
+      <div className="-ml-3 md:px-2 py-0.5  text-sm text-gray-gray-600 font-light">
         {exists(index) && (
           <>
             <span>{index + 1}</span>
-            <span className="px-1">von</span>
+            {!isMobil ? (
+              <span className="px-1">von</span>
+            ) : (
+              <span className="px-0.5">|</span>
+            )}
             <span>{total}</span>
           </>
         )}
@@ -153,22 +164,31 @@ const ToolsBar = ({
   );
 };
 
-const Title = ({ label, isOpenItemMenu, switchSlidesGalleryHandler }) => {
+const Title = ({
+  isMobil,
+  label,
+  isOpenItemMenu,
+  switchSlidesGalleryHandler,
+}) => {
   const classNameOpen =
-    "hover:bg-yellow-400 hover:text-gray-800 rounded-sm text-gray-100 cursor-pointer";
-  const classNamneClosed = "border-b text-gray-600";
+    "hover:bg-yellow-400 hover:text-gray-800 rounded-sm text-gray-100 cursor-pointer ";
+  const classNamneClosed = "text-gray-600 mr-8";
   return (
-    <h2
-      className={`${
-        isOpenItemMenu ? classNameOpen : classNamneClosed
-      } text-2xl font-light px-2 py-1  border-gray-600`}
-      onClick={() => {
-        isOpenItemMenu && switchSlidesGalleryHandler();
-      }}
-    >
-      Schaudepot: {exists(label) ? label : "laden ..."}
-      {/* <TypoStar className="absolute top-5 -left-3" /> */}
-    </h2>
+    <div className="w-full">
+      <h2
+        className={`${
+          isOpenItemMenu ? classNameOpen : classNamneClosed
+        }  inline-block text-sm md:text-lg px-2 py-1 leading-tight border-gray-600 `}
+        onClick={() => {
+          isOpenItemMenu && switchSlidesGalleryHandler();
+        }}
+      >
+        <span className="pr-1">Schaudepot:</span>
+        {isMobil && <br />}
+        {exists(label) ? label : "laden ..."}
+        {/* <TypoStar className="absolute top-5 -left-3" /> */}
+      </h2>
+    </div>
   );
 };
 
@@ -213,6 +233,8 @@ export const Navigation = () => {
   const { personId, slides, keyNavigation } = useContext(CoresetStateContext);
   const dispatch = useContext(CoresetDispatchContext);
   const router = useRouter();
+  const responsiveShortcut = useResponsiveShortcut();
+  const isMobil = responsiveShortcut === SM;
   const arrowLeft = useKeyPress("ArrowLeft");
   const arrowRight = useKeyPress("ArrowRight");
   const { asPath: path } = router;
@@ -228,7 +250,7 @@ export const Navigation = () => {
 
   const switchSlidesGalleryHandler = () => {
     openItemsMenu(!isOpenItemMenu);
-    dispatch({type: IS_SLIDEGALLERY_OPEN_ACTION,  payload: !isOpenItemMenu });
+    dispatch({ type: IS_SLIDEGALLERY_OPEN_ACTION, payload: !isOpenItemMenu });
   };
 
   // keystroke navigation
@@ -284,16 +306,21 @@ export const Navigation = () => {
     }
   }, [dataCoreset, path, dispatch]);
 
+  const className = isOpenItemMenu ? "bg-teal w-full" : "bg-gray-100/90";
   return (
     <>
-      <div className={`fixed z-50 inline-flex flex-col p-4 top-10 left-12`}>
+      <div
+        className={`${className} fixed z-50 flex pr-4 pt-6 pb-4 lg:inline-flex lg:flex-col top-10 py-1 lg:top-10 pl-2 lg:pl-16 `}
+      >
         <Title
           isOpenItemMenu={isOpenItemMenu}
           switchSlidesGalleryHandler={switchSlidesGalleryHandler}
+          isMobil={isMobil}
           {...transformedPerson}
         />
         {falsy(isOpenItemMenu) && (
           <ToolsBar
+            isMobil={isMobil}
             isOpenItemMenu={isOpenItemMenu}
             navigation={navigation}
             clickHandler={pushRouteWithDirection(dispatch, router)}
@@ -303,6 +330,7 @@ export const Navigation = () => {
       </div>
       {truthy(isOpenItemMenu) && (
         <SlidesGallery
+          isMobil={isMobil}
           isOpenItemMenu={isOpenItemMenu}
           slides={slides}
           closeHandler={switchSlidesGalleryHandler}

@@ -5,5 +5,5 @@ html {
 }
 
 body {
-  @apply font-sans text-base font-normal text-gray-900;
+  @apply font-sans text-base font-normal text-gray-900 bg-gray-100;
 }

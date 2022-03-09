@@ -39,9 +39,11 @@ export const DescriptionLabel = ({
   py = classNameDesriptionLabelConfigs?.py ?? py;
   const font = classNameDesriptionLabelConfigs?.font ?? "";
   const minW = classNameDesriptionLabelConfigs?.minW ?? "min-w-[8rem]"; 
+  const flexDl =
+    classNameDesriptionLabelConfigs?.flexDl ?? "flex flex-col lg:flex-row";
 
   return (
-    <dl className={`${py} flex flex-col lg:flex-row`}>
+    <dl className={`${py} ${flexDl}`}>
       <dt
         className={`${font} ${minW} flex-none text-sm text-gray-600 md:py-0 lg:pr-4`}
       >

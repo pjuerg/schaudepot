@@ -22,6 +22,7 @@ import { FieldsFactory } from "../FieldsFactory";
 import { TextContainer, TwoColumnsContainer } from "../Container";
 import { classNameFieldConfigs } from "./coverSlide";
 import { RepresentationPortraitImage } from "../RepresentationPortraitImage";
+import { absoluteLinkPerson } from "../../../utils/routes";
 
 /*
  * *** Intro Slide  ***
@@ -79,33 +80,39 @@ export const IntroSlide = () => {
   // @remember all loadind in central page [...slides].js
   const { personData, cleandFieldStructure } =
     useSWRCoresetPersonAndStructure(fieldStructure);
-
   const scrollbarHtml = joinFieldsToHtml(personData)(
     second(cleandFieldStructure)
   );
 
   return (
-    <TwoColumnsContainer className="h-full pb-10">
+    <TwoColumnsContainer
+      className="flex-col pb-10 md:flex-row md:h-full"
+      classNameFirstClm="hidden md:block pb-8 md:pb-10  md:w-1/2 md:h-full md:px-8"
+      classNameSecondClm=" pb-8 md:pb-0  md:w-1/2 md:h-full md:px-0"
+    >
       <RepresentationPortraitImage {...personData} />
-
-      <TextContainer className="relative flex flex-col h-full px-8 pb-10">
+      <TextContainer className="relative flex flex-col h-full px-4 pb-10">
         <h1 className="pb-4 text-3xl font-semibold lg:text-4xl">
           Über {personData.label}
         </h1>
         <FieldsFactory
-          className="pb-8"
           data={personData}
           {...head(cleandFieldStructure)}
           {...classNameFieldConfigs}
         />
-
+        <a
+          className="pb-8 text-sm font-light underline"
+          href={absoluteLinkPerson(personData.id)}
+        >
+          zur Beschreibung in der Werkdatenbank
+        </a>
         {/* html scrollbar */}
         <div
           className={`slide-markdown-styles h-full grow overflow-y-auto `}
           dangerouslySetInnerHTML={{ __html: scrollbarHtml }}
         />
         {/* gradientfor the scrollbar */}
-        <div className="w-full h-24 z-10 absolute left-0 bottom-10 bg-[url('/css/bottom-fade-white.png')] " />
+        <div className="w-full h-24 z-10 absolute left-0 bottom-10 bg-[url('/css/bottom-fade-gray-100.png')] " />
       </TextContainer>
     </TwoColumnsContainer>
   );

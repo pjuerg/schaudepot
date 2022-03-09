@@ -24,11 +24,12 @@ import { CoresetStateContext } from "../../../store/CoresetContext";
 import { removeEmptySectionsAndAddMissingLabels } from "../../../values/structureHelper";
 import { FieldsFactory } from "../FieldsFactory";
 import { LinkedArtImage } from "../../linkedartimage";
-import { ThreeColumnsContainer } from "../Container";
+import { ThreeColumnsContainer, TwoColumnsContainer } from "../Container";
 import { maybe } from "../../../libs/rmd-lib/maybe";
 import { classNameFieldConfigs } from "./coverSlide";
 import Head from "next/head";
 import { pageSectionTitle } from "../../../coresetConfigs";
+import { absoluteLinkItem, hartLinkItem } from "../../../utils/routes";
 
 /*
  * *** Item Slide  ***
@@ -73,28 +74,28 @@ export const ItemSlide = () => {
         />
       </div>
 
-      <ThreeColumnsContainer className="px-12  h-[20%]">
+      <TwoColumnsContainer className="px-4 md:pl-6 lg:px-20 -ml-2 h-[20%]">
         <div>
-          <h1 className="pt-4 pb-1 leading-tight ">
-            {itemData.label}
-          </h1>
+          <h1 className="pt-4 pb-1 leading-tight ">{itemData.label}</h1>
           <FieldsFactory
             data={itemData}
             {...head(cleandFieldStructure)}
             {...classNameFieldConfigs}
           />
+          <a className="text-sm font-light underline" href={absoluteLinkItem(itemData.id)}>
+            zur Beschreibung in der Werkdatenbank
+          </a>
         </div>
 
         {imgData && hasAnyRepresentationInfo(imgData) && (
-          <div className="pt-16 font-light">
+          <div className="px-4 pt-16 font-light lg:px-0">
             <div className="text-sm">Bildnachweis</div>
             <div>{getRepresentationLegend(imgData)}</div>
             <div className="text-sm">{getRepresentationCreator(imgData)}</div>
             <div className="text-sm">{getRepresentationCopyright(imgData)}</div>
           </div>
         )}
-        <div></div>
-      </ThreeColumnsContainer>
+      </TwoColumnsContainer>
     </div>
   );
 };

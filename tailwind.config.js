@@ -10,7 +10,7 @@ module.exports = {
   theme: {
     fontFamily: {
       sans: ['"Source Sans Pro"', "sans-serif"],
-      serif: ["Bitter", "serif"],
+      serif: ["serif"],
     },
     colors: {
       transparent: "transparent",

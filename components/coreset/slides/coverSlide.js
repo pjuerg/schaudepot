@@ -31,6 +31,7 @@ export const classNameFieldConfigs = {
     py: 0,
     font: "font-light",
     minW: "min-w-[6rem] ",
+    flexDl: "flex"
   },
   classNameFieldConfigs: { textSize: "text-sm font-base" },
 };
@@ -53,7 +54,11 @@ export const CoverSlide = () => {
     useSWRCoresetPersonAndStructure(fieldStructure);
 
   return (
-    <TwoColumnsContainer className="h-full">
+    <TwoColumnsContainer
+      className="flex-col md:flex-row md:h-full"
+      classNameFirstClm="order-2 pb-8 md:pb-0 md:order-1 md:w-1/2 md:h-full md:px-8"
+      classNameSecondClm="order-1 pb-8 md:pb-0 md:order-2 px-4 md:w-1/2 md:h-full md:px-0"
+    >
       <RepresentationPortraitImage {...personData} />
 
       <TextContainer>

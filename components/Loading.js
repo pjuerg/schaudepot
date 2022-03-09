@@ -32,9 +32,9 @@ const Error404Block = () => (
 export const Loading = ({ className = "", hasLabel = true }) => {
   return (
     <div
-      className={`${className} flex items-center serifSemibold text-xs  text-teal`}
+      className={`${className} flex items-center text-xs  text-gray-600`}
     >
-      {hasLabel && <div>Laden...</div>}
+      {hasLabel && <div>Laden... </div>}
       <div>
         <LoadingSpin />
       </div>

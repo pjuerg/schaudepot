@@ -2,7 +2,7 @@
 
 import { useContext } from "react";
 import { useRouter } from "next/router";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, LazyMotion, domAnimation, m } from "framer-motion";
 import thunkify from "ramda/src/thunkify";
 
 import useScrollBlock from "../../../libs/hooks/useScrollBlock";
@@ -28,7 +28,7 @@ const typoThumbClassname =
 
 const Thumb = ({ className = "", index, label, children }) => (
   <div
-    className={`${className} relative h-32 bg-gray-200  leading-none drop-shadow-md overflow-hidden `}
+    className={`${className} relative h-28 lg:h-32 bg-gray-200  leading-none drop-shadow-md overflow-hidden `}
   >
     {children}
     <div className="absolute bottom-0 left-0 w-full px-2 py-0.5 overflow-hidden text-sm bg-white text-ellipsis whitespace-nowrap">
@@ -74,7 +74,7 @@ const CloseButton = ({ clickHandler }) => {
   return (
     <div
       onClick={clickHandler}
-      className="absolute text-5xl leading-none cursor-pointer top-4 right-2 md:right-20 group"
+      className="fixed z-50 text-4xl leading-none cursor-pointer lg:text-5xl top-16 right-4 lg:right-20 group"
     >
       <div>
         <span className="pr-2 text-xs font-light text-gray-100 group-hover:text-yellow-400">
@@ -108,34 +108,38 @@ export const SlidesGallery = ({ isOpenItemMenu, slides, closeHandler }) => {
   isOpenItemMenu && blockScroll();
 
   return (
-    <AnimatePresence exitBeforeEnter={false} initial={true}>
-      <motion.div
-        initial="initial"
-        animate="animate"
-        // exit="exit"
-        variants={animation.variants}
-        transition={animation.transition}
-        onClick={closeClickHandler}
-        className="fixed left-0 top-10 pt-28 z-40 h-[calc(100vh-40px)] bg-gradient-to-b from-teal  via-gray-800 to-gray-800  overflow-y-auto"
-      >
-        <CloseButton clickHandler={closeClickHandler} />
-        <div className="grid grid-cols-6 gap-2 px-16 ">
-          {slides &&
-            slides.map((route, index) => (
-              <div
-                key={route}
-                className="p-2 cursor-pointer"
-                onClick={thumbClickHandler(route)}
-              >
-                <SlideFactory
-                  path={route}
-                  index={index}
-                  components={ThumbComponents}
-                />
-              </div>
-            ))}
-        </div>
-      </motion.div>
-    </AnimatePresence>
+    <>
+      <CloseButton clickHandler={closeClickHandler} />
+      <LazyMotion features={domAnimation}>
+        <AnimatePresence exitBeforeEnter={false} initial={true}>
+          <m.div
+            initial="initial"
+            animate="animate"
+            // exit="exit"
+            variants={animation.variants}
+            transition={animation.transition}
+            onClick={closeClickHandler}
+            className="fixed  left-0 top-10 md:top-10 pt-28 z-40 h-[calc(100vh-40px)] bg-gradient-to-b from-teal  via-gray-800 to-gray-800  overflow-y-auto"
+          >
+            <div className="grid grid-cols-2 gap-0 px-2 pb-12 -mt-4 md:gap-2 md:grid-cols-4 lg:px-16 lg:grid-cols-6">
+              {slides &&
+                slides.map((route, index) => (
+                  <div
+                    key={route}
+                    className="p-2 cursor-pointer"
+                    onClick={thumbClickHandler(route)}
+                  >
+                    <SlideFactory
+                      path={route}
+                      index={index}
+                      components={ThumbComponents}
+                    />
+                  </div>
+                ))}
+            </div>
+          </m.div>
+        </AnimatePresence>
+      </LazyMotion>
+    </>
   );
 };
