@@ -1,6 +1,8 @@
+
+
+import { AnimatePresence, LazyMotion, domAnimation, m } from "framer-motion";
 import { useRouter } from "next/router";
 import { useContext } from "react";
-import { AnimatePresence, LazyMotion, domAnimation, m } from "framer-motion";
 import test from "ramda/src/test";
 
 import { animations } from "../utils/animations";
@@ -18,12 +20,12 @@ export default function LayoutTransition({ children }) {
   else if (isCoresetPage && direction === -1) animation = animations[1];
 
   return (
-    <LazyMotion features={domAnimation}>
-      <AnimatePresence
-        exitBeforeEnter={true}
-        initial={false}
-        onExitComplete={() => window.scrollTo(0, 0)}
-      >
+    <AnimatePresence
+      exitBeforeEnter={true}
+      initial={false}
+      onExitComplete={() => window.scrollTo(0, 0)}
+    >
+      <LazyMotion features={domAnimation}>
         <m.div
           key={asPath}
           initial="initial"
@@ -34,7 +36,7 @@ export default function LayoutTransition({ children }) {
         >
           {children}
         </m.div>
-      </AnimatePresence>
-    </LazyMotion>
+      </LazyMotion>
+    </AnimatePresence>
   );
 }
