@@ -1,6 +1,7 @@
 // pages/kernbestand/[...slides]
 
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import { useRouter } from "next/router";
 
 import Head from "next/head";
 import useSWR from "swr";
@@ -10,9 +11,16 @@ import { exists } from "../../libs/rmd-lib/exists";
 import { fetcher } from "../../libs/fetcher";
 
 import { pageSectionTitle } from "../../coresetConfigs";
-import { apiSite } from "../../utils/api";
-import { CoresetStateContext } from "../../store/CoresetContext";
+import { apiCoreset, apiSite } from "../../utils/api";
 import { useSWRCoresetPerson } from "../../utils/useSWRCoresetPerson";
+import { getCoresetPersonIdFromPath } from "../../utils/utilsCoreset";
+import {
+  CoresetDispatchContext,
+  CoresetStateContext,
+  LOAD_CORESET_ACTION,
+  SET_CORESET_PERSON_ID_ACTION,
+  SUCCESS_LOAD_CORESET_ACTION,
+} from "../../store/CoresetContext";
 import {
   CoverSlide,
   IntroSlide,
@@ -20,7 +28,6 @@ import {
   AddendumSlide,
 } from "../../components/coreset";
 import { SlideFactory } from "../../components/coreset/SlideFactory";
-import { useRouter } from "next/router";
 import { Loading } from "../../components/Loading";
 
 /*
@@ -35,17 +42,52 @@ const slidesComponents = {
   addendum: <AddendumSlide />,
 };
 
-
 export default function SlidesContainerPage() {
-  const { asPath } = useRouter();
-  const { slides } = useContext(CoresetStateContext);
+  const { personId, slides } = useContext(CoresetStateContext);
+  const dispatch = useContext(CoresetDispatchContext);
+  const router = useRouter();
+  const { asPath } = router;
+  const currentPersonId = getCoresetPersonIdFromPath(asPath);
+  const hasCoresetChanged = personId !== currentPersonId;
+  const shouldLoadCoreset = !slides && currentPersonId;
   const personData = useSWRCoresetPerson();
   const { data: dataSite } = useSWR(apiSite(), fetcher);
+  const { data: dataCoreset } = useSWR(
+    shouldLoadCoreset ? apiCoreset(currentPersonId) : null,
+    fetcher
+  );
+
   const allDataLoaded =
     exists(slides) && exists(personData) && exists(dataSite);
-  
-    console.log('allDataLoaded', allDataLoaded)
-    // console.log(slides, personData, dataSite)
+
+  // // url changed to new  a core-stock like kernbestand/12/person
+  // set person-id which is the suffix in kernbestand/12/person and set loading flag
+  useEffect(() => {
+    if (hasCoresetChanged) {
+      dispatch({
+        type: SET_CORESET_PERSON_ID_ACTION,
+        payload: currentPersonId || null,
+      });
+    }
+    if (shouldLoadCoreset) {
+      dispatch({ type: LOAD_CORESET_ACTION, payload: currentPersonId });
+    }
+  }, [currentPersonId, hasCoresetChanged, shouldLoadCoreset, dispatch]);
+
+  // if the current core-stock ergo the person changed
+  // the core-stock data is asyced fetched
+  // set the new data and turn of the loading flag
+  useEffect(() => {
+    if (dataCoreset) {
+      dispatch({
+        type: SUCCESS_LOAD_CORESET_ACTION,
+        payload: {
+          data: dataCoreset,
+          path: asPath,
+        },
+      });
+    }
+  }, [dataCoreset, asPath, dispatch]);
 
   return (
     <>

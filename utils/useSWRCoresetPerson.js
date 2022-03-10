@@ -9,14 +9,14 @@ import is from "ramda/src/is";
 import { fetcher } from "../libs/fetcher";
 import { apiPerson, apiSite } from "./api";
 import { transformPerson } from "../values/person";
-import { getCoresetPersonIdFromPath } from "../components/coreset/menu/Menu";
+
 import { removeEmptySectionsAndAddMissingLabels } from "../values/structureHelper";
+import { getCoresetPersonIdFromPath } from "./utilsCoreset";
 
 /*
  * *** useSWRCoresetPerson ***
  * --------------------------
  */
-
 
 export const useSWRCoresetPersonAndStructure = (fieldStructure) => {
   const personData = useSWRCoresetPerson();
@@ -31,10 +31,9 @@ export const useSWRCoresetPersonAndStructure = (fieldStructure) => {
   return { personData, cleandFieldStructure };
 };
 
-
-
 export const useSWRCoresetPerson = () => {
-  const id = getCoresetPersonIdFromPath(useRouter());
+  const { asPath } = useRouter();
+  const id = getCoresetPersonIdFromPath(asPath);
   const { data } = useSWR(is(Number, id) ? apiPerson(id) : null, fetcher);
 
   return transformPerson(data);

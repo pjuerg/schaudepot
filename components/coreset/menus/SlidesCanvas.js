@@ -1,4 +1,4 @@
-// components/coreset/menu/SlideCanvas.js
+// components/coreset/menus/SlidesCanvas.js
 
 import { useContext } from "react";
 import { useRouter } from "next/router";
@@ -19,7 +19,7 @@ import { IMAGE_SIZE_MD } from "../../linkedartimage/LinkedArtImage";
 import { exists } from "../../../libs/rmd-lib/exists";
 
 /*
- * *** SlideCanvas ***
+ * *** SlidesCanvas ***
  * ---------------------
  */
 
@@ -90,7 +90,7 @@ const CloseButton = ({ clickHandler }) => {
 };
 
 
-export const SlideCanvas = ({ isCanvasOpen, slides, closeHandler }) => {
+export const SlidesCanvas = ({ isCanvasOpen, slides, closeHandler }) => {
   const router = useRouter();
   const animation = isCanvasOpen ? animations[0] : animations[2];
   const [blockScroll, allowScroll] = useScrollBlock();

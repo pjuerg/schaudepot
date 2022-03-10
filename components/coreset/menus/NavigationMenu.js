@@ -1,18 +1,12 @@
-// components/coreset/CoresetNavigation.js
+// components/coreset/menus/NavigationMenu.js
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import Link from "next/link";
-import useSWR from "swr";
 import { useRouter } from "next/router";
 
 import equals from "ramda/src/equals";
-import compose from "ramda/src/compose";
 import findIndex from "ramda/src/findIndex";
-import not from "ramda/src/not";
-import match from "ramda/src/match";
-import test from "ramda/src/test";
 import curry from "ramda/src/curry";
-import prop from "ramda/src/prop";
 import debounce from "lodash.debounce";
 
 import {
@@ -25,35 +19,26 @@ import {
 import { exists } from "../../../libs/rmd-lib/exists";
 import { falsy } from "../../../libs/rmd-lib/falsy";
 import { truthy } from "../../../libs/rmd-lib/truthy";
-import { second } from "../../../libs/rmd-lib/second";
-import { castToInt } from "../../../libs/rmd-lib/castToInt";
+
 import { useKeyPress } from "../../../libs/hooks/useKeyPress";
-import { fetcher } from "../../../libs/fetcher";
 import {
   useResponsiveShortcut,
   SM,
 } from "../../../libs/hooks/useResponsiveShortcut";
-
-// import TypoStar from "../../../assets/typoStar.svg";
-
-import { apiCoreset } from "../../../utils/api";
 import { useSWRCoresetPerson } from "../../../utils/useSWRCoresetPerson";
 import { ROUTE_CORESET } from "../../../utils/routes";
 import {
   CoresetDispatchContext,
   CoresetStateContext,
-  LOAD_CORESET_ACTION,
   SET_CORESET_ANIMATION_DIRECTION_ACTION,
-  SET_CORESET_PERSON_ID_ACTION,
   SET_CORESET_KEY_NAVIGATION_ACTION,
-  SUCCESS_LOAD_CORESET_ACTION,
-  IS_SLIDE_CANVAS_OPEN_ACTION,
+  IS_SLIDES_CANVAS_OPEN_ACTION,
 } from "../../../store/CoresetContext";
-import { SlideCanvas } from "./SlideCanvas";
+import { SlidesCanvas } from "./SlidesCanvas";
 
 /*
- * *** Menu ***
- * --------------------
+ * *** NavigationMenu ***
+ * ------------
  */
 
 const LinkWidthDirection = ({
@@ -95,7 +80,7 @@ const Label = ({ className, children }) => (
   </div>
 );
 
-const ToolsBar = ({
+const NavigationBar = ({
   isMobil,
   isCanvasOpen,
   navigation: { startUrl, previousUrl, nextUrl, index, total },
@@ -164,12 +149,7 @@ const ToolsBar = ({
   );
 };
 
-const Title = ({
-  isMobil,
-  label,
-  isCanvasOpen,
-  switchSlideGalleryHandler,
-}) => {
+const Title = ({ isMobil, label, isCanvasOpen, switchSlideGalleryHandler }) => {
   const classNameOpen =
     "hover:bg-yellow-400 hover:text-gray-800 rounded-sm text-gray-100 cursor-pointer ";
   const classNamneClosed = "text-gray-600 mr-8";
@@ -192,24 +172,14 @@ const Title = ({
   );
 };
 
-const regExCoresetId = /\/kernbestand\/(\d+)/;
-const matchCoresetId = compose(second, match(regExCoresetId));
-
-// isCoresetFrontpage:: s → b
-export const isCoresetFrontpage = compose(not, test(regExCoresetId));
-
-// TODO make hook useCoresetPersonId, also in swrDep....
-export const getCoresetPersonIdFromPath = compose(
-  castToInt,
-  matchCoresetId,
-  prop("asPath")
-);
-
 // routeWithDispatch:: Dispatcher → router → Number → String → Event
 // Navigate with route.push to trigger the right animation
 const pushRouteWithDirection = curry((dispatch, router, direction, url, e) => {
   e.preventDefault();
-  dispatch({ type: SET_CORESET_ANIMATION_DIRECTION_ACTION, payload: direction });
+  dispatch({
+    type: SET_CORESET_ANIMATION_DIRECTION_ACTION,
+    payload: direction,
+  });
   url && router.push(url);
 });
 
@@ -228,9 +198,13 @@ const getNavigation = (path, slides, personId) => {
   };
 };
 
-export const Menu = () => {
-  const { personId, slides, keyNavigation, isSlideCanvasOpen:isCanvasOpen } =
-    useContext(CoresetStateContext);
+export const NavigationMenu = () => {
+  const {
+    personId,
+    slides,
+    keyNavigation,
+    isSlideCanvasOpen: isCanvasOpen,
+  } = useContext(CoresetStateContext);
   const dispatch = useContext(CoresetDispatchContext);
   const router = useRouter();
   const responsiveShortcut = useResponsiveShortcut();
@@ -239,25 +213,17 @@ export const Menu = () => {
   const arrowRight = useKeyPress("ArrowRight");
   const { asPath: path } = router;
   const navigation = getNavigation(path, slides, personId);
-  const currentPersonId = getCoresetPersonIdFromPath(router);
-  const hasCoresetChanged = personId !== currentPersonId;
-  const shouldLoadCoreset = !slides && currentPersonId;
   const transformedPerson = useSWRCoresetPerson();
-  const { data: dataCoreset } = useSWR(
-    shouldLoadCoreset ? apiCoreset(currentPersonId) : null,
-    fetcher
-  );
 
-  // console.log("shouldLoadCoreset", shouldLoadCoreset);
-  // console.log("dataCoreset", dataCoreset);
   const switchSlideGalleryHandler = () => {
-     dispatch({ type: IS_SLIDE_CANVAS_OPEN_ACTION, payload: !isCanvasOpen });
+    dispatch({ type: IS_SLIDES_CANVAS_OPEN_ACTION, payload: !isCanvasOpen });
   };
 
   // keystroke navigation
   // tricky! Needs a state in depotContext which is debounced,
   // else arrows are to long true. the urls change and trigger more than one push ...
   // Other Option; disable eslint in nextjs, but only globally, and remove navigation in array
+
   useEffect(() => {
     const { nextUrl, previousUrl } = navigation;
     const dispatchResetKeyNavigation = () =>
@@ -278,36 +244,8 @@ export const Menu = () => {
     }
   }, [arrowLeft, arrowRight, navigation, keyNavigation, router, dispatch]);
 
-  // // url changed to new  a core-stock like kernbestand/12/person
-  // set person-id which is the suffix in kernbestand/12/person and set loading flag
-  useEffect(() => {
-    if (hasCoresetChanged) {
-      dispatch({
-        type: SET_CORESET_PERSON_ID_ACTION,
-        payload: currentPersonId || null,
-      });
-    }
-    if (shouldLoadCoreset) {
-      dispatch({ type: LOAD_CORESET_ACTION, payload: currentPersonId });
-    }
-  }, [currentPersonId, hasCoresetChanged, shouldLoadCoreset, dispatch]);
-
-  // if the current core-stock ergo the person changed
-  // the core-stock data is asyced fetched
-  // set the new data and turn of the loading flag
-  useEffect(() => {
-    if (dataCoreset) {
-      dispatch({
-        type: SUCCESS_LOAD_CORESET_ACTION,
-        payload: {
-          data: dataCoreset,
-          path: path,
-        },
-      });
-    }
-  }, [dataCoreset, path, dispatch]);
-
   const className = isCanvasOpen ? "bg-teal w-full" : "bg-gray-100/90";
+
   return (
     <>
       <div
@@ -320,7 +258,7 @@ export const Menu = () => {
           {...transformedPerson}
         />
         {falsy(isCanvasOpen) && (
-          <ToolsBar
+          <NavigationBar
             isMobil={isMobil}
             isCanvasOpen={isCanvasOpen}
             navigation={navigation}
@@ -330,8 +268,7 @@ export const Menu = () => {
         )}
       </div>
       {truthy(isCanvasOpen) && (
-        <SlideCanvas
-          SlideCanvas
+        <SlidesCanvas
           isMobil={isMobil}
           isCanvasOpen={isCanvasOpen}
           slides={slides}
