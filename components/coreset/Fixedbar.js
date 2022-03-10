@@ -19,15 +19,15 @@ import { animations } from "../../utils/animations";
  */
 
 export const Fixedbar = () => {
-  const { isSlidegalleryOpen } = useContext(CoresetStateContext);
-  // const textColor = isSlidegalleryOpen ? "text-teal" : "text-gray-300";
+  const { isSlideCanvasOpen } = useContext(CoresetStateContext);
+  // const textColor = isSlideCanvasOpen ? "text-teal" : "text-gray-300";
   const textColor = "text-gray-300";
   const responsiveShortcut = useResponsiveShortcut();
   const isMobil = responsiveShortcut === SM;
 
   let animation;
-  if (isSlidegalleryOpen) animation = animations[2];
-  else if (!isSlidegalleryOpen) animation = animations[0];
+  if (isSlideCanvasOpen) animation = animations[2];
+  else if (!isSlideCanvasOpen) animation = animations[0];
 
   return (
     <div className="fixed top-0 left-0 z-10 w-full bg-teal ">

@@ -43,6 +43,9 @@ export default function SlidesContainerPage() {
   const { data: dataSite } = useSWR(apiSite(), fetcher);
   const allDataLoaded =
     exists(slides) && exists(personData) && exists(dataSite);
+  
+    console.log('allDataLoaded', allDataLoaded)
+    // console.log(slides, personData, dataSite)
 
   return (
     <>

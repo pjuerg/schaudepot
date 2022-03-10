@@ -47,12 +47,12 @@ import {
   SET_CORESET_PERSON_ID_ACTION,
   SET_CORESET_KEY_NAVIGATION_ACTION,
   SUCCESS_LOAD_CORESET_ACTION,
-  IS_SLIDEGALLERY_OPEN_ACTION,
+  IS_SLIDE_CANVAS_OPEN_ACTION,
 } from "../../../store/CoresetContext";
-import { SlidesGallery } from "./SlidesGallery";
+import { SlideCanvas } from "./SlideCanvas";
 
 /*
- * *** Navigation  ***
+ * *** Menu ***
  * --------------------
  */
 
@@ -97,9 +97,9 @@ const Label = ({ className, children }) => (
 
 const ToolsBar = ({
   isMobil,
-  isOpenItemMenu,
+  isCanvasOpen,
   navigation: { startUrl, previousUrl, nextUrl, index, total },
-  switchSlidesGalleryHandler,
+  switchSlideGalleryHandler,
   ...props
 }) => {
   return (
@@ -140,7 +140,7 @@ const ToolsBar = ({
       {/* open slideGallery */}
       <button
         className="flex items-center px-4 group"
-        onClick={switchSlidesGalleryHandler}
+        onClick={switchSlideGalleryHandler}
       >
         <MdViewModule className={classNameIcon} />
         {!isMobil && <Label className="pl-0">Gallerie</Label>}
@@ -167,8 +167,8 @@ const ToolsBar = ({
 const Title = ({
   isMobil,
   label,
-  isOpenItemMenu,
-  switchSlidesGalleryHandler,
+  isCanvasOpen,
+  switchSlideGalleryHandler,
 }) => {
   const classNameOpen =
     "hover:bg-yellow-400 hover:text-gray-800 rounded-sm text-gray-100 cursor-pointer ";
@@ -177,10 +177,10 @@ const Title = ({
     <div className="w-full">
       <h2
         className={`${
-          isOpenItemMenu ? classNameOpen : classNamneClosed
+          isCanvasOpen ? classNameOpen : classNamneClosed
         }  inline-block text-sm md:text-lg px-2 py-1 leading-tight border-gray-600 `}
         onClick={() => {
-          isOpenItemMenu && switchSlidesGalleryHandler();
+          isCanvasOpen && switchSlideGalleryHandler();
         }}
       >
         <span className="pr-1">Schaudepot:</span>
@@ -228,9 +228,9 @@ const getNavigation = (path, slides, personId) => {
   };
 };
 
-export const Navigation = () => {
-  const [isOpenItemMenu, openItemsMenu] = useState(false);
-  const { personId, slides, keyNavigation } = useContext(CoresetStateContext);
+export const Menu = () => {
+  const { personId, slides, keyNavigation, isSlideCanvasOpen:isCanvasOpen } =
+    useContext(CoresetStateContext);
   const dispatch = useContext(CoresetDispatchContext);
   const router = useRouter();
   const responsiveShortcut = useResponsiveShortcut();
@@ -248,9 +248,10 @@ export const Navigation = () => {
     fetcher
   );
 
-  const switchSlidesGalleryHandler = () => {
-    openItemsMenu(!isOpenItemMenu);
-    dispatch({ type: IS_SLIDEGALLERY_OPEN_ACTION, payload: !isOpenItemMenu });
+  // console.log("shouldLoadCoreset", shouldLoadCoreset);
+  // console.log("dataCoreset", dataCoreset);
+  const switchSlideGalleryHandler = () => {
+     dispatch({ type: IS_SLIDE_CANVAS_OPEN_ACTION, payload: !isCanvasOpen });
   };
 
   // keystroke navigation
@@ -306,34 +307,35 @@ export const Navigation = () => {
     }
   }, [dataCoreset, path, dispatch]);
 
-  const className = isOpenItemMenu ? "bg-teal w-full" : "bg-gray-100/90";
+  const className = isCanvasOpen ? "bg-teal w-full" : "bg-gray-100/90";
   return (
     <>
       <div
         className={`${className} fixed z-50 flex pr-4 pt-6 pb-4 lg:inline-flex lg:flex-col top-10 py-1 lg:top-10 pl-2 lg:pl-16 `}
       >
         <Title
-          isOpenItemMenu={isOpenItemMenu}
-          switchSlidesGalleryHandler={switchSlidesGalleryHandler}
+          isCanvasOpen={isCanvasOpen}
+          switchSlideGalleryHandler={switchSlideGalleryHandler}
           isMobil={isMobil}
           {...transformedPerson}
         />
-        {falsy(isOpenItemMenu) && (
+        {falsy(isCanvasOpen) && (
           <ToolsBar
             isMobil={isMobil}
-            isOpenItemMenu={isOpenItemMenu}
+            isCanvasOpen={isCanvasOpen}
             navigation={navigation}
             clickHandler={pushRouteWithDirection(dispatch, router)}
-            switchSlidesGalleryHandler={switchSlidesGalleryHandler}
+            switchSlideGalleryHandler={switchSlideGalleryHandler}
           />
         )}
       </div>
-      {truthy(isOpenItemMenu) && (
-        <SlidesGallery
+      {truthy(isCanvasOpen) && (
+        <SlideCanvas
+          SlideCanvas
           isMobil={isMobil}
-          isOpenItemMenu={isOpenItemMenu}
+          isCanvasOpen={isCanvasOpen}
           slides={slides}
-          closeHandler={switchSlidesGalleryHandler}
+          closeHandler={switchSlideGalleryHandler}
         />
       )}
     </>

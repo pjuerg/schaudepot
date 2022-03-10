@@ -1,5 +1,5 @@
 // components/coreset/index.js
-export { Navigation } from "./menu/Navigation";
+export { Menu } from "./menu/Menu";
 export { Fixedbar } from "./Fixedbar";
 
 export { IntroSlide } from "./slides/IntroSlide";

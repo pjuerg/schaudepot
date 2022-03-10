@@ -9,7 +9,7 @@ import is from "ramda/src/is";
 import { fetcher } from "../libs/fetcher";
 import { apiPerson, apiSite } from "./api";
 import { transformPerson } from "../values/person";
-import { getCoresetPersonIdFromPath } from "../components/coreset/menu/Navigation";
+import { getCoresetPersonIdFromPath } from "../components/coreset/menu/Menu";
 import { removeEmptySectionsAndAddMissingLabels } from "../values/structureHelper";
 
 /*

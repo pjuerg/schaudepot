@@ -1,4 +1,4 @@
-// components/coreset/navigation/gallery.js
+// components/coreset/menu/SlideCanvas.js
 
 import { useContext } from "react";
 import { useRouter } from "next/router";
@@ -19,7 +19,7 @@ import { IMAGE_SIZE_MD } from "../../linkedartimage/LinkedArtImage";
 import { exists } from "../../../libs/rmd-lib/exists";
 
 /*
- * *** SlidesGallery ***
+ * *** SlideCanvas ***
  * ---------------------
  */
 
@@ -90,9 +90,9 @@ const CloseButton = ({ clickHandler }) => {
 };
 
 
-export const SlidesGallery = ({ isOpenItemMenu, slides, closeHandler }) => {
+export const SlideCanvas = ({ isCanvasOpen, slides, closeHandler }) => {
   const router = useRouter();
-  const animation = isOpenItemMenu ? animations[0] : animations[2];
+  const animation = isCanvasOpen ? animations[0] : animations[2];
   const [blockScroll, allowScroll] = useScrollBlock();
   const thumbClickHandler = thunkify((route) => {
     closeHandler();
@@ -105,7 +105,7 @@ export const SlidesGallery = ({ isOpenItemMenu, slides, closeHandler }) => {
   };
 
   // prevent background page vom scrolling
-  isOpenItemMenu && blockScroll();
+  isCanvasOpen && blockScroll();
 
   return (
     <>

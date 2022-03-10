@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 import Head from "next/head";
 
 import LayoutTransition from "./LayoutTransition";
-import { Navigation as CoresetNavigation } from "./coreset";
+import { Menu as CoresetMenu } from "./coreset";
 import { Fixedbar as CoresetFixedbar } from "./coreset";
 import { pageSectionTitle, pageTitle } from "../coresetConfigs";
-import { isCoresetFrontpage } from "./coreset/menu/Navigation";
+import { isCoresetFrontpage } from "./coreset/menu/Menu";
 import { useRouter } from "next/router";
 // import { DevInfoCoreset } from "./DevInfoCoreset";
 
@@ -20,7 +20,7 @@ export default function Layout({
   children
 }) {
   const {asPath} =useRouter()
-  return (
+    return (
     <>
       <Head>
         <title>
@@ -34,8 +34,7 @@ export default function Layout({
         <link rel="manifest" href="/favicon/manifest.webmanifest" />
       </Head>
       <CoresetFixedbar />
-      {isCoresetFrontpage(asPath) && <CoresetNavigation />}
-      <CoresetNavigation />
+      {!isCoresetFrontpage(asPath) && <CoresetMenu />}
       <LayoutTransition>{children}</LayoutTransition>
       {/* <DevInfoCoreset /> */}
     </>

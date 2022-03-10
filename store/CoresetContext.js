@@ -26,7 +26,8 @@ export const SUCCESS_LOAD_CORESET_ACTION = "SUCCESS_LOAD_CORESET_ACTION";
 export const SET_CORESET_ANIMATION_DIRECTION_ACTION =
   "SET_CORESET_ANIMATION_DIRECTION_ACTION";
 export const SET_CORESET_KEY_NAVIGATION_ACTION = "SET_CORESET_KEY_NAVIGATION_ACTION";
-export const IS_SLIDEGALLERY_OPEN_ACTION = "IS_SLIDEGALLERY_OPEN_ACTION";
+export const IS_SLIDE_CANVAS_OPEN_ACTION = "IS_SLIDE_CANVAS_OPEN_ACTION";
+export const SET_VIEW_SCALED = "SET_VIEW_SCALED";
 
 /* Create the Context
  */
@@ -58,8 +59,11 @@ function coresetReducer(draft, action) {
   // console.log("::Coreset-Reducer", action.type);
 
   switch (action.type) {
-    case IS_SLIDEGALLERY_OPEN_ACTION:
-      return assoc("isSlidegalleryOpen", action.payload, draft);
+    case SET_VIEW_SCALED:
+      return assoc("viewScaled", action.payload, draft);
+
+    case IS_SLIDE_CANVAS_OPEN_ACTION:
+      return assoc("isSlideCanvasOpen", action.payload, draft);
 
     case SET_CORESET_PERSON_ID_ACTION:
       return evolve(
@@ -108,12 +112,13 @@ function coresetReducer(draft, action) {
  */
 const initialState = {
   loading: false,
-  isSlidegalleryOpen: false,
+  isSlideCanvasOpen: false,
   keyNavigation: undefined,
   direction: undefined,
   personId: undefined,
   items: undefined,
   slides: undefined,
+  viewScaled: undefined,
 };
 
 /**
