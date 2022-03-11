@@ -71,12 +71,14 @@ const ThumbComponents = {
 };
 
 // TODO almost identical to @see CloseButton ImageZoom
-const CloseButton = ({ clickHandler, distractionMode }) => {
-  const className = truthy(distractionMode) ? "top-[44px]" : "top-16";
+const CloseButton = ({ clickHandler, isDistractionMode }) => {
+  console.log("isDistractionMode", isDistractionMode);
+  const className = isDistractionMode ? "top-8" : "top-14";
+  // const className = ""
   return (
     <div
       onClick={clickHandler}
-      className={`${className} fixed z-50 text-4xl leading-none cursor-pointer lg:text-5xl top-16 right-4 lg:right-20 group`}
+      className={`${className} fixed z-50 text-4xl leading-none cursor-pointer lg:text-4xl top-16 right-4 lg:right-20 group`}
     >
       <div>
         <span className="pr-2 text-xs font-light text-gray-100 group-hover:text-yellow-400">
@@ -121,7 +123,7 @@ export const SlidesCanvas = ({ isCanvasOpen, slides, closeHandler, ...props }) =
             variants={animation.variants}
             transition={animation.transition}
             onClick={closeClickHandler}
-            className="fixed  left-0 top-10 md:top-10 pt-28 z-40 h-[calc(100vh-40px)] bg-gradient-to-b from-teal  via-gray-800 to-gray-800  overflow-y-auto"
+            className="fixed left-0 top-10 md:top-10 pt-28 z-40 h-[calc(100vh-40px)] bg-gradient-to-b from-teal  via-gray-800 to-gray-800  overflow-y-auto"
           >
             <div className="grid grid-cols-2 gap-0 px-2 pb-12 -mt-4 md:gap-2 md:grid-cols-4 lg:px-16 lg:grid-cols-6">
               {slides &&

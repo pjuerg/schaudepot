@@ -14,7 +14,7 @@ import { truthy } from "../../libs/rmd-lib/truthy";
 import { pageSectionTitle } from "../../coresetConfigs";
 import { apiCoreset, apiSite } from "../../utils/api";
 import { useSWRCoresetPerson } from "../../utils/useSWRCoresetPerson";
-import { getCoresetPersonIdFromPath } from "../../utils/utilsCoreset";
+import { checkDistractionMode, getCoresetPersonIdFromPath } from "../../utils/utilsCoreset";
 import {
   CoresetDispatchContext,
   CoresetStateContext,
@@ -30,6 +30,7 @@ import {
 } from "../../components/coreset";
 import { SlideFactory } from "../../components/coreset/SlideFactory";
 import { Loading } from "../../components/Loading";
+import { useIsMobil } from "../../libs/hooks/useResponsiveShortcut";
 
 /*
  * *** Coreset-Slide-Container ***
@@ -49,6 +50,8 @@ export default function SlidesContainerPage() {
   const { personId, slides, distractionMode } = useContext(CoresetStateContext);
   const dispatch = useContext(CoresetDispatchContext);
   const router = useRouter();
+  const isMobil = useIsMobil();
+  const isDistractionMode = checkDistractionMode(distractionMode, isMobil);
   const { asPath } = router;
   const currentPersonId = getCoresetPersonIdFromPath(asPath);
   const hasCoresetChanged = personId !== currentPersonId;
@@ -92,7 +95,7 @@ export default function SlidesContainerPage() {
     }
   }, [dataCoreset, asPath, dispatch]);
 
-  const className = truthy(distractionMode) ? "pt-24" : "pt-36";
+  const className = isDistractionMode ? "pt-24" : "pt-36";
 
   return (
     <>

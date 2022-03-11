@@ -13,14 +13,9 @@ import { ROUTE_CORESET } from "../../utils/routes";
 export default function Frontpage() {
   return (
     <>
-      <div className="w-64 mx-auto mt-20 text-xl">
+      <div className="w-64 mx-auto text-xl mt-44">
         <div>
-          <h1 className="font-bold">Alle Schaudepots</h1>
-          <p className="p-2 my-8 text-lg text-yellow-700">
-            Vorwärts und rückwärts
-            <br />
-            mit Pfeiltasten
-          </p>
+          <h1 className="pb-8 font-bold">Alle Schaudepots</h1>
           <ul>
             {coresetExamples.map(({ id }, index) => (
               <li key={index} className="p-4 mb-4 bg-gray-300">

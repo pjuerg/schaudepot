@@ -8,6 +8,7 @@ import equals from "ramda/src/equals";
 import findIndex from "ramda/src/findIndex";
 import curry from "ramda/src/curry";
 import identity from "ramda/src/identity";
+import thunkify from "ramda/src/thunkify";
 import debounce from "lodash.debounce";
 
 import {
@@ -22,13 +23,12 @@ import {
 import { exists } from "../../../libs/rmd-lib/exists";
 import { falsy } from "../../../libs/rmd-lib/falsy";
 import { truthy } from "../../../libs/rmd-lib/truthy";
-
 import { useKeyPress } from "../../../libs/hooks/useKeyPress";
-import {
-  useIsMobil,
-} from "../../../libs/hooks/useResponsiveShortcut";
+import { useIsMobil } from "../../../libs/hooks/useResponsiveShortcut";
+
 import { useSWRCoresetPerson } from "../../../utils/useSWRCoresetPerson";
 import { ROUTE_CORESET } from "../../../utils/routes";
+import { checkDistractionMode } from "../../../utils/utilsCoreset";
 import {
   CoresetDispatchContext,
   CoresetStateContext,
@@ -38,8 +38,6 @@ import {
   SWITCH_DISTRACTION_MODE_ACTION,
 } from "../../../store/CoresetContext";
 import { SlidesCanvas } from "./SlidesCanvas";
-import { thunkify } from "ramda";
-import { checkDistractionMode } from "../../../utils/utilsCoreset";
 
 /*
  * *** NavigationMenu ***
@@ -53,8 +51,8 @@ export const LinkWidthDirection = ({
   direction,
   children,
 }) => {
+  
   className = `${className} px-1 md:px-2 flex items-center`;
-  console.log("url 222", url)
   return (
     <>
       {!exists(url) ? (
@@ -105,7 +103,7 @@ const NavigationBar = ({
   switchDistractionModeHandler,
   ...props
 }) => {
-  const className = truthy(isDistractionMode) ? "" : "lg:border-t";
+  const className = isDistractionMode ? "" : "md:border-t";
   return (
     <div
       className={`${className} flex items-center border-gray-600 text-gray-600`}
@@ -119,36 +117,32 @@ const NavigationBar = ({
         <MdFirstPage className={classNameIconBasic} />
         {!isMobil && <Label className="md:-ml-1">Start</Label>}
       </LinkWidthDirection>
-      <LinkWidthDirection
-        url={previousUrl}
-        direction={-1}
-        {...props}
-      >
+
+      <LinkWidthDirection url={previousUrl} direction={-1} {...props}>
         <MdChevronLeft className={classNameIconBasic} />
       </LinkWidthDirection>
+
       <Label>Blättern</Label>
-      <LinkWidthDirection
-        url={nextUrl}
-        direction={1}
-        {...props}
-      >
+
+      <LinkWidthDirection url={nextUrl} direction={1} {...props}>
         <MdChevronRight className={classNameIconBasic} />
       </LinkWidthDirection>
+
       {/* mode distraction */}
       {!isMobil && (
         <button
           className="flex items-center px-4 group outline-0"
           onClick={switchDistractionModeHandler}
         >
-          {truthy(isDistractionMode) && (
+          {isDistractionMode && (
             <MdCloseFullscreen className={classNameIconSmaller} />
           )}
-          {falsy(isDistractionMode) && (
+          {!isDistractionMode && (
             <MdOpenInFull className={classNameIconSmaller} />
           )}
 
           <Label className="pl-1 whitespace-nowrap">
-            {truthy(isDistractionMode) ? "Kleiner" : "Größer"}
+            {isDistractionMode ? "Kleiner" : "Größer"}
           </Label>
         </button>
       )}
@@ -165,11 +159,7 @@ const NavigationBar = ({
         {exists(index) && (
           <>
             <span>{index + 1}</span>
-            {!isMobil ? (
-              <span className="px-0.5">von</span>
-            ) : (
-              <span className="px-0.5">|</span>
-            )}
+            <span className="px-0.5">{!isMobil ? "von" : "|"}</span>
             <span>{total}</span>
           </>
         )}
@@ -179,29 +169,27 @@ const NavigationBar = ({
 };
 
 const Title = ({
-  isMobil,
   label,
+  isMobil,
   isCanvasOpen,
   isDistractionMode,
   switchSlideGalleryHandler,
 }) => {
+  const classNamenClosed = "text-gray-600 mr-8";
   const classNameOpen =
     "hover:bg-yellow-400 hover:text-gray-800 rounded-sm text-gray-100 cursor-pointer ";
-  const classNamneClosed = "text-gray-600 mr-8";
-
-  const classNameDistractionMode = truthy(isDistractionMode)
-    ? "md:text-base md:font-light font-semibold"
+  const classNameDistractionMode = isDistractionMode
+    ? "md:text-base md:font-light "
     : " md:text-lg";
+  const className = `${classNameDistractionMode} ${
+    isCanvasOpen ? classNameOpen : classNamenClosed
+  }`;
 
   return (
     <div className="w-full">
       <h2
-        className={`${
-          isCanvasOpen ? classNameOpen : classNamneClosed
-        }  ${classNameDistractionMode} inline-block text-sm px-2 py-1 leading-tight border-gray-600 `}
-        onClick={() => {
-          isCanvasOpen && switchSlideGalleryHandler();
-        }}
+        className={`${className} inline-block text-sm font-normal px-2 py-1 leading-tight border-gray-600  `}
+        onClick={switchSlideGalleryHandler}
       >
         <span className="pr-1">Schaudepot:</span>
         {isMobil && <br />}
@@ -228,9 +216,7 @@ export const pushRouteWithDirection = curry(
 export const getNavigation = (path, slides, personId) => {
   // break: slides not loaded
   if (!slides) return {};
-
   const index = findIndex(equals(path))(slides);
-
   return {
     index,
     total: slides.length,
@@ -262,10 +248,9 @@ export const NavigationMenu = () => {
     dispatch({ type: IS_SLIDES_CANVAS_OPEN_ACTION, payload: !isCanvasOpen });
   };
 
-  const switchDistractionModeHandler = !isMobil ? switchDistractionModeDispatcher(
-    dispatch,
-    distractionMode
-  ) : identity;
+  const switchDistractionModeHandler = !isMobil
+    ? switchDistractionModeDispatcher(dispatch, distractionMode)
+    : identity;
 
   // keystroke navigation
   // tricky! Needs a state in depotContext which is debounced,
@@ -290,19 +275,22 @@ export const NavigationMenu = () => {
       debounceReset();
     }
   }, [arrowLeft, arrowRight, navigation, keyNavigation, router, dispatch]);
+    
+  // transparent ... but hmmm
+  // ? "bg-gradient-to-b from-teal via-teal to-transparent"
 
   const classNameBackground = isCanvasOpen
-    ? "bg-teal w-full"
-    : "bg-gray-100/90";
+    ? "bg-teal"
+    : "bg-gray-100/90 md:w-auto";
   const classNameDistraction = truthy(distractionMode)
-    ? "lg:flex-row top-10"
-    : "lg:flex-col top-10";
+    ? "md:flex-row top-10"
+    : "md:flex-col top-10 pt-5";
   const className = `${classNameBackground} ${classNameDistraction}`;
 
   return (
     <>
       <div
-        className={`${className} fixed z-50 flex pr-4 pt-0 pb-4 lg:inline-flex py-3 pl-0 md:pl-2 lg:pl-16 w-full md:w-auto`}
+        className={`${className} fixed z-50 flex pr-4 pb-4 lg:inline-flex py-3  pl-0 md:pl-2 lg:pl-16 w-full `}
       >
         <Title
           isCanvasOpen={isCanvasOpen}
@@ -323,7 +311,7 @@ export const NavigationMenu = () => {
           />
         )}
       </div>
-      {truthy(isCanvasOpen) && (
+      {isCanvasOpen && (
         <SlidesCanvas
           isMobil={isMobil}
           isCanvasOpen={isCanvasOpen}

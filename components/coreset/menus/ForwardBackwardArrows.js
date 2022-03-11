@@ -22,7 +22,7 @@ const ChevronLink = ({direction, url, className, clickHandler, children}) => (
         clickHandler(direction, url, e);
       }}
     >
-      <div className={`${className} z-30 absolute opacity-0 hover:opacity-100 transition-opacity duration-300 top-0 translate-y-[50%]  w-[12%]  flex items-center  text-8xl text-gray-300`}>
+      <div className={`${className} z-30 absolute opacity-0 hover:opacity-100 transition-opacity duration-300 top-0 translate-y-[50%]  w-[12%]  flex items-center  text-8xl text-gray-400`}>
         {children}
       </div>
     </a>
@@ -44,9 +44,9 @@ export const ForwardBackwardArrows = () => {
           direction={-1}
           url={previousUrl}
           clickHandler={clickHandler}
-          className="left-0 h-[50%]"
+          className="left-0 h-[50%] "
         >
-          <MdChevronLeft />
+          <MdChevronLeft className="drop-shadow-lg" />
         </ChevronLink>
       )}
       {nextUrl && (
@@ -54,9 +54,9 @@ export const ForwardBackwardArrows = () => {
           direction={1}
           url={nextUrl}
           clickHandler={clickHandler}
-          className="right-0 h-[50%] justify-end"
+          className="right-0 h-[50%] justify-end "
         >
-          <MdChevronRight />
+          <MdChevronRight className="drop-shadow-lg" />
         </ChevronLink>
       )}
     </>
