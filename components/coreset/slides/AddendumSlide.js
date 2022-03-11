@@ -66,7 +66,7 @@ export const AddendumSlide = () => {
     <>
       <TwoColumnsContainer>
         <div></div>
-        <TextContainer>
+        <TextContainer className="px-2 pb-10 md:px-4 lg:8px">
           <h1 className="text-xl font-bold leading-tight">
             Weitere Informationen zu
             <br />
@@ -81,7 +81,6 @@ export const AddendumSlide = () => {
             {...classNameDesriptionConfigs}
           /> */}
           {/* <h3 className="pb-3 text-sm text-gray-600">Weiter mit</h3> */}
- 
           <PrimaryButtonXL
             label={`Alle Kernbestände`}
             url={`${ROUTE_CORESET}`}

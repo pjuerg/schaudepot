@@ -84,6 +84,9 @@ export const hasAnyRepresentationInfo = (data) => {
     CREATED_BY_TIMESPAN,
     IDENTIFIED_BY,
   ];
+  // break
+  if (!exists(data)) return false;
+ 
   for (const field of fields) {
     if (data[field]) return true;
   }

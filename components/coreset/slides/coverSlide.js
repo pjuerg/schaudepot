@@ -5,24 +5,20 @@ import head from "ramda/src/head";
 import { ATTRIBUTED_BY, LINK_PERSON_PAGE } from "../../../values/constants";
 import { useSWRCoresetPersonAndStructure } from "../../../utils/useSWRCoresetPerson";
 import { FieldsFactory } from "../FieldsFactory";
-import {
-  TextContainer,
-  TwoColumnsContainer,
-} from "../Container";
+import { TextContainer, TwoClmsImgTextContainer } from "../Container";
 import { RepresentationPortraitImage } from "../RepresentationPortraitImage";
 import { pageSectionTitle } from "../../../coresetConfigs";
-import Head from "next/head";
+
 /*
  * *** Cover Slide  ***
  * ---------------------
  * @remember all loadind in central page [...slides].js
  */
 
-
 /**
  * Overwrite default classNames in description label and field itself.
- * smaller font, margin, etc. 
- * 
+ * smaller font, margin, etc.
+ *
  * @see GenericDescriptionFields.DescriptionLabel
  * @see GenericDescriptionFields.Fields
  */
@@ -31,21 +27,20 @@ export const classNameFieldConfigs = {
     py: 0,
     font: "font-light",
     minW: "min-w-[6rem] ",
-    flexDl: "flex"
+    flexDl: "flex",
   },
   classNameFieldConfigs: { textSize: "text-sm font-base" },
 };
 
 
 /**
- * System to generate fields from linkedart-api 
+ * System to generate fields from linkedart-api
  */
 const coverFields = [
   { key: LINK_PERSON_PAGE, label: "in der Werkdatenbank" },
-  { key: ATTRIBUTED_BY, textOnly:true},
+  { key: ATTRIBUTED_BY, textOnly: true },
 ];
 const fieldStructure = [{ fields: coverFields }];
-
 
 export const CoverSlide = () => {
   // already loaded in @see [...slides].js
@@ -54,14 +49,10 @@ export const CoverSlide = () => {
     useSWRCoresetPersonAndStructure(fieldStructure);
 
   return (
-    <TwoColumnsContainer
-      className="flex-col md:flex-row md:h-full"
-      classNameFirstClm="order-2 pb-8 md:pb-0 md:order-1 md:w-1/2 md:h-full md:px-8"
-      classNameSecondClm="order-1 pb-8 md:pb-0 md:order-2 px-4 md:w-1/2 md:h-full md:px-0"
-    >
+    <TwoClmsImgTextContainer>
       <RepresentationPortraitImage {...personData} />
 
-      <TextContainer>
+      <TextContainer className="px-2 md:px-4 lg:lg:8px ">
         <h1 className="pb-8 text-3xl font-semibold lg:text-4xl">
           {personData.label}
           <br />
@@ -85,6 +76,6 @@ export const CoverSlide = () => {
           {...classNameFieldConfigs}
         /> */}
       </TextContainer>
-    </TwoColumnsContainer>
+    </TwoClmsImgTextContainer>
   );
 };

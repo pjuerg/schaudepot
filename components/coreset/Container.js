@@ -8,10 +8,27 @@ import PropTypes from "prop-types";
  */
 
 
+const classNameClms = "md:w-1/2 h-full pb-8 md:pb-0  md:h-full ";
+
+export const TwoClmsImgTextContainer = ({ children }) => {
+  return (
+    <div className={` flex flex-col md:flex-row md:h-full`}>
+      <div className={`${classNameClms} order-2 md:order-1  `}>
+        {children[0]}
+      </div>
+      <div
+        className={`${classNameClms} order-1 md:order-2 md:w-1/2 mt-16 md:mt-0 `}
+      >
+        {children[1]}
+      </div>
+    </div>
+  );
+};
+
 export const TwoColumnsContainer = ({
   className = "",
-  classNameFirstClm = "w-1/2 h-full",
-  classNameSecondClm = "w-1/2 h-full",
+  classNameFirstClm = "md:w-1/2 md:h-full",
+  classNameSecondClm = "md:w-1/2 md:h-full",
   children,
 }) => {
   return (

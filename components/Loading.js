@@ -34,7 +34,7 @@ export const Loading = ({ className = "", hasLabel = true }) => {
     <div
       className={`${className} flex items-center text-xs  text-gray-600`}
     >
-      {hasLabel && <div>Laden... </div>}
+      {hasLabel && <div className="pr-3">Laden...</div>}
       <div>
         <LoadingSpin />
       </div>

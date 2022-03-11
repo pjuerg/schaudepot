@@ -16,13 +16,15 @@ import { isArray } from "../../../libs/rmd-lib/isArray";
 
 import { IDENTIFIED_BY, REFERRED_TO_BY } from "../../../values/constants";
 import { useSWRCoresetPersonAndStructure } from "../../../utils/useSWRCoresetPerson";
+import { useIsMobil } from "../../../libs/hooks/useResponsiveShortcut";
 
 import { FORMAT_TEXT_HTML } from "../../../utils/utilsFields";
 import { FieldsFactory } from "../FieldsFactory";
-import { TextContainer, TwoColumnsContainer } from "../Container";
+import { TextContainer, TwoClmsImgTextContainer } from "../Container";
 import { classNameFieldConfigs } from "./coverSlide";
 import { RepresentationPortraitImage } from "../RepresentationPortraitImage";
 import { absoluteLinkPerson } from "../../../utils/routes";
+import { falsy } from "../../../libs/rmd-lib/falsy";
 
 /*
  * *** Intro Slide  ***
@@ -80,18 +82,17 @@ export const IntroSlide = () => {
   // @remember all loadind in central page [...slides].js
   const { personData, cleandFieldStructure } =
     useSWRCoresetPersonAndStructure(fieldStructure);
+  const isMobil = useIsMobil();
+
   const scrollbarHtml = joinFieldsToHtml(personData)(
     second(cleandFieldStructure)
   );
 
+
   return (
-    <TwoColumnsContainer
-      className="flex-col pb-10 md:flex-row md:h-full"
-      classNameFirstClm="hidden md:block pb-8 md:pb-10  md:w-1/2 md:h-full md:px-8"
-      classNameSecondClm=" pb-8 md:pb-0  md:w-1/2 md:h-full md:px-0"
-    >
-      <RepresentationPortraitImage {...personData} />
-      <TextContainer className="relative flex flex-col h-full px-4 pb-10">
+    <TwoClmsImgTextContainer>
+      {falsy(isMobil) && <RepresentationPortraitImage {...personData} />}
+      <TextContainer className="relative flex flex-col h-full px-2 pb-10 md:px-4 lg:8px">
         <h1 className="pb-4 text-3xl font-semibold lg:text-4xl">
           Über {personData.label}
         </h1>
@@ -114,6 +115,6 @@ export const IntroSlide = () => {
         {/* gradientfor the scrollbar */}
         <div className="w-full h-24 z-10 absolute left-0 bottom-10 bg-[url('/css/bottom-fade-gray-100.png')] " />
       </TextContainer>
-    </TwoColumnsContainer>
+    </TwoClmsImgTextContainer>
   );
 };

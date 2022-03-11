@@ -9,6 +9,7 @@ import useSWR from "swr";
 import { falsy } from "../../libs/rmd-lib/falsy";
 import { exists } from "../../libs/rmd-lib/exists";
 import { fetcher } from "../../libs/fetcher";
+import { truthy } from "../../libs/rmd-lib/truthy";
 
 import { pageSectionTitle } from "../../coresetConfigs";
 import { apiCoreset, apiSite } from "../../utils/api";
@@ -32,8 +33,9 @@ import { Loading } from "../../components/Loading";
 
 /*
  * *** Coreset-Slide-Container ***
- * - - - - - - - - - - - - - - - -
+ * --------------------------------
  */
+
 
 const slidesComponents = {
   cover: <CoverSlide />,
@@ -42,8 +44,9 @@ const slidesComponents = {
   addendum: <AddendumSlide />,
 };
 
+
 export default function SlidesContainerPage() {
-  const { personId, slides } = useContext(CoresetStateContext);
+  const { personId, slides, distractionMode } = useContext(CoresetStateContext);
   const dispatch = useContext(CoresetDispatchContext);
   const router = useRouter();
   const { asPath } = router;
@@ -89,6 +92,8 @@ export default function SlidesContainerPage() {
     }
   }, [dataCoreset, asPath, dispatch]);
 
+  const className = truthy(distractionMode) ? "pt-24" : "pt-36";
+
   return (
     <>
       <Head>
@@ -97,11 +102,11 @@ export default function SlidesContainerPage() {
           {pageSectionTitle}
         </title>
       </Head>
-      <div className="h-screen pt-36">
+      <div className={`${className} h-screen`}>
         {falsy(allDataLoaded) ? (
           <Loading className="items-center justify-center h-[80%]" />
         ) : (
-          <SlideFactory path={asPath} components={slidesComponents} />
+            <SlideFactory path={asPath} components={slidesComponents} />
         )}
       </div>
     </>

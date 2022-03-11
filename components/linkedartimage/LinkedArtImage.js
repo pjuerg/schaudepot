@@ -43,7 +43,7 @@ export const useImageLoadingState = (imgRef, hasImage) => {
 };
 
 const ImageWrapper = forwardRef(
-  ({ setLoaded, lazy, src, alt, icon, showLoading, loaded, children }, ref) => {
+  ({ setLoaded, lazy, src, alt, icon, showLoading, loaded, children, onClickHandler=()=>null }, ref) => {
     // const suffix = compose(last, split("."))(src);
     // const path = compose(join("."), init, split("."))(src);
 
@@ -58,13 +58,14 @@ const ImageWrapper = forwardRef(
     return (
       <>
         {loaded === false && showLoading && (
-          <Loading className="pt-48 loadingCentered" />
+          <Loading className="flex items-center justify-center h-full" />
         )}
 
         <div className="relative linkedArtImg-wrapper">
           {icon && icon}
 
           <img
+            onClick={onClickHandler}
             // srcset={`${src320} 320w, ${src640} 640w, ${srcOriginal} 1000w`}
             // sizes="(max-width: 1024px) 320px, 640px"
             src={src}

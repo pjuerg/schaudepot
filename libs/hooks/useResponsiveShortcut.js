@@ -15,6 +15,7 @@ export const MD = "md"
 export const SM = "sm" 
 // @remember not the same like in @see https://tailwindcss.com/docs/breakpoints
 
+
 export const useResponsiveShortcut = () => {
   const { width } = useWindowSize();
 
@@ -25,3 +26,8 @@ export const useResponsiveShortcut = () => {
   else if (width < 768) return SM;
   else return undefined;
 };
+
+export const useIsMobil = () => {
+  const shortcut = useResponsiveShortcut();
+  return  shortcut === SM;
+}

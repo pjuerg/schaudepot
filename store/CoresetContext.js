@@ -14,6 +14,7 @@ import prop from "ramda/src/prop";
 import { transformPhysicalObjectListing } from "../values/physicalObject";
 
 import { ROUTE_ADDENDUM, ROUTE_CORESET, ROUTE_INTRO, ROUTE_ITEM } from "../utils/routes";
+import { useIsMobil } from "../libs/hooks/useResponsiveShortcut";
 
 /*
  *  *** CoresetContext  ***
@@ -27,7 +28,7 @@ export const SET_CORESET_ANIMATION_DIRECTION_ACTION =
   "SET_CORESET_ANIMATION_DIRECTION_ACTION";
 export const SET_CORESET_KEY_NAVIGATION_ACTION = "SET_CORESET_KEY_NAVIGATION_ACTION";
 export const IS_SLIDES_CANVAS_OPEN_ACTION = "IS_SLIDES_CANVAS_OPEN_ACTION";
-export const SET_VIEW_SCALED = "SET_VIEW_SCALED";
+export const SWITCH_DISTRACTION_MODE_ACTION = "SWITCH_DISTRACTION_MODE_ACTION";
 
 /* Create the Context
  */
@@ -59,9 +60,9 @@ function coresetReducer(draft, action) {
   // console.log("::Coreset-Reducer", action.type);
 
   switch (action.type) {
-    case SET_VIEW_SCALED:
-      return assoc("viewScaled", action.payload, draft);
-
+    case SWITCH_DISTRACTION_MODE_ACTION: 
+    return assoc("distractionMode", action.payload, draft);
+    
     case IS_SLIDES_CANVAS_OPEN_ACTION:
       return assoc("isSlideCanvasOpen", action.payload, draft);
 
@@ -118,7 +119,8 @@ const initialState = {
   personId: undefined,
   items: undefined,
   slides: undefined,
-  viewScaled: undefined,
+  distractionMode: false,
+  isMobil: undefined
 };
 
 /**

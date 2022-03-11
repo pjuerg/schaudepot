@@ -4,8 +4,7 @@ import Link from "next/link";
 import { useContext } from "react";
 import { linkContact, linkImprint, pageTitle } from "../../coresetConfigs";
 import {
-  useResponsiveShortcut,
-  SM,
+  useIsMobil,
 } from "../../libs/hooks/useResponsiveShortcut";
 import { CoresetStateContext } from "../../store/CoresetContext";
 
@@ -22,8 +21,8 @@ export const Fixedbar = () => {
   const { isSlideCanvasOpen } = useContext(CoresetStateContext);
   // const textColor = isSlideCanvasOpen ? "text-teal" : "text-gray-300";
   const textColor = "text-gray-300";
-  const responsiveShortcut = useResponsiveShortcut();
-  const isMobil = responsiveShortcut === SM;
+
+  const isMobil = useIsMobil();
 
   let animation;
   if (isSlideCanvasOpen) animation = animations[2];
@@ -40,7 +39,7 @@ export const Fixedbar = () => {
         >
           <Link href={ROUTE_HOME}>
             <a
-              className={`${textColor} lg:pl-[4.5rem] px-4 py-2  hover:underline`}
+              className={`${textColor} lg:pl-[4.5rem] px-2 md:px-4 py-2  hover:underline`}
             >
               {pageTitle}
             </a>

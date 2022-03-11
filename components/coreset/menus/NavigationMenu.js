@@ -7,9 +7,12 @@ import { useRouter } from "next/router";
 import equals from "ramda/src/equals";
 import findIndex from "ramda/src/findIndex";
 import curry from "ramda/src/curry";
+import identity from "ramda/src/identity";
 import debounce from "lodash.debounce";
 
 import {
+  MdCloseFullscreen,
+  MdOpenInFull,
   MdChevronRight,
   MdViewModule,
   MdChevronLeft,
@@ -22,8 +25,7 @@ import { truthy } from "../../../libs/rmd-lib/truthy";
 
 import { useKeyPress } from "../../../libs/hooks/useKeyPress";
 import {
-  useResponsiveShortcut,
-  SM,
+  useIsMobil,
 } from "../../../libs/hooks/useResponsiveShortcut";
 import { useSWRCoresetPerson } from "../../../utils/useSWRCoresetPerson";
 import { ROUTE_CORESET } from "../../../utils/routes";
@@ -33,26 +35,29 @@ import {
   SET_CORESET_ANIMATION_DIRECTION_ACTION,
   SET_CORESET_KEY_NAVIGATION_ACTION,
   IS_SLIDES_CANVAS_OPEN_ACTION,
+  SWITCH_DISTRACTION_MODE_ACTION,
 } from "../../../store/CoresetContext";
 import { SlidesCanvas } from "./SlidesCanvas";
+import { thunkify } from "ramda";
+import { checkDistractionMode } from "../../../utils/utilsCoreset";
 
 /*
  * *** NavigationMenu ***
- * ------------
+ * ----------------------
  */
 
-const LinkWidthDirection = ({
+export const LinkWidthDirection = ({
   className = "",
   clickHandler,
   url,
   direction,
   children,
-  disabled,
 }) => {
   className = `${className} px-1 md:px-2 flex items-center`;
+  console.log("url 222", url)
   return (
     <>
-      {truthy(disabled) ? (
+      {!exists(url) ? (
         <div className={`${className} opacity-50`}>{children}</div>
       ) : (
         <Link href={`${url}`}>
@@ -70,7 +75,9 @@ const LinkWidthDirection = ({
   );
 };
 
-const classNameIcon = "group-hover:text-yellow-400 text-gray-600 text-4xl";
+const classNameIcon = "group-hover:text-yellow-400 text-gray-600";
+const classNameIconBasic = `${classNameIcon} text-4xl`;
+const classNameIconSmaller = `${classNameIcon} text-2xl`;
 
 const Label = ({ className, children }) => (
   <div
@@ -80,64 +87,86 @@ const Label = ({ className, children }) => (
   </div>
 );
 
+export const switchDistractionModeDispatcher = thunkify(
+  (dispatch, distractionMode) => {
+    return dispatch({
+      type: SWITCH_DISTRACTION_MODE_ACTION,
+      payload: !distractionMode,
+    });
+  }
+);
+
 const NavigationBar = ({
   isMobil,
   isCanvasOpen,
+  isDistractionMode,
   navigation: { startUrl, previousUrl, nextUrl, index, total },
   switchSlideGalleryHandler,
+  switchDistractionModeHandler,
   ...props
 }) => {
+  const className = truthy(isDistractionMode) ? "" : "lg:border-t";
   return (
     <div
-      className={`flex items-center lg:border-t border-gray-600 text-gray-600`}
+      className={`${className} flex items-center border-gray-600 text-gray-600`}
     >
       <LinkWidthDirection
         className={`-ml-2`}
         url={startUrl}
         direction={-1}
-        disabled={index === 0 ? true : false}
         {...props}
       >
-        <MdFirstPage className={classNameIcon} />
+        <MdFirstPage className={classNameIconBasic} />
         {!isMobil && <Label className="md:-ml-1">Start</Label>}
       </LinkWidthDirection>
-
       <LinkWidthDirection
         url={previousUrl}
         direction={-1}
         {...props}
-        disabled={index === 0 ? true : false}
       >
-        <MdChevronLeft className={classNameIcon} />
+        <MdChevronLeft className={classNameIconBasic} />
       </LinkWidthDirection>
-
       <Label>Blättern</Label>
-
       <LinkWidthDirection
         url={nextUrl}
         direction={1}
         {...props}
-        disabled={index === total - 1 ? true : false}
       >
-        <MdChevronRight className={classNameIcon} />
+        <MdChevronRight className={classNameIconBasic} />
       </LinkWidthDirection>
+      {/* mode distraction */}
+      {!isMobil && (
+        <button
+          className="flex items-center px-4 group outline-0"
+          onClick={switchDistractionModeHandler}
+        >
+          {truthy(isDistractionMode) && (
+            <MdCloseFullscreen className={classNameIconSmaller} />
+          )}
+          {falsy(isDistractionMode) && (
+            <MdOpenInFull className={classNameIconSmaller} />
+          )}
 
+          <Label className="pl-1 whitespace-nowrap">
+            {truthy(isDistractionMode) ? "Kleiner" : "Größer"}
+          </Label>
+        </button>
+      )}
       {/* open slideGallery */}
       <button
-        className="flex items-center px-4 group"
+        className="flex items-center px-4 group outline-0"
         onClick={switchSlideGalleryHandler}
       >
-        <MdViewModule className={classNameIcon} />
+        <MdViewModule className={classNameIconBasic} />
         {!isMobil && <Label className="pl-0">Gallerie</Label>}
       </button>
-
       {/* index counter */}
       <div className="-ml-3 md:px-2 py-0.5  text-sm text-gray-gray-600 font-light">
         {exists(index) && (
           <>
             <span>{index + 1}</span>
             {!isMobil ? (
-              <span className="px-1">von</span>
+              <span className="px-0.5">von</span>
             ) : (
               <span className="px-0.5">|</span>
             )}
@@ -149,16 +178,27 @@ const NavigationBar = ({
   );
 };
 
-const Title = ({ isMobil, label, isCanvasOpen, switchSlideGalleryHandler }) => {
+const Title = ({
+  isMobil,
+  label,
+  isCanvasOpen,
+  isDistractionMode,
+  switchSlideGalleryHandler,
+}) => {
   const classNameOpen =
     "hover:bg-yellow-400 hover:text-gray-800 rounded-sm text-gray-100 cursor-pointer ";
   const classNamneClosed = "text-gray-600 mr-8";
+
+  const classNameDistractionMode = truthy(isDistractionMode)
+    ? "md:text-base md:font-light font-semibold"
+    : " md:text-lg";
+
   return (
     <div className="w-full">
       <h2
         className={`${
           isCanvasOpen ? classNameOpen : classNamneClosed
-        }  inline-block text-sm md:text-lg px-2 py-1 leading-tight border-gray-600 `}
+        }  ${classNameDistractionMode} inline-block text-sm px-2 py-1 leading-tight border-gray-600 `}
         onClick={() => {
           isCanvasOpen && switchSlideGalleryHandler();
         }}
@@ -174,16 +214,18 @@ const Title = ({ isMobil, label, isCanvasOpen, switchSlideGalleryHandler }) => {
 
 // routeWithDispatch:: Dispatcher → router → Number → String → Event
 // Navigate with route.push to trigger the right animation
-const pushRouteWithDirection = curry((dispatch, router, direction, url, e) => {
-  e.preventDefault();
-  dispatch({
-    type: SET_CORESET_ANIMATION_DIRECTION_ACTION,
-    payload: direction,
-  });
-  url && router.push(url);
-});
+export const pushRouteWithDirection = curry(
+  (dispatch, router, direction, url, e) => {
+    e.preventDefault();
+    dispatch({
+      type: SET_CORESET_ANIMATION_DIRECTION_ACTION,
+      payload: direction,
+    });
+    url && router.push(url);
+  }
+);
 
-const getNavigation = (path, slides, personId) => {
+export const getNavigation = (path, slides, personId) => {
   // break: slides not loaded
   if (!slides) return {};
 
@@ -192,7 +234,7 @@ const getNavigation = (path, slides, personId) => {
   return {
     index,
     total: slides.length,
-    startUrl: `${ROUTE_CORESET}/${personId}`,
+    startUrl: index === 0 ? null : `${ROUTE_CORESET}/${personId}`,
     previousUrl: index === 0 ? null : slides[index - 1],
     nextUrl: index === slides.length - 1 ? null : slides[index + 1],
   };
@@ -203,12 +245,13 @@ export const NavigationMenu = () => {
     personId,
     slides,
     keyNavigation,
+    distractionMode,
     isSlideCanvasOpen: isCanvasOpen,
   } = useContext(CoresetStateContext);
   const dispatch = useContext(CoresetDispatchContext);
   const router = useRouter();
-  const responsiveShortcut = useResponsiveShortcut();
-  const isMobil = responsiveShortcut === SM;
+  const isMobil = useIsMobil();
+  const isDistractionMode = checkDistractionMode(distractionMode, isMobil);
   const arrowLeft = useKeyPress("ArrowLeft");
   const arrowRight = useKeyPress("ArrowRight");
   const { asPath: path } = router;
@@ -219,11 +262,15 @@ export const NavigationMenu = () => {
     dispatch({ type: IS_SLIDES_CANVAS_OPEN_ACTION, payload: !isCanvasOpen });
   };
 
+  const switchDistractionModeHandler = !isMobil ? switchDistractionModeDispatcher(
+    dispatch,
+    distractionMode
+  ) : identity;
+
   // keystroke navigation
   // tricky! Needs a state in depotContext which is debounced,
   // else arrows are to long true. the urls change and trigger more than one push ...
   // Other Option; disable eslint in nextjs, but only globally, and remove navigation in array
-
   useEffect(() => {
     const { nextUrl, previousUrl } = navigation;
     const dispatchResetKeyNavigation = () =>
@@ -244,15 +291,22 @@ export const NavigationMenu = () => {
     }
   }, [arrowLeft, arrowRight, navigation, keyNavigation, router, dispatch]);
 
-  const className = isCanvasOpen ? "bg-teal w-full" : "bg-gray-100/90";
+  const classNameBackground = isCanvasOpen
+    ? "bg-teal w-full"
+    : "bg-gray-100/90";
+  const classNameDistraction = truthy(distractionMode)
+    ? "lg:flex-row top-10"
+    : "lg:flex-col top-10";
+  const className = `${classNameBackground} ${classNameDistraction}`;
 
   return (
     <>
       <div
-        className={`${className} fixed z-50 flex pr-4 pt-6 pb-4 lg:inline-flex lg:flex-col top-10 py-1 lg:top-10 pl-2 lg:pl-16 `}
+        className={`${className} fixed z-50 flex pr-4 pt-0 pb-4 lg:inline-flex py-3 pl-0 md:pl-2 lg:pl-16 w-full md:w-auto`}
       >
         <Title
           isCanvasOpen={isCanvasOpen}
+          isDistractionMode={isDistractionMode}
           switchSlideGalleryHandler={switchSlideGalleryHandler}
           isMobil={isMobil}
           {...transformedPerson}
@@ -261,9 +315,11 @@ export const NavigationMenu = () => {
           <NavigationBar
             isMobil={isMobil}
             isCanvasOpen={isCanvasOpen}
+            isDistractionMode={isDistractionMode}
             navigation={navigation}
             clickHandler={pushRouteWithDirection(dispatch, router)}
             switchSlideGalleryHandler={switchSlideGalleryHandler}
+            switchDistractionModeHandler={switchDistractionModeHandler}
           />
         )}
       </div>
@@ -271,6 +327,7 @@ export const NavigationMenu = () => {
         <SlidesCanvas
           isMobil={isMobil}
           isCanvasOpen={isCanvasOpen}
+          isDistractionMode={isDistractionMode}
           slides={slides}
           closeHandler={switchSlideGalleryHandler}
         />

@@ -17,6 +17,7 @@ import { CoresetStateContext } from "../../../store/CoresetContext";
 import { LinkedArtImage } from "../../linkedartimage";
 import { IMAGE_SIZE_MD } from "../../linkedartimage/LinkedArtImage";
 import { exists } from "../../../libs/rmd-lib/exists";
+import { truthy } from "../../../libs/rmd-lib/truthy";
 
 /*
  * *** SlidesCanvas ***
@@ -70,11 +71,12 @@ const ThumbComponents = {
 };
 
 // TODO almost identical to @see CloseButton ImageZoom
-const CloseButton = ({ clickHandler }) => {
+const CloseButton = ({ clickHandler, distractionMode }) => {
+  const className = truthy(distractionMode) ? "top-[44px]" : "top-16";
   return (
     <div
       onClick={clickHandler}
-      className="fixed z-50 text-4xl leading-none cursor-pointer lg:text-5xl top-16 right-4 lg:right-20 group"
+      className={`${className} fixed z-50 text-4xl leading-none cursor-pointer lg:text-5xl top-16 right-4 lg:right-20 group`}
     >
       <div>
         <span className="pr-2 text-xs font-light text-gray-100 group-hover:text-yellow-400">
@@ -90,7 +92,7 @@ const CloseButton = ({ clickHandler }) => {
 };
 
 
-export const SlidesCanvas = ({ isCanvasOpen, slides, closeHandler }) => {
+export const SlidesCanvas = ({ isCanvasOpen, slides, closeHandler, ...props }) => {
   const router = useRouter();
   const animation = isCanvasOpen ? animations[0] : animations[2];
   const [blockScroll, allowScroll] = useScrollBlock();
@@ -109,7 +111,7 @@ export const SlidesCanvas = ({ isCanvasOpen, slides, closeHandler }) => {
 
   return (
     <>
-      <CloseButton clickHandler={closeClickHandler} />
+      <CloseButton clickHandler={closeClickHandler} {...props}/>
       <LazyMotion features={domAnimation}>
         <AnimatePresence exitBeforeEnter={false} initial={true}>
           <m.div

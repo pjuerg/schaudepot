@@ -32,13 +32,13 @@
 /* *** slide image *** */
 
 .linkedArtImg--slide {
-   @apply h-full drop-shadow-lg; 
+   @apply h-full px-2 drop-shadow-lg md:px-4; 
 
   .linkedArtImg-wrapper {
     @apply flex flex-col items-center justify-center h-full transform-none;
   }
   .linkedArtImg-src {
-    @apply  object-contain max-w-full max-h-full;
+    @apply  object-contain max-w-full max-h-full md:cursor-pointer;
   
   }
 }
