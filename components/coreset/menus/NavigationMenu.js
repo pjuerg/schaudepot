@@ -106,7 +106,7 @@ const NavigationBar = ({
   const className = isDistractionMode ? "" : "md:border-t";
   return (
     <div
-      className={`${className} flex items-center border-gray-600 text-gray-600`}
+      className={`${className} flex items-center border-gray-500 text-gray-600`}
     >
       <LinkWidthDirection
         className={`-ml-2`}
@@ -115,7 +115,6 @@ const NavigationBar = ({
         {...props}
       >
         <MdFirstPage className={classNameIconBasic} />
-        {!isMobil && <Label className="md:-ml-1">Start</Label>}
       </LinkWidthDirection>
 
       <LinkWidthDirection url={previousUrl} direction={-1} {...props}>
@@ -128,10 +127,28 @@ const NavigationBar = ({
         <MdChevronRight className={classNameIconBasic} />
       </LinkWidthDirection>
 
+      {/* open slideGallery */}
+      <button
+        className="flex items-center px-4 group outline-0"
+        onClick={switchSlideGalleryHandler}
+      >
+        <MdViewModule className={classNameIconBasic} />
+        {!isMobil && <Label className="pl-0">Gallerie</Label>}
+      </button>
+      {/* index counter */}
+      <div className="-ml-3  py-0.5  text-sm text-gray-gray-600 font-light">
+        {exists(index) && (
+          <>
+            <span>{index + 1}</span>
+            <span className="px-0.5">|</span>
+            <span>{total}</span>
+          </>
+        )}
+      </div>
       {/* mode distraction */}
       {!isMobil && (
         <button
-          className="flex items-center px-4 group outline-0"
+          className="flex items-center pl-4 pr-2 group outline-0"
           onClick={switchDistractionModeHandler}
         >
           {isDistractionMode && (
@@ -146,24 +163,6 @@ const NavigationBar = ({
           </Label>
         </button>
       )}
-      {/* open slideGallery */}
-      <button
-        className="flex items-center px-4 group outline-0"
-        onClick={switchSlideGalleryHandler}
-      >
-        <MdViewModule className={classNameIconBasic} />
-        {!isMobil && <Label className="pl-0">Gallerie</Label>}
-      </button>
-      {/* index counter */}
-      <div className="-ml-3 md:px-2 py-0.5  text-sm text-gray-gray-600 font-light">
-        {exists(index) && (
-          <>
-            <span>{index + 1}</span>
-            <span className="px-0.5">{!isMobil ? "von" : "|"}</span>
-            <span>{total}</span>
-          </>
-        )}
-      </div>
     </div>
   );
 };
@@ -188,7 +187,7 @@ const Title = ({
   return (
     <div className="w-full">
       <h2
-        className={`${className} inline-block text-sm font-normal px-2 py-1 leading-tight border-gray-600  `}
+        className={`${className} inline-block text-sm font-normal px-2 py-1 leading-tight border-gray-500  `}
         onClick={switchSlideGalleryHandler}
       >
         <span className="pr-1">Schaudepot:</span>
