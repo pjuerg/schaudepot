@@ -9,6 +9,7 @@ import head from "ramda/src/head";
 import prop from "ramda/src/prop";
 import identity from "ramda/src/identity";
 
+
 import { splitAtLastSlash } from "../../../libs/rmd-lib/splitAtLastSlash";
 import { findAtId } from "../../../libs/rmd-lib/findAtId";
 import { commaIfNotLast } from "../../../libs/rmd-lib/commaIfNotLast";
@@ -24,6 +25,7 @@ import {
 } from "../../../utils/utilsImage";
 import { useIsMobil } from "../../../libs/hooks/useResponsiveShortcut";
 import { checkDistractionMode } from "../../../utils/utilsCoreset";
+import { getFieldsData } from "../../../utils/utilsFields";
 import {
   CLASSIFIED_AS,
   IDENTIFIED_BY,
@@ -38,9 +40,7 @@ import {
 import { removeEmptySectionsAndAddMissingLabels } from "../../../values/structureHelper";
 import { LinkedArtImage } from "../../linkedartimage";
 
-import { TwoColumnsContainer } from "../Container";
 import { switchDistractionModeDispatcher } from "../menus/NavigationMenu";
-import { getFieldsData } from "../../../utils/utilsFields";
 
 /*
  * *** Item Slide  ***
@@ -63,7 +63,52 @@ const useItemDataWithRouter = () => {
   return findAtId(itemId, items);
 };
 
+
+
+const ImageInfo = ({ imgData }) => {
+  const creator = getRepresentationCreator(imgData);
+  const copyright = getRepresentationCopyright(imgData);  
+  return (
+    <div className="flex pt-2 text-xs font-light">
+      {/* <div className="pr-1">BildInformationen:</div> */}
+      {/* <div>{getRepresentationLegend(imgData)}</div> */}
+      { creator && <div className="pr-2">{creator}</div> }
+     { copyright &&  <div>{copyright}</div> }
+    </div>
+  );
+};
+
+// const ImageInfo = ({ imgData, isItemInfoVisible, clickHandler}) => {
+//   return (
+//     <div className="px-0 pb-4 text-sm font-light md:px-4 lg:px-0">
+//       {isItemInfoVisible ? (
+//         <>
+//           <div
+//             className="flex font-normal text-gray-500 cursor-pointer hover:underline"
+//             onClick={clickHandler}
+//           >
+//             Bildinformationen
+//             <MdExpandLess className="relative top-1"  />
+//           </div>
+//           <div>{getRepresentationLegend(imgData)}</div>
+//           <div>{getRepresentationCreator(imgData)}</div>
+//           <div>{getRepresentationCopyright(imgData)}</div>
+//         </>
+//       ) : (
+//         <div
+//           className="flex font-normal text-gray-500 cursor-pointer hover:underline"
+//           onClick={clickHandler}
+//         >
+//           Bildinformationen <MdExpandMore className="relative top-1" />
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
 export const ItemSlide = () => {
+  // const [isItemInfoVisible, showItemInfo] = useState(false)
+  // const switchItemInfo = () => showItemInfo(!isItemInfoVisible)
   const { distractionMode } = useContext(CoresetStateContext);
   const dispatch = useContext(CoresetDispatchContext);
   const itemData = useItemDataWithRouter();
@@ -74,8 +119,8 @@ export const ItemSlide = () => {
     dataSite,
     fieldStructure,
     itemData
-    );
-  const fields = compose(prop('fields'), head)(cleandFieldStructure)
+  );
+  const fields = compose(prop("fields"), head)(cleandFieldStructure);
   const fieldData = getFieldsData(fields, itemData);
   const imgData = maybe(head)(representation);
   const isMobil = useIsMobil();
@@ -102,8 +147,8 @@ export const ItemSlide = () => {
         />
       </div>
 
-      <TwoColumnsContainer
-        className={`${classNameText} flex-col  md:flex-row px-4 md:pl-6 lg:px-20 -ml-2 leading-none`}
+      <div
+        className={`${classNameText} flex-col   px-4 md:pl-6 lg:px-20 -ml-2 leading-none`}
       >
         <div>
           <h1 className={`${classNameDescription} pt-4 pb-1`}>
@@ -134,14 +179,11 @@ export const ItemSlide = () => {
         </div>
 
         {isNotDistractionMode && hasAnyRepresentationInfo(imgData) && (
-          <div className="px-0 pt-2 pb-4 text-sm font-light md:pt-12 md:pb-0 md:px-4 lg:px-0">
-            <div>Bildnachweis</div>
-            <div>{getRepresentationLegend(imgData)}</div>
-            <div>{getRepresentationCreator(imgData)}</div>
-            <div>{getRepresentationCopyright(imgData)}</div>
-          </div>
+          <ImageInfo
+            imgData={imgData}
+          />
         )}
-      </TwoColumnsContainer>
+      </div>
     </div>
   );
 };
