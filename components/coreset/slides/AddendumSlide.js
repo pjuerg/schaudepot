@@ -2,15 +2,12 @@
 
 import PropTypes from "prop-types";
 
+import Link from "next/link";
 import { ATTRIBUTED_BY, LINK_PERSON_PAGE } from "../../../values/constants";
 import { useSWRCoresetPersonAndStructure } from "../../../utils/useSWRCoresetPerson";
 import { ROUTE_CORESET } from "../../../utils/routes";
 
-
-import { FieldsFactory } from "../FieldsFactory";
 import { TextContainer, TwoColumnsContainer } from "../Container";
-import { classNameFieldConfigs } from "./coverSlide";
-import Link from "next/link";
 
 /*
  * *** Addendum Slide  ***
@@ -75,12 +72,8 @@ export const AddendumSlide = () => {
           <br />
           <br />
           <br />
-          {/* <FieldsFactory
-            data={personData}
-            {...head(cleandFieldStructure)}
-            {...classNameDesriptionConfigs}
-          /> */}
-          {/* <h3 className="pb-3 text-sm text-gray-600">Weiter mit</h3> */}
+
+
           <PrimaryButtonXL
             label={`Alle Kernbestände`}
             url={`${ROUTE_CORESET}`}

@@ -29,4 +29,4 @@ const delimiterIfNotLast = curry((sign, arr, index) => {
  *   ));
  * }
  */
-export const commaIfNotLast = delimiterIfNotLast(" ,");
+export const commaIfNotLast = delimiterIfNotLast(", ");

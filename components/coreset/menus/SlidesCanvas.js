@@ -8,6 +8,7 @@ import thunkify from "ramda/src/thunkify";
 import useScrollBlock from "../../../libs/hooks/useScrollBlock";
 import { splitAtLastSlash } from "../../../libs/rmd-lib/splitAtLastSlash";
 import { findAtId } from "../../../libs/rmd-lib/findAtId";
+import { exists } from "../../../libs/rmd-lib/exists";
 
 import { animations } from "../../../utils/animations";
 
@@ -16,8 +17,6 @@ import { SlideFactory } from "../SlideFactory";
 import { CoresetStateContext } from "../../../store/CoresetContext";
 import { LinkedArtImage } from "../../linkedartimage";
 import { IMAGE_SIZE_MD } from "../../linkedartimage/LinkedArtImage";
-import { exists } from "../../../libs/rmd-lib/exists";
-import { truthy } from "../../../libs/rmd-lib/truthy";
 
 /*
  * *** SlidesCanvas ***
@@ -72,7 +71,7 @@ const ThumbComponents = {
 
 // TODO almost identical to @see CloseButton ImageZoom
 const CloseButton = ({ clickHandler, isDistractionMode }) => {
-  console.log("isDistractionMode", isDistractionMode);
+  // console.log("isDistractionMode", isDistractionMode);
   const className = isDistractionMode ? "top-8" : "top-14";
   // const className = ""
   return (

@@ -11,6 +11,7 @@ import identity from "ramda/src/identity";
 
 import { splitAtLastSlash } from "../../../libs/rmd-lib/splitAtLastSlash";
 import { findAtId } from "../../../libs/rmd-lib/findAtId";
+import { commaIfNotLast } from "../../../libs/rmd-lib/commaIfNotLast";
 import { fetcher } from "../../../libs/fetcher";
 import { maybe } from "../../../libs/rmd-lib/maybe";
 
@@ -36,10 +37,10 @@ import {
 } from "../../../store/CoresetContext";
 import { removeEmptySectionsAndAddMissingLabels } from "../../../values/structureHelper";
 import { LinkedArtImage } from "../../linkedartimage";
-import { FieldsFactory } from "../FieldsFactory";
+
 import { TwoColumnsContainer } from "../Container";
 import { switchDistractionModeDispatcher } from "../menus/NavigationMenu";
-import { classNameFieldConfigs } from "./coverSlide";
+import { getFieldsData } from "../../../utils/utilsFields";
 
 /*
  * *** Item Slide  ***
@@ -47,10 +48,11 @@ import { classNameFieldConfigs } from "./coverSlide";
  * @remember all loadind in central page [...slides].js
  */
 
+const idDataArchiveNumber = "300404620";
 const titleFields = [
   { key: TIMESPAN },
-  { key: IDENTIFIED_BY, idData: "300404620" },
-  { key: CLASSIFIED_AS, idData: "300435443", textOnly: true },
+  { key: CLASSIFIED_AS, idData: "300435443" },
+  { key: IDENTIFIED_BY, idData: idDataArchiveNumber },
 ];
 
 const fieldStructure = [{ fields: titleFields }];
@@ -72,7 +74,9 @@ export const ItemSlide = () => {
     dataSite,
     fieldStructure,
     itemData
-  );
+    );
+  const fields = compose(prop('fields'), head)(cleandFieldStructure)
+  const fieldData = getFieldsData(fields, itemData);
   const imgData = maybe(head)(representation);
   const isMobil = useIsMobil();
   const isDistractionMode = checkDistractionMode(distractionMode, isMobil);
@@ -106,11 +110,20 @@ export const ItemSlide = () => {
             {itemData.label}
           </h1>
           {isNotDistractionMode && (
-            <FieldsFactory
-              data={itemData}
-              {...head(cleandFieldStructure)}
-              {...classNameFieldConfigs}
-            />
+            <div className="text-sm font-light">
+              {fieldData.map(({ value, label, id }, index) => (
+                <>
+                  {id === idDataArchiveNumber ? (
+                    <span key={index}>
+                      {label} {value}{" "}
+                    </span>
+                  ) : (
+                    <span key={index}>{value} </span>
+                  )}
+                  {commaIfNotLast(fieldData, index)}
+                </>
+              ))}
+            </div>
           )}
           <a
             className="text-sm font-light underline"

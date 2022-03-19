@@ -1,13 +1,10 @@
 // components/coreset/slides/cover.js
 
-import head from "ramda/src/head";
-
 import { ATTRIBUTED_BY, LINK_PERSON_PAGE } from "../../../values/constants";
 import { useSWRCoresetPersonAndStructure } from "../../../utils/useSWRCoresetPerson";
-import { FieldsFactory } from "../FieldsFactory";
+
 import { TextContainer, TwoClmsImgTextContainer } from "../Container";
 import { RepresentationPortraitImage } from "../RepresentationPortraitImage";
-import { pageSectionTitle } from "../../../coresetConfigs";
 
 /*
  * *** Cover Slide  ***
@@ -80,15 +77,7 @@ export const CoverSlide = () => {
             einfach die Pfeiltasten auf der Tastatur verwenden.
           </p>
         </div>
-        {/* <h3 className="pb-3 text-sm text-gray-600">
-          Weitere Information finden Sie
-        </h3>
 
-        <FieldsFactory
-          data={personData}
-          {...head(cleandFieldStructure)}
-          {...classNameFieldConfigs}
-        /> */}
       </TextContainer>
     </TwoClmsImgTextContainer>
   );

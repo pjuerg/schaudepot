@@ -13,18 +13,17 @@ import reduce from "ramda/src/reduce";
 import { filterAtId } from "../../../libs/rmd-lib/filterAtId";
 import { second } from "../../../libs/rmd-lib/second";
 import { isArray } from "../../../libs/rmd-lib/isArray";
+import { falsy } from "../../../libs/rmd-lib/falsy";
 
-import { IDENTIFIED_BY, REFERRED_TO_BY } from "../../../values/constants";
+import { REFERRED_TO_BY } from "../../../values/constants";
 import { useSWRCoresetPersonAndStructure } from "../../../utils/useSWRCoresetPerson";
 import { useIsMobil } from "../../../libs/hooks/useResponsiveShortcut";
 
-import { FORMAT_TEXT_HTML } from "../../../utils/utilsFields";
-import { FieldsFactory } from "../FieldsFactory";
+import { FORMAT_TEXT_HTML, getFieldsData } from "../../../utils/utilsFields";
 import { TextContainer, TwoClmsImgTextContainer } from "../Container";
-import { classNameFieldConfigs } from "./coverSlide";
+
 import { RepresentationPortraitImage } from "../RepresentationPortraitImage";
 import { absoluteLinkPerson } from "../../../utils/routes";
-import { falsy } from "../../../libs/rmd-lib/falsy";
 
 /*
  * *** Intro Slide  ***
@@ -36,7 +35,7 @@ import { falsy } from "../../../libs/rmd-lib/falsy";
  * System to generate fields from linkedart-api
  */
 const introFields = [
-  { key: IDENTIFIED_BY, idData: "300264273" },
+  // { key: IDENTIFIED_BY, idData: "300264273" },
   { key: "born.timespan" },
   { key: "born.took_place_at" },
   { key: "died.timespan" },
@@ -84,10 +83,19 @@ export const IntroSlide = () => {
     useSWRCoresetPersonAndStructure(fieldStructure);
   const isMobil = useIsMobil();
 
+  const introFields = compose(prop("fields"), head)(cleandFieldStructure);
+  const introFieldsData = getFieldsData(introFields, personData);
+
   const scrollbarHtml = joinFieldsToHtml(personData)(
     second(cleandFieldStructure)
   );
 
+
+  // const bioFields = compose(prop("fields"), second)(cleandFieldStructure);
+  // const bioFieldsData = getFieldsData(bioFields, personData);
+
+  // console.log("bioFieldsData");
+  // console.log(bioFieldsData);
 
   return (
     <TwoClmsImgTextContainer>
@@ -96,11 +104,15 @@ export const IntroSlide = () => {
         <h1 className="pb-4 text-3xl font-semibold lg:text-4xl">
           Über {personData.label}
         </h1>
-        <FieldsFactory
-          data={personData}
-          {...head(cleandFieldStructure)}
-          {...classNameFieldConfigs}
-        />
+
+        <div className="text-sm">
+          {introFieldsData.map(({ label, value }, index) => (
+            <div key={index}>
+              <span className="font-light">{label}:</span> {value}
+            </div>
+          ))}
+        </div>
+
         <a
           className="pb-8 text-sm font-light underline"
           href={absoluteLinkPerson(personData.id)}
