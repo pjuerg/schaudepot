@@ -13,24 +13,6 @@ import { RepresentationPortraitImage } from "../RepresentationPortraitImage";
  */
 
 /**
- * Overwrite default classNames in description label and field itself.
- * smaller font, margin, etc.
- *
- * @see GenericDescriptionFields.DescriptionLabel
- * @see GenericDescriptionFields.Fields
- */
-export const classNameFieldConfigs = {
-  classNameDesriptionLabelConfigs: {
-    py: 0,
-    font: "font-light",
-    minW: "min-w-[6rem] ",
-    flexDl: "flex",
-  },
-  classNameFieldConfigs: { textSize: "text-sm font-base" },
-};
-
-
-/**
  * System to generate fields from linkedart-api
  */
 const coverFields = [

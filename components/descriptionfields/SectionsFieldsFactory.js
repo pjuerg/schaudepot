@@ -21,16 +21,13 @@ import {
   BasicDescriptionFieldsByArrayWithDataId,
 } from "./GenericDescriptionFields";
 import { AdditionalMedia } from "./AdditionalMedia";
-import {  EquivalentOffers } from "./EquivalentOffers";
+import { EquivalentOffers } from "./EquivalentOffers";
 import { ItemsToPersonButton, PDFLink } from "./IndividualDescriptionFields";
-
 
 /*
  *  *** SectionsFieldsFactory ***
  * ---------------------------------
  */
-
-
 
 export const SectionsFieldsFactory = ({ data, fields, className = "" }) => {
   return (
@@ -46,7 +43,9 @@ export const SectionsFieldsFactory = ({ data, fields, className = "" }) => {
         } else if (
           rowKeyEquals(BUTTON_COMPONENT_ITEMS_FROM_ARTIST, rowStructure)
         ) {
-          return <ItemsToPersonButton key={index} {...data} {...rowStructure} />;
+          return (
+            <ItemsToPersonButton key={index} {...data} {...rowStructure} />
+          );
         } else if (isStringAtDataAtKey(dataAtKey)) {
           // Change data for api DescriptionFieldFactory
           const objFromString = { value: dataAtKey, label: rowStructure.label };
