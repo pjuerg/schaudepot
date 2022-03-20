@@ -155,18 +155,18 @@ export const ItemSlide = () => {
             {itemData.label}
           </h1>
           {isNotDistractionMode && (
-            <div className="text-sm font-light">
+            <div className="flex text-sm font-light">
               {fieldData.map(({ value, label, id }, index) => (
-                <>
+                <div key={index} className="pr-1">
                   {id === idDataArchiveNumber ? (
-                    <span key={index}>
-                      {label} {value}{" "}
+                    <span>
+                      {label} {value}
                     </span>
                   ) : (
-                    <span key={index}>{value} </span>
+                    <span>{value}</span>
                   )}
                   {commaIfNotLast(fieldData, index)}
-                </>
+                </div>
               ))}
             </div>
           )}
@@ -179,9 +179,7 @@ export const ItemSlide = () => {
         </div>
 
         {isNotDistractionMode && hasAnyRepresentationInfo(imgData) && (
-          <ImageInfo
-            imgData={imgData}
-          />
+          <ImageInfo imgData={imgData} />
         )}
       </div>
     </div>
