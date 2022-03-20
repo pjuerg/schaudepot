@@ -64,6 +64,16 @@ const ImageWrapper = forwardRef(
         <div className="relative linkedArtImg-wrapper">
           {icon && icon}
 
+          {/* @remember code for nextjs/image needs in configs the image server */}
+          {/* <Image
+          placeholder="blur".
+            className="linkedArtImg-src"
+            src={src}
+            layout={undefined}
+            width={width}
+            height={height}
+          />
+           */}
           <img
             onClick={onClickHandler}
             // srcset={`${src320} 320w, ${src640} 640w, ${srcOriginal} 1000w`}
