@@ -28,7 +28,7 @@ export const CoverSlide = (props) => {
     useSWRCoresetPersonAndStructure(fieldStructure);
 
   return (
-    <TwoClmsImgTextContainer {...props}>
+    <TwoClmsImgTextContainer {...props} >
       <RepresentationPortraitImage {...personData} />
 
       <TextContainer className="px-2 md:px-4 lg:lg:8px ">

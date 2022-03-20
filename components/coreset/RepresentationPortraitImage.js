@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import { getPreviewImage, getRepresentationCopyright, getRepresentationCreator, getRepresentationLegend, hasAnyRepresentationInfo } from "../../utils/utilsImage";
 import { LinkedArtImage } from "../linkedartimage";
 
@@ -25,3 +26,6 @@ export const RepresentationPortraitImage = ({ representation }) => {
     </div>
   );
 };
+RepresentationPortraitImage.propTypes = {
+  representation: PropTypes.array.isRequired
+}

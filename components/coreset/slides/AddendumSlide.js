@@ -53,7 +53,7 @@ const coverFields = [
 ];
 const fieldStructure = [{ fields: coverFields }];
 
-export const AddendumSlide = () => {
+export const AddendumSlide = (props) => {
   // already loaded in @see [...slides].js
   // @remember all loadind in central page [...slides].js
   const { personData, cleandFieldStructure } =

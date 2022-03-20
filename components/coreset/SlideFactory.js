@@ -47,6 +47,8 @@ export const SlideFactory = ({ components, ...props  }) => {
   }
 };
 SlideFactory.propTypes = {
+  //
   path: PropTypes.string.isRequired,
-  components: PropTypes.any,
+  ///
+  components: PropTypes.object.isRequired,
 };

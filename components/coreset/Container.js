@@ -24,6 +24,11 @@ export const TwoClmsImgTextContainer = ({ className = "", isDistractionMode, chi
     </div>
   );
 };
+TwoClmsImgTextContainer.propTypes = {
+  className: PropTypes.string,
+  isDistractionMode: PropTypes.bool,
+  children: PropTypes.array.isRequired
+}
 
 export const TwoColumnsContainer = ({
   className = "",
@@ -40,6 +45,8 @@ export const TwoColumnsContainer = ({
 };
 TwoColumnsContainer.propTypes = {
   className: PropTypes.string,
+  classNameFirstClm: PropTypes.string,
+  classNameSecondClm: PropTypes.string,
   children: PropTypes.array.isRequired,
 };
 
@@ -55,11 +62,16 @@ export const ThreeColumnsContainer = ({
     </div>
   );
 };
-TwoColumnsContainer.propTypes = {
+ThreeColumnsContainer.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.array.isRequired,
-};
+  children: PropTypes.array.isRequired
+}
+
 
 export const TextContainer = ({ className = "", children }) => {
   return <div className={`${className}`}>{children}</div>;
+};
+TextContainer.propTypes = {
+  className: PropTypes.string, // add some css classes
+  children: PropTypes.node.isRequired, // add one react element 
 };
