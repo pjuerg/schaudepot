@@ -130,8 +130,8 @@ export const ItemSlide = () => {
     ? switchDistractionModeDispatcher(dispatch, distractionMode)
     : identity;
 
-  const classNameImage = isDistractionMode ? "h-[92%]" : "h-[80%] ";
-  const classNameText = isDistractionMode ? "h-[8%]" : "h-[20%] ";
+  const classNameImage = isDistractionMode ? "h-[93%]" : "h-[80%] ";
+  const classNameText = isDistractionMode ? "h-[7%]" : "h-[20%] ";
   const classNameDescription = isDistractionMode
     ? "pt-0 font-light"
     : "pt-4 pb-2";

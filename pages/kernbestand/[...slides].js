@@ -95,7 +95,7 @@ export default function SlidesContainerPage() {
     }
   }, [dataCoreset, asPath, dispatch]);
 
-  const className = isDistractionMode ? "pt-24" : "pt-36";
+  const className = isDistractionMode ? "pt-16" : "pt-36";
 
   return (
     <>
@@ -109,7 +109,11 @@ export default function SlidesContainerPage() {
         {falsy(allDataLoaded) ? (
           <Loading className="items-center justify-center h-[80%]" />
         ) : (
-            <SlideFactory path={asPath} components={slidesComponents} />
+          <SlideFactory
+            path={asPath}
+            isDistractionMode={isDistractionMode}
+            components={slidesComponents}
+          />
         )}
       </div>
     </>

@@ -68,9 +68,43 @@ const fadeOut = {
   },
 };
 
+const slideTop = {
+  name: "slide top",
+  variants: {
+    initial: {
+      y: 0,
+    },
+    animate: {
+      y: -60,
+    },
+    exit: {
+      y: 0,
+    },
+  },
+  transition: {
+    duration: 0.15,
+    ease: "easeOut",
+  },
+};
 
-export const animations = [
-  fadeRight,
-  fadeLeft,
-  fadeOut,
-];
+const slideBottom = {
+  name: "slide bottom",
+  variants: {
+    initial: {
+      y: -60,
+    },
+    animate: {
+      y: 0,
+    },
+    exit: {
+      y: -60,
+    },
+  },
+  transition: {
+    duration: 0.15,
+    ease: "easeOut",
+  },
+};
+
+
+export const animations = [fadeRight, fadeLeft, fadeOut, slideTop, slideBottom];

@@ -21,14 +21,14 @@ const coverFields = [
 ];
 const fieldStructure = [{ fields: coverFields }];
 
-export const CoverSlide = () => {
+export const CoverSlide = (props) => {
   // already loaded in @see [...slides].js
   // @remember all loadind in central page [...slides].js
   const { personData, cleandFieldStructure } =
     useSWRCoresetPersonAndStructure(fieldStructure);
 
   return (
-    <TwoClmsImgTextContainer>
+    <TwoClmsImgTextContainer {...props}>
       <RepresentationPortraitImage {...personData} />
 
       <TextContainer className="px-2 md:px-4 lg:lg:8px ">

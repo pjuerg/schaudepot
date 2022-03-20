@@ -279,10 +279,10 @@ export const NavigationMenu = () => {
   // ? "bg-gradient-to-b from-teal via-teal to-transparent"
 
   const classNameBackground = isCanvasOpen
-    ? "bg-teal"
-    : "bg-gray-100/90 md:w-auto";
+    ? ""
+    : " md:w-auto";
   const classNameDistraction = truthy(distractionMode)
-    ? "md:flex-row top-10"
+    ? "md:flex-row top-0"
     : "md:flex-col top-10 pt-5";
   const className = `${classNameBackground} ${classNameDistraction}`;
 
@@ -318,6 +318,7 @@ export const NavigationMenu = () => {
           slides={slides}
           closeHandler={switchSlideGalleryHandler}
         />
+
       )}
     </>
   );

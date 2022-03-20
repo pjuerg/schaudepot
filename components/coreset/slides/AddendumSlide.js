@@ -61,7 +61,7 @@ export const AddendumSlide = () => {
  
   return (
     <>
-      <TwoColumnsContainer>
+      <TwoColumnsContainer {...props }>
         <div></div>
         <TextContainer className="px-2 pb-10 md:px-4 lg:8px">
           <h1 className="text-xl font-bold leading-tight">

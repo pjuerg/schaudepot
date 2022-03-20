@@ -76,8 +76,8 @@ const joinFieldsToHtml = (personData) =>
     prop("fields")
   );
 
-export const IntroSlide = () => {
-  // already loaded in @see [...slides].js
+export const IntroSlide = (props) => {
+   // already loaded in @see [...slides].js
   // @remember all loadind in central page [...slides].js
   const { personData, cleandFieldStructure } =
     useSWRCoresetPersonAndStructure(fieldStructure);
@@ -90,7 +90,6 @@ export const IntroSlide = () => {
     second(cleandFieldStructure)
   );
 
-
   // const bioFields = compose(prop("fields"), second)(cleandFieldStructure);
   // const bioFieldsData = getFieldsData(bioFields, personData);
 
@@ -98,7 +97,7 @@ export const IntroSlide = () => {
   // console.log(bioFieldsData);
 
   return (
-    <TwoClmsImgTextContainer>
+    <TwoClmsImgTextContainer {...props}>
       {falsy(isMobil) && <RepresentationPortraitImage {...personData} />}
       <TextContainer className="relative flex flex-col h-full px-2 pb-10 md:px-4 lg:8px">
         <h1 className="pb-4 text-3xl font-semibold lg:text-4xl">

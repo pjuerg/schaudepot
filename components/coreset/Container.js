@@ -10,9 +10,9 @@ import PropTypes from "prop-types";
 
 const classNameClms = "md:w-1/2 h-full pb-8 md:pb-0  md:h-full ";
 
-export const TwoClmsImgTextContainer = ({ children }) => {
+export const TwoClmsImgTextContainer = ({ className = "", isDistractionMode, children }) => {
   return (
-    <div className={` flex flex-col md:flex-row md:h-full`}>
+    <div className={`${isDistractionMode ? "pt-16 pb-8" :""} ${className} flex flex-col md:flex-row md:h-full`}>
       <div className={`${classNameClms} order-2 md:order-1  `}>
         {children[0]}
       </div>

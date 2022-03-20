@@ -3,9 +3,7 @@ import { LazyMotion, domAnimation, m } from "framer-motion";
 import Link from "next/link";
 import { useContext } from "react";
 import { linkContact, linkImprint, pageTitle } from "../../coresetConfigs";
-import {
-  useIsMobil,
-} from "../../libs/hooks/useResponsiveShortcut";
+import { useIsMobil } from "../../libs/hooks/useResponsiveShortcut";
 import { CoresetStateContext } from "../../store/CoresetContext";
 
 import { ROUTE_HOME } from "../../utils/routes";
@@ -18,25 +16,27 @@ import { animations } from "../../utils/animations";
  */
 
 export const Fixedbar = () => {
-  const { isSlideCanvasOpen } = useContext(CoresetStateContext);
+  const { isSlideCanvasOpen, distractionMode } =
+    useContext(CoresetStateContext);
+
   // const textColor = isSlideCanvasOpen ? "text-teal" : "text-gray-300";
   const textColor = "text-gray-300";
 
   const isMobil = useIsMobil();
 
   let animation;
-  if (isSlideCanvasOpen) animation = animations[2];
-  else if (!isSlideCanvasOpen) animation = animations[0];
-
+  if (distractionMode || isSlideCanvasOpen) animation = animations[3];
+  else if (!distractionMode || !isSlideCanvasOpen) animation = animations[4];
+  
   return (
-    <div className="fixed top-0 left-0 z-10 w-full bg-teal ">
-      <LazyMotion features={domAnimation}>
-        <m.div
-          animate="animate"
-          variants={animation.variants}
-          transition={animation.transition}
-          className="flex items-center"
-        >
+    <LazyMotion features={domAnimation}>
+      <m.div
+        animate="animate"
+        variants={animation.variants}
+        transition={animation.transition}
+        className="fixed top-0 left-0 z-10 w-full bg-teal "
+      >
+        <div className="flex items-center">
           <Link href={ROUTE_HOME}>
             <a
               className={`${textColor} lg:pl-[4.5rem] px-2 md:px-4 py-2  hover:underline`}
@@ -59,8 +59,8 @@ export const Fixedbar = () => {
               </li>
             </ul>
           )}
-        </m.div>
-      </LazyMotion>
-    </div>
+        </div>
+      </m.div>
+    </LazyMotion>
   );
 };
