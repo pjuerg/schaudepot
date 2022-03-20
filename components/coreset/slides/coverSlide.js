@@ -49,17 +49,19 @@ export const CoverSlide = (props) => {
         <div className="hidden p-4 text-gray-100 bg-gray-600 rounded-sm md:visible md:inline-block">
           <h2 className="pb-2 font-semibold">
             <span className="px-2 text-gray-700 bg-gray-100">
-              Navigations-Tipp
+              Navigations-Tipps:
             </span>
           </h2>
 
           <p className="font-light">
-            Zum schnellen hin und her Blättern
+            für schnelle Navigation die Tastatur verwenden.
             <br />
-            einfach die Pfeiltasten auf der Tastatur verwenden.
+            "Pfeiltasten" - hin und her Blättern
+            <br />
+            "W-Taste" - Fullscreen wechseln
+            <br />
           </p>
         </div>
-
       </TextContainer>
     </TwoClmsImgTextContainer>
   );

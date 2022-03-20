@@ -51,7 +51,6 @@ export const LinkWidthDirection = ({
   direction,
   children,
 }) => {
-  
   className = `${className} px-1 md:px-2 flex items-center`;
   return (
     <>
@@ -224,7 +223,7 @@ export const getNavigation = (path, slides, personId) => {
     nextUrl: index === slides.length - 1 ? null : slides[index + 1],
   };
 };
-
+const W_KEY_TIME = 0;
 export const NavigationMenu = () => {
   const {
     personId,
@@ -237,8 +236,9 @@ export const NavigationMenu = () => {
   const router = useRouter();
   const isMobil = useIsMobil();
   const isDistractionMode = checkDistractionMode(distractionMode, isMobil);
-  const arrowLeft = useKeyPress("ArrowLeft");
-  const arrowRight = useKeyPress("ArrowRight");
+  const arrowKeyLeft = useKeyPress("ArrowLeft");
+  const arrowKeyRight = useKeyPress("ArrowRight");
+  const wKey = useKeyPress("w");
   const { asPath: path } = router;
   const navigation = getNavigation(path, slides, personId);
   const transformedPerson = useSWRCoresetPerson();
@@ -261,26 +261,43 @@ export const NavigationMenu = () => {
       dispatch({ type: SET_CORESET_KEY_NAVIGATION_ACTION, payload: false });
     const debounceReset = debounce(dispatchResetKeyNavigation, 350);
 
-    if (truthy(arrowLeft) && falsy(keyNavigation) && exists(previousUrl)) {
+    if (truthy(arrowKeyLeft) && falsy(keyNavigation) && exists(previousUrl)) {
       dispatch({ type: SET_CORESET_ANIMATION_DIRECTION_ACTION, payload: -1 });
       dispatch({ type: SET_CORESET_KEY_NAVIGATION_ACTION, payload: true });
 
       router.push(previousUrl);
       debounceReset();
-    } else if (truthy(arrowRight) && falsy(keyNavigation) && exists(nextUrl)) {
+    } else if (truthy(arrowKeyRight) && falsy(keyNavigation) && exists(nextUrl)) {
       dispatch({ type: SET_CORESET_ANIMATION_DIRECTION_ACTION, payload: 1 });
       dispatch({ type: SET_CORESET_KEY_NAVIGATION_ACTION, payload: true });
       router.push(nextUrl);
       debounceReset();
+    } else if (
+      truthy(wKey) &&
+      falsy(keyNavigation) &&
+      Math.abs(W_KEY_TIME - Date.now()) > 250
+    ) {
+      W_KEY_TIME = Date.now();
+      dispatch({
+        type: SWITCH_DISTRACTION_MODE_ACTION,
+        payload: !distractionMode,
+      });
+      debounceReset();
     }
-  }, [arrowLeft, arrowRight, navigation, keyNavigation, router, dispatch]);
-    
+  }, [
+    arrowKeyLeft,
+    arrowKeyRight,
+    wKey,
+    navigation,
+    keyNavigation,
+    router,
+    dispatch,
+  ]);
+
   // transparent ... but hmmm
   // ? "bg-gradient-to-b from-teal via-teal to-transparent"
 
-  const classNameBackground = isCanvasOpen
-    ? ""
-    : " md:w-auto";
+  const classNameBackground = isCanvasOpen ? "" : " md:w-auto";
   const classNameDistraction = truthy(distractionMode)
     ? "md:flex-row top-0"
     : "md:flex-col top-10 pt-5";
@@ -318,7 +335,6 @@ export const NavigationMenu = () => {
           slides={slides}
           closeHandler={switchSlideGalleryHandler}
         />
-
       )}
     </>
   );
