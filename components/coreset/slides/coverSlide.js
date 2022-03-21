@@ -28,7 +28,7 @@ export const CoverSlide = (props) => {
     useSWRCoresetPersonAndStructure(fieldStructure);
 
   return (
-    <TwoClmsImgTextContainer {...props} >
+    <TwoClmsImgTextContainer {...props}>
       <RepresentationPortraitImage {...personData} />
 
       <TextContainer className="px-2 md:px-4 lg:lg:8px ">
@@ -56,9 +56,9 @@ export const CoverSlide = (props) => {
           <p className="font-light">
             für schnelle Navigation die Tastatur verwenden.
             <br />
-            "Pfeiltasten" - hin und her Blättern
+            <span className="italic">Pfeiltasten</span> - hin und her Blättern
             <br />
-            "W-Taste" - Fullscreen wechseln
+            <span className="italic">W-Taste</span> - Fullscreen wechseln
             <br />
           </p>
         </div>
