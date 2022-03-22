@@ -8,13 +8,16 @@ import compose from "ramda/src/compose";
 import head from "ramda/src/head";
 import prop from "ramda/src/prop";
 import identity from "ramda/src/identity";
-
+import find from "ramda/src/find";
+import propEq from "ramda/src/propEq";
 
 import { splitAtLastSlash } from "../../../libs/rmd-lib/splitAtLastSlash";
 import { findAtId } from "../../../libs/rmd-lib/findAtId";
 import { commaIfNotLast } from "../../../libs/rmd-lib/commaIfNotLast";
 import { fetcher } from "../../../libs/fetcher";
 import { maybe } from "../../../libs/rmd-lib/maybe";
+
+import { BsInfoSquare } from "react-icons/bs";
 
 import {
   getPreviewImage,
@@ -63,17 +66,15 @@ const useItemDataWithRouter = () => {
   return findAtId(itemId, items);
 };
 
-
-
 const ImageInfo = ({ imgData }) => {
   const creator = getRepresentationCreator(imgData);
-  const copyright = getRepresentationCopyright(imgData);  
+  const copyright = getRepresentationCopyright(imgData);
   return (
     <div className="flex pt-2 text-xs font-light">
       {/* <div className="pr-1">BildInformationen:</div> */}
       {/* <div>{getRepresentationLegend(imgData)}</div> */}
-      { creator && <div className="pr-2">{creator}</div> }
-     { copyright &&  <div>{copyright}</div> }
+      {creator && <div className="pr-2">{creator}</div>}
+      {copyright && <div>{copyright}</div>}
     </div>
   );
 };
@@ -136,11 +137,16 @@ export const ItemSlide = () => {
     ? "pt-0 font-light"
     : "pt-4 pb-2";
 
+  const date = compose(
+    prop("value"),
+    find(propEq("key", "timespan"))
+  )(fieldData);
+ 
   return (
     <div className="flex flex-col h-full ">
       <div className={`${classNameImage} grow py-8`}>
         <LinkedArtImage
-          onClickHandler={switchDistractionModeHandler}
+          // onClickHandler={switchDistractionModeHandler}
           {...getPreviewImage(representation)}
           className=" linkedArtImg--slide"
           showLoading={true}
@@ -148,34 +154,49 @@ export const ItemSlide = () => {
       </div>
 
       <div
-        className={`${classNameText} flex-col   px-4 md:pl-6 lg:px-20 -ml-2 leading-none`}
+        className={`${classNameText} flex-col px-4 md:pl-6 lg:px-20 -ml-2 leading-none`}
       >
         <div>
-          <h1 className={`${classNameDescription} pt-4 pb-1`}>
-            {itemData.label}
-          </h1>
-          {isNotDistractionMode && (
-            <div className="flex text-sm font-light">
-              {fieldData.map(({ value, label, id }, index) => (
-                <div key={index} className="pr-1">
-                  {id === idDataArchiveNumber ? (
-                    <span>
-                      {label} {value}
-                    </span>
-                  ) : (
-                    <span>{value}</span>
-                  )}
-                  {commaIfNotLast(fieldData, index)}
-                </div>
-              ))}
-            </div>
+          {isNotDistractionMode ? (
+            <>
+              <h1 className={`${classNameDescription} pt-4 pb-1`}>
+                {itemData.label}
+              </h1>
+              <div className="flex text-sm font-light">
+                {fieldData.map(({ value, label, id }, index) => (
+                  <div key={index} className="pr-1">
+                    {id === idDataArchiveNumber ? (
+                      <span>
+                        {label} {value}
+                      </span>
+                    ) : (
+                      <span>{value}</span>
+                    )}
+                    {commaIfNotLast(fieldData, index)}
+                  </div>
+                ))}
+                <a
+                  className="text-sm font-light underline"
+                  href={absoluteLinkItem(itemData.id)}
+                >
+                  zur Beschreibung in der Werkdatenbank
+                </a>
+              </div>
+            </>
+          ) : (
+            <>
+              <h1 className={`${classNameDescription} inline-block pt-4 pb-1`}>
+                {itemData.label}
+              </h1>
+              {date && <span className="font-light">, {date}</span>}
+              <a
+                className="relative px-3 inline-block text-lg font-light hover:text-yellow-500 top-0.5"
+                href={absoluteLinkItem(itemData.id)}
+              >
+                <BsInfoSquare />
+              </a>
+            </>
           )}
-          <a
-            className="text-sm font-light underline"
-            href={absoluteLinkItem(itemData.id)}
-          >
-            zur Beschreibung in der Werkdatenbank
-          </a>
         </div>
 
         {isNotDistractionMode && hasAnyRepresentationInfo(imgData) && (

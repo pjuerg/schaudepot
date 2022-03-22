@@ -126,16 +126,8 @@ const NavigationBar = ({
         <MdChevronRight className={classNameIconBasic} />
       </LinkWidthDirection>
 
-      {/* open slideGallery */}
-      <button
-        className="flex items-center px-4 group outline-0"
-        onClick={switchSlideGalleryHandler}
-      >
-        <MdViewModule className={classNameIconBasic} />
-        {!isMobil && <Label className="pl-0">Gallerie</Label>}
-      </button>
       {/* index counter */}
-      <div className="-ml-3  py-0.5  text-sm text-gray-gray-600 font-light">
+      <div className="ml-2  py-0.5  text-sm text-gray-gray-600 font-light">
         {exists(index) && (
           <>
             <span>{index + 1}</span>
@@ -144,6 +136,15 @@ const NavigationBar = ({
           </>
         )}
       </div>
+
+      {/* open slideGallery */}
+      <button
+        className="flex items-center px-4 group outline-0"
+        onClick={switchSlideGalleryHandler}
+      >
+        <MdViewModule className={classNameIconBasic} />
+        {!isMobil && <Label className="pl-0">Gallerie</Label>}
+      </button>
       {/* mode distraction */}
       {!isMobil && (
         <button
@@ -158,7 +159,7 @@ const NavigationBar = ({
           )}
 
           <Label className="pl-1 whitespace-nowrap">
-            {isDistractionMode ? "Kleiner" : "Größer"}
+            {isDistractionMode ? "Mehr Informationen" : "Weniger Informationen"}
           </Label>
         </button>
       )}

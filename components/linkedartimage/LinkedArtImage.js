@@ -75,7 +75,7 @@ const ImageWrapper = forwardRef(
           />
            */}
           <img
-            onClick={onClickHandler}
+            // onClick={onClickHandler}
             // srcset={`${src320} 320w, ${src640} 640w, ${srcOriginal} 1000w`}
             // sizes="(max-width: 1024px) 320px, 640px"
             src={src}
