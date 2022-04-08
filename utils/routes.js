@@ -8,7 +8,7 @@ import { gateway } from "../coresetConfigs";
  */
 
 export const ROUTE_HOME = "/";
-export const ROUTE_INTRO = "/intro";
+export const ROUTE_BIO = "/bio";
 export const ROUTE_ADDENDUM = "/addendum";
 export const ROUTE_PERSON = "/person";
 export const ROUTE_CORESET = "/kernbestand";

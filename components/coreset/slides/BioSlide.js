@@ -1,4 +1,4 @@
-// components/coreset/slides/intro.js
+// components/coreset/slides/bio.js
 
 import compose from "ramda/src/compose";
 
@@ -26,7 +26,7 @@ import { RepresentationPortraitImage } from "../RepresentationPortraitImage";
 import { absoluteLinkPerson } from "../../../utils/routes";
 
 /*
- * *** Intro Slide  ***
+ * *** Bio Slide  ***
  * ---------------------
  * @remember all loadind in central page [...slides].js
  */
@@ -34,7 +34,7 @@ import { absoluteLinkPerson } from "../../../utils/routes";
 /**
  * System to generate fields from linkedart-api
  */
-const introFields = [
+const bioFields = [
   // { key: IDENTIFIED_BY, idData: "300264273" },
   { key: "born.timespan" },
   { key: "born.took_place_at" },
@@ -42,7 +42,7 @@ const introFields = [
   { key: "died.tookplace_at" },
 ];
 const biografyFields = [{ key: REFERRED_TO_BY, idData: "300435422" }];
-const fieldStructure = [{ fields: introFields }, { fields: biografyFields }];
+const fieldStructure = [{ fields: bioFields }, { fields: biografyFields }];
 
 /**
  * Helper for toScrollbarString
@@ -76,15 +76,15 @@ const joinFieldsToHtml = (personData) =>
     prop("fields")
   );
 
-export const IntroSlide = (props) => {
+export const BioSlide = (props) => {
    // already loaded in @see [...slides].js
   // @remember all loadind in central page [...slides].js
   const { personData, cleandFieldStructure } =
     useSWRCoresetPersonAndStructure(fieldStructure);
   const isMobil = useIsMobil();
 
-  const introFields = compose(prop("fields"), head)(cleandFieldStructure);
-  const introFieldsData = getFieldsData(introFields, personData);
+  const bioFields = compose(prop("fields"), head)(cleandFieldStructure);
+  const bioFieldsData = getFieldsData(bioFields, personData);
 
   const scrollbarHtml = joinFieldsToHtml(personData)(
     second(cleandFieldStructure)
@@ -105,7 +105,7 @@ export const IntroSlide = (props) => {
         </h1>
 
         <div className="text-sm">
-          {introFieldsData.map(({ label, value }, index) => (
+          {bioFieldsData.map(({ label, value }, index) => (
             <div key={index}>
               <span className="font-light">{label}:</span> {value}
             </div>

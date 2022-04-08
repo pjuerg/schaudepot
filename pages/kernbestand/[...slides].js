@@ -27,7 +27,7 @@ import {
 } from "../../store/CoresetContext";
 import {
   CoverSlide,
-  IntroSlide,
+  BioSlide,
   ItemSlide,
   AddendumSlide,
 } from "../../components/coreset";
@@ -41,7 +41,7 @@ import { Loading } from "../../components/Loading";
 
 const slidesComponents = {
   cover: <CoverSlide />,
-  intro: <IntroSlide />,
+  bio: <BioSlide />,
   item: <ItemSlide />,
   addendum: <AddendumSlide />,
 };

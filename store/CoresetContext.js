@@ -17,17 +17,16 @@ import { splitAtLastSlash } from "../libs/rmd-lib/splitAtLastSlash";
 import {
   ROUTE_ADDENDUM,
   ROUTE_CORESET,
-  ROUTE_INTRO,
+  ROUTE_BIO,
   ROUTE_ITEM,
 } from "../utils/routes";
 import { transformEvent } from "../values/event";
-import { transformPhysicalObject, transformPhysicalObjectListing } from "../values/physicalObject";
+import { transformPhysicalObject } from "../values/physicalObject";
 
 /*
  *  *** CoresetContext  ***
  * ------------------------
  */
-
 
 export const SET_CORESET_EVENT_ID_ACTION = "SET_CORESET_EVENT_ID_ACTION";
 export const LOAD_CORESET_ACTION = "LOAD_CORESET_ACTION";
@@ -49,7 +48,7 @@ const getSlides = thunkify((items, eventId) => {
   const coresetRoute = `${ROUTE_CORESET}/${eventId}`;
   const personSlides = [
     coresetRoute,
-    `${coresetRoute}${ROUTE_INTRO}`,
+    `${coresetRoute}${ROUTE_BIO}`,
     `${coresetRoute}${ROUTE_ADDENDUM}`,
   ];
   const itemSlides = map(

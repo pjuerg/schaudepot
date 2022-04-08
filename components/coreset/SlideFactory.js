@@ -11,8 +11,8 @@ import test from "ramda/src/test";
 
 const regExCoverPage = /\/kernbestand\/\d+$/g;
 const testCover = test(regExCoverPage);
-const regExIntroPage = /\/kernbestand\/\d+\/intro$/;
-const testIntro = test(regExIntroPage);
+const regExBioPage = /\/kernbestand\/\d+\/bio$/;
+const testBio = test(regExBioPage);
 const regExItemPage = /\/kernbestand\/\d+\/item\/\d+$/;
 const testItem = test(regExItemPage);
 const regExAddendumPage = /\/kernbestand\/\d+\/addendum$/;
@@ -30,8 +30,8 @@ export const SlideFactory = ({ components, ...props  }) => {
   
   if (testCover(path)) {
     return React.cloneElement(components.cover, props);
-  } else if (testIntro(path)) {
-    return React.cloneElement(components.intro, props );
+  } else if (testBio(path)) {
+    return React.cloneElement(components.bio, props );
   } else if (testItem(path)) {
     return React.cloneElement(components.item, props );
   } else if (testAddendum(path)) {
