@@ -9,17 +9,20 @@ import useSWR from "swr";
 import { falsy } from "../../libs/rmd-lib/falsy";
 import { exists } from "../../libs/rmd-lib/exists";
 import { fetcher } from "../../libs/fetcher";
-import { truthy } from "../../libs/rmd-lib/truthy";
+import { useIsMobil } from "../../libs/hooks/useResponsiveShortcut";
 
 import { pageSectionTitle } from "../../coresetConfigs";
-import { apiCoreset, apiSite } from "../../utils/api";
+import { apiEvent, apiSite } from "../../utils/api";
 import { useSWRCoresetPerson } from "../../utils/useSWRCoresetPerson";
-import { checkDistractionMode, getCoresetPersonIdFromPath } from "../../utils/utilsCoreset";
+import {
+  checkDistractionMode,
+  getCoresetEventIdFromPath,
+} from "../../utils/utilsCoreset";
 import {
   CoresetDispatchContext,
   CoresetStateContext,
   LOAD_CORESET_ACTION,
-  SET_CORESET_PERSON_ID_ACTION,
+  SET_CORESET_EVENT_ID_ACTION,
   SUCCESS_LOAD_CORESET_ACTION,
 } from "../../store/CoresetContext";
 import {
@@ -30,13 +33,11 @@ import {
 } from "../../components/coreset";
 import { SlideFactory } from "../../components/coreset/SlideFactory";
 import { Loading } from "../../components/Loading";
-import { useIsMobil } from "../../libs/hooks/useResponsiveShortcut";
 
 /*
  * *** Coreset-Slide-Container ***
  * --------------------------------
  */
-
 
 const slidesComponents = {
   cover: <CoverSlide />,
@@ -45,40 +46,40 @@ const slidesComponents = {
   addendum: <AddendumSlide />,
 };
 
-
 export default function SlidesContainerPage() {
-  const { personId, slides, distractionMode } = useContext(CoresetStateContext);
+  const { eventId, slides, distractionMode } = useContext(CoresetStateContext);
   const dispatch = useContext(CoresetDispatchContext);
   const router = useRouter();
   const isMobil = useIsMobil();
   const isDistractionMode = checkDistractionMode(distractionMode, isMobil);
   const { asPath } = router;
-  const currentPersonId = getCoresetPersonIdFromPath(asPath);
-  const hasCoresetChanged = personId !== currentPersonId;
-  const shouldLoadCoreset = !slides && currentPersonId;
-  const personData = useSWRCoresetPerson();
+  const currentEventId = getCoresetEventIdFromPath(asPath);
+  const hasCoresetChanged = eventId !== currentEventId;
+  const shouldLoadCoreset = !slides && currentEventId;
+  // const personData = useSWRCoresetPerson();
   const { data: dataSite } = useSWR(apiSite(), fetcher);
   const { data: dataCoreset } = useSWR(
-    shouldLoadCoreset ? apiCoreset(currentPersonId) : null,
+    shouldLoadCoreset ? apiEvent(currentEventId) : null,
     fetcher
   );
+  const dataPerson = useSWRCoresetPerson();
 
   const allDataLoaded =
-    exists(slides) && exists(personData) && exists(dataSite);
+    exists(slides) && exists(dataPerson) && exists(dataSite);
 
   // // url changed to new  a core-stock like kernbestand/12/person
   // set person-id which is the suffix in kernbestand/12/person and set loading flag
   useEffect(() => {
     if (hasCoresetChanged) {
       dispatch({
-        type: SET_CORESET_PERSON_ID_ACTION,
-        payload: currentPersonId || null,
+        type: SET_CORESET_EVENT_ID_ACTION,
+        payload: currentEventId || null,
       });
     }
     if (shouldLoadCoreset) {
-      dispatch({ type: LOAD_CORESET_ACTION, payload: currentPersonId });
+      dispatch({ type: LOAD_CORESET_ACTION, payload: currentEventId });
     }
-  }, [currentPersonId, hasCoresetChanged, shouldLoadCoreset, dispatch]);
+  }, [currentEventId, hasCoresetChanged, shouldLoadCoreset, dispatch]);
 
   // if the current core-stock ergo the person changed
   // the core-stock data is asyced fetched
@@ -101,7 +102,7 @@ export default function SlidesContainerPage() {
     <>
       <Head>
         <title>
-          {pageSectionTitle} {(personData && personData.label) || "laden ..."} /{" "}
+          {/* {pageSectionTitle} {(personData && personData.label) || "laden ..."} /{" "} */}
           {pageSectionTitle}
         </title>
       </Head>

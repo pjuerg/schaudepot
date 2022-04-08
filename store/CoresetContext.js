@@ -10,23 +10,32 @@ import map from "ramda/src/map";
 import thunkify from "ramda/src/thunkify";
 import assoc from "ramda/src/assoc";
 import prop from "ramda/src/prop";
+import path from "ramda/src/path";
+import { castToInt } from "../libs/rmd-lib/castToInt";
+import { splitAtLastSlash } from "../libs/rmd-lib/splitAtLastSlash";
 
-import { transformPhysicalObjectListing } from "../values/physicalObject";
-
-import { ROUTE_ADDENDUM, ROUTE_CORESET, ROUTE_INTRO, ROUTE_ITEM } from "../utils/routes";
-import { useIsMobil } from "../libs/hooks/useResponsiveShortcut";
+import {
+  ROUTE_ADDENDUM,
+  ROUTE_CORESET,
+  ROUTE_INTRO,
+  ROUTE_ITEM,
+} from "../utils/routes";
+import { transformEvent } from "../values/event";
+import { transformPhysicalObject, transformPhysicalObjectListing } from "../values/physicalObject";
 
 /*
  *  *** CoresetContext  ***
  * ------------------------
  */
 
-export const SET_CORESET_PERSON_ID_ACTION = "SET_CORESET_PERSON_ID_ACTION";
+
+export const SET_CORESET_EVENT_ID_ACTION = "SET_CORESET_EVENT_ID_ACTION";
 export const LOAD_CORESET_ACTION = "LOAD_CORESET_ACTION";
 export const SUCCESS_LOAD_CORESET_ACTION = "SUCCESS_LOAD_CORESET_ACTION";
 export const SET_CORESET_ANIMATION_DIRECTION_ACTION =
   "SET_CORESET_ANIMATION_DIRECTION_ACTION";
-export const SET_CORESET_KEY_NAVIGATION_ACTION = "SET_CORESET_KEY_NAVIGATION_ACTION";
+export const SET_CORESET_KEY_NAVIGATION_ACTION =
+  "SET_CORESET_KEY_NAVIGATION_ACTION";
 export const IS_SLIDES_CANVAS_OPEN_ACTION = "IS_SLIDES_CANVAS_OPEN_ACTION";
 export const SWITCH_DISTRACTION_MODE_ACTION = "SWITCH_DISTRACTION_MODE_ACTION";
 
@@ -36,19 +45,25 @@ export const CoresetDispatchContext = React.createContext(null);
 export const CoresetStateContext = React.createContext(null);
 
 // getSlides :: [{*}], n -> [s]
-const getSlides = thunkify((items, personId) => {
-  const coresetRoute = `${ROUTE_CORESET}/${personId}`;
+const getSlides = thunkify((items, eventId) => {
+  const coresetRoute = `${ROUTE_CORESET}/${eventId}`;
   const personSlides = [
     coresetRoute,
     `${coresetRoute}${ROUTE_INTRO}`,
     `${coresetRoute}${ROUTE_ADDENDUM}`,
   ];
-  const itemSlides = map(({ id }) => `${coresetRoute}${ROUTE_ITEM}/${id}`, items);
+  const itemSlides = map(
+    ({ id }) => `${coresetRoute}${ROUTE_ITEM}/${id}`,
+    items
+  );
   return insertAll(2, itemSlides, personSlides);
 });
 
 // getSlides :: [{*}] -> {*}
-const getItems = compose(prop("member"), transformPhysicalObjectListing);
+const getItems = compose(
+  map(transformPhysicalObject),
+  prop("used_specific_object")
+);
 
 /**
  *
@@ -60,16 +75,16 @@ function coresetReducer(draft, action) {
   // console.log("::Coreset-Reducer", action.type);
 
   switch (action.type) {
-    case SWITCH_DISTRACTION_MODE_ACTION: 
-    return assoc("distractionMode", action.payload, draft);
-    
+    case SWITCH_DISTRACTION_MODE_ACTION:
+      return assoc("distractionMode", action.payload, draft);
+
     case IS_SLIDES_CANVAS_OPEN_ACTION:
       return assoc("isSlideCanvasOpen", action.payload, draft);
 
-    case SET_CORESET_PERSON_ID_ACTION:
+    case SET_CORESET_EVENT_ID_ACTION:
       return evolve(
         {
-          personId: always(action.payload),
+          eventId: always(action.payload),
           slides: always(null),
           items: always(null),
         },
@@ -86,13 +101,22 @@ function coresetReducer(draft, action) {
         draft
       );
     case SUCCESS_LOAD_CORESET_ACTION:
+      // @remember not in event because made before
       const items = getItems(action.payload.data);
-
+      const personId = compose(castToInt, splitAtLastSlash, path([
+        "attributed_by",
+        0,
+        "assigned",
+        "id"]
+      ))(action.payload.data);
+        const event = transformEvent(action.payload.data);
       return evolve(
         {
           loading: always(false),
           items: always(items),
-          slides: getSlides(items, draft.personId),
+          slides: getSlides(items, draft.eventId),
+          personId: always(personId),
+          event: always(event)
         },
         draft
       );
@@ -116,11 +140,13 @@ const initialState = {
   isSlideCanvasOpen: false,
   keyNavigation: undefined,
   direction: undefined,
+  eventId: undefined,
   personId: undefined,
+  event: undefined,
   items: undefined,
   slides: undefined,
   distractionMode: false,
-  isMobil: undefined
+  isMobil: undefined,
 };
 
 /**
@@ -135,4 +161,5 @@ export const CoresetProvider = ({ children }) => {
         {children}
       </CoresetStateContext.Provider>
     </CoresetDispatchContext.Provider>
-  )};
+  );
+};

@@ -1,17 +1,15 @@
 // utils/useSWRCoresetPerson.js
 
-import { useRouter } from "next/router";
+import { useContext } from "react";
 import useSWR from "swr";
-
 
 import is from "ramda/src/is";
 
 import { fetcher } from "../libs/fetcher";
 import { apiPerson, apiSite } from "./api";
 import { transformPerson } from "../values/person";
-
 import { removeEmptySectionsAndAddMissingLabels } from "../values/structureHelper";
-import { getCoresetPersonIdFromPath } from "./utilsCoreset";
+import { CoresetStateContext } from "../store/CoresetContext";
 
 /*
  * *** useSWRCoresetPerson ***
@@ -32,9 +30,13 @@ export const useSWRCoresetPersonAndStructure = (fieldStructure) => {
 };
 
 export const useSWRCoresetPerson = () => {
-  const { asPath } = useRouter();
-  const id = getCoresetPersonIdFromPath(asPath);
-  const { data } = useSWR(is(Number, id) ? apiPerson(id) : null, fetcher);
+  const { personId } =
+    useContext(CoresetStateContext);
+  
+  const { data } = useSWR(
+    is(Number, personId) ? apiPerson(personId) : null,
+    fetcher
+  );
 
   return transformPerson(data);
 };

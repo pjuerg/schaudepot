@@ -212,14 +212,14 @@ export const pushRouteWithDirection = curry(
   }
 );
 
-export const getNavigation = (path, slides, personId) => {
+export const getNavigation = (path, slides, eventId) => {
   // break: slides not loaded
   if (!slides) return {};
   const index = findIndex(equals(path))(slides);
   return {
     index,
     total: slides.length,
-    startUrl: index === 0 ? null : `${ROUTE_CORESET}/${personId}`,
+    startUrl: index === 0 ? null : `${ROUTE_CORESET}/${eventId}`,
     previousUrl: index === 0 ? null : slides[index - 1],
     nextUrl: index === slides.length - 1 ? null : slides[index + 1],
   };
@@ -227,7 +227,7 @@ export const getNavigation = (path, slides, personId) => {
 const W_KEY_TIME = 0;
 export const NavigationMenu = () => {
   const {
-    personId,
+    eventId,
     slides,
     keyNavigation,
     distractionMode,
@@ -241,7 +241,7 @@ export const NavigationMenu = () => {
   const arrowKeyRight = useKeyPress("ArrowRight");
   const wKey = useKeyPress("w");
   const { asPath: path } = router;
-  const navigation = getNavigation(path, slides, personId);
+  const navigation = getNavigation(path, slides, eventId);
   const transformedPerson = useSWRCoresetPerson();
 
   const switchSlideGalleryHandler = () => {
