@@ -20,7 +20,7 @@ export const Fixedbar = () => {
     useContext(CoresetStateContext);
 
   // const textColor = isSlideCanvasOpen ? "text-teal" : "text-gray-300";
-  const textColor = "text-gray-300";
+  const textColor = "text-white";
 
   const isMobil = useIsMobil();
 
