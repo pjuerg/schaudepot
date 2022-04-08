@@ -75,7 +75,7 @@ const slideTop = {
       y: 0,
     },
     animate: {
-      y: -60,
+      y: -72,
     },
     exit: {
       y: 0,
@@ -84,6 +84,7 @@ const slideTop = {
   transition: {
     duration: 0.15,
     ease: "easeOut",
+    
   },
 };
 

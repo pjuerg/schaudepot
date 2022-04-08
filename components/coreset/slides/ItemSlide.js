@@ -144,7 +144,7 @@ export const ItemSlide = () => {
  
   return (
     <div className="flex flex-col h-full ">
-      <div className={`${classNameImage} grow py-8`}>
+      <div className={`${classNameImage} grow ${isDistractionMode ? "py-8" : "py-16"}`}>
         <LinkedArtImage
           // onClickHandler={switchDistractionModeHandler}
           {...getPreviewImage(representation)}

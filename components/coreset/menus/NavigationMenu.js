@@ -179,7 +179,7 @@ const Title = ({
     "hover:bg-yellow-400 hover:text-gray-800 rounded-sm text-gray-100 cursor-pointer ";
   const classNameDistractionMode = isDistractionMode
     ? "md:text-base md:font-light "
-    : " md:text-lg";
+    : " md:text-2xl";
   const className = `${classNameDistractionMode} ${
     isCanvasOpen ? classNameOpen : classNamenClosed
   }`;
@@ -301,13 +301,13 @@ export const NavigationMenu = () => {
   const classNameBackground = isCanvasOpen ? "" : " md:w-auto";
   const classNameDistraction = truthy(distractionMode)
     ? "md:flex-row top-0"
-    : "md:flex-col top-10 pt-5";
+    : "md:flex-col top-20";
   const className = `${classNameBackground} ${classNameDistraction}`;
 
   return (
     <>
       <div
-        className={`${className} fixed z-50 flex pr-4 pb-4 lg:inline-flex py-3  pl-0 md:pl-2 lg:pl-16 w-full `}
+        className={`${className} fixed z-50 flex pr-4 pb-4 lg:inline-flex  pl-0 md:pl-2 lg:pl-16 w-full `}
       >
         <Title
           isCanvasOpen={isCanvasOpen}
