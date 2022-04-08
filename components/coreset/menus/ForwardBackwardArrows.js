@@ -30,11 +30,11 @@ const ChevronLink = ({direction, url, className, clickHandler, children}) => (
 );
 
 export const ForwardBackwardArrows = () => {
-  const { personId, slides } = useContext(CoresetStateContext);
+  const { eventId, slides } = useContext(CoresetStateContext);
   const dispatch = useContext(CoresetDispatchContext);
   const router = useRouter();
   const { asPath } = router;
-  const { previousUrl, nextUrl } = getNavigation(asPath, slides, personId);
+  const { previousUrl, nextUrl } = getNavigation(asPath, slides, eventId);
   const clickHandler = pushRouteWithDirection(dispatch, router);
 
   return (

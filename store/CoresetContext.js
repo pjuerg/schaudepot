@@ -2,17 +2,13 @@
 
 import React, { useReducer } from "react";
 
-import compose from "ramda/src/compose";
 import always from "ramda/src/always";
 import evolve from "ramda/src/evolve";
 import insertAll from "ramda/src/insertAll";
 import map from "ramda/src/map";
 import thunkify from "ramda/src/thunkify";
 import assoc from "ramda/src/assoc";
-import prop from "ramda/src/prop";
-import path from "ramda/src/path";
-import { castToInt } from "../libs/rmd-lib/castToInt";
-import { splitAtLastSlash } from "../libs/rmd-lib/splitAtLastSlash";
+
 
 import {
   ROUTE_ADDENDUM,
@@ -21,7 +17,7 @@ import {
   ROUTE_ITEM,
 } from "../utils/routes";
 import { transformEvent } from "../values/event";
-import { transformPhysicalObject } from "../values/physicalObject";
+import { ATTRIBUTED_BY } from "../values/constants";
 
 /*
  *  *** CoresetContext  ***
@@ -58,11 +54,6 @@ const getSlides = thunkify((items, eventId) => {
   return insertAll(2, itemSlides, personSlides);
 });
 
-// getSlides :: [{*}] -> {*}
-const getItems = compose(
-  map(transformPhysicalObject),
-  prop("used_specific_object")
-);
 
 /**
  *
@@ -100,22 +91,12 @@ function coresetReducer(draft, action) {
         draft
       );
     case SUCCESS_LOAD_CORESET_ACTION:
-      // @remember not in event because made before
-      const items = getItems(action.payload.data);
-      const personId = compose(castToInt, splitAtLastSlash, path([
-        "attributed_by",
-        0,
-        "assigned",
-        "id"]
-      ))(action.payload.data);
-        const event = transformEvent(action.payload.data);
+      const event = transformEvent(action.payload.data);
       return evolve(
         {
           loading: always(false),
-          items: always(items),
-          slides: getSlides(items, draft.eventId),
-          personId: always(personId),
-          event: always(event)
+          slides: getSlides(event.used_specific_object, draft.eventId),
+          event: always(event),
         },
         draft
       );
@@ -140,9 +121,7 @@ const initialState = {
   keyNavigation: undefined,
   direction: undefined,
   eventId: undefined,
-  personId: undefined,
   event: undefined,
-  items: undefined,
   slides: undefined,
   distractionMode: false,
   isMobil: undefined,

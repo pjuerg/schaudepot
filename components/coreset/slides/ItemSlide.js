@@ -23,7 +23,7 @@ import {
   getPreviewImage,
   getRepresentationCopyright,
   getRepresentationCreator,
-  getRepresentationLegend,
+  // getRepresentationLegend,
   hasAnyRepresentationInfo,
 } from "../../../utils/utilsImage";
 import { useIsMobil } from "../../../libs/hooks/useResponsiveShortcut";
@@ -61,7 +61,7 @@ const titleFields = [
 const fieldStructure = [{ fields: titleFields }];
 
 const useItemDataWithRouter = () => {
-  const { items } = useContext(CoresetStateContext);
+  const { event:{used_specific_object:items} } = useContext(CoresetStateContext);
   const itemId = compose(splitAtLastSlash, prop("asPath"))(useRouter());
   return findAtId(itemId, items);
 };

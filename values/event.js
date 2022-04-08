@@ -7,37 +7,30 @@ import omit from "ramda/src/omit";
 import mergeRight from "ramda/src/mergeRight";
 import dissoc from "ramda/src/dissoc";
 import assoc from "ramda/src/assoc";
-import head from "ramda/src/head";
 
 import { splitAtLastSlash } from "../libs/rmd-lib/splitAtLastSlash";
 import { maybe } from "../libs/rmd-lib/maybe";
 import { renameKeys } from "../libs/rmd-lib/renameKeys";
 
 import {
+  CLASSIFIED_AS,
+  IDENTIFIED_BY,
   STANDART_OMITS,
 } from "./constants";
-
 
 import {
   renameKeysListing,
   mapRepresentation,
   lastSlashId,
-  addPropByPath,
   listingTransformer,
-  omitType,
   mapOmitType,
   renameLabel,
-  mapRenameLabelToValue,
   renameLabelToValue,
   cleanIdFromLink,
   mergeAssigned,
   unnestClassifiedAs,
-  pathBornTimespan,
-  pathDiedTimespan,
-  pathBornTookPlaceAt,
-  pathDiedTookPlaceAt,
-  addPropAdditionalMedia,
 } from "./valueHelper";
+import { transformPhysicalObject } from "./physicalObject";
 
 /*
  * *** event value object ***
@@ -46,15 +39,15 @@ import {
  * for entry-point: api/person/id
  */
 
-const assocId = (obj) => assoc("id", splitAtLastSlash(obj.id))(obj);
+
 /**
  * transform obj for api/event/id
  */
 const eventTransformer = {
   id: lastSlashId,
-  // identified_by: compose(mapOmitType, unnestClassifiedAs),
   referred_to_by: compose(mapOmitType, unnestClassifiedAs),
   representation: mapRepresentation,
+  used_specific_object: map(transformPhysicalObject),
   attributed_by: compose(
     map(dissoc("assigned")),
     map(
@@ -73,10 +66,8 @@ export const transformEvent = maybe(
     omit([
       "@context",
       "type",
-      "classified_as",
-      "identified_by",
-      "used_specific_object",
-      "classified_as",
+      CLASSIFIED_AS,
+      IDENTIFIED_BY
     ])
   )
 );

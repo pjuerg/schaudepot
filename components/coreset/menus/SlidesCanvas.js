@@ -39,7 +39,7 @@ const Thumb = ({ className = "", index, label, children }) => (
   </div>
 );
 const ItemThumb = ({ path, ...props }) => {
-  const { items } = useContext(CoresetStateContext);
+  const { event:{used_specific_object:items} } = useContext(CoresetStateContext);
   const itemId = splitAtLastSlash(path);
   const { representation, label } = findAtId(itemId, items);
   return (
