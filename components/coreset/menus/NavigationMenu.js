@@ -298,10 +298,10 @@ export const NavigationMenu = () => {
   // transparent ... but hmmm
   // ? "bg-gradient-to-b from-teal via-teal to-transparent"
 
-  const classNameBackground = isCanvasOpen ? "" : " md:w-auto";
+  const classNameBackground = isCanvasOpen ? "" : " bg-gray-100/90 md:w-auto";
   const classNameDistraction = truthy(distractionMode)
     ? "md:flex-row top-0"
-    : "md:flex-col top-20";
+    : "md:flex-col top-16 md:top-20";
   const className = `${classNameBackground} ${classNameDistraction}`;
 
   return (

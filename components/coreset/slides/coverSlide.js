@@ -35,7 +35,8 @@ export const CoverSlide = (props) => {
 
   return (
     <TwoClmsImgTextContainer {...props}>
-      <RepresentationPortraitImage {...event} />
+       <RepresentationPortraitImage {...event} />
+    
 
       <TextContainer className="px-2 md:px-4 lg:lg:8px ">
         <h1 className="pb-8 text-3xl font-semibold lg:text-4xl">
