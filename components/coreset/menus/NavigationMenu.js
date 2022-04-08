@@ -190,7 +190,7 @@ const Title = ({
         className={`${className} inline-block text-sm font-normal px-2 py-1 leading-tight border-gray-500  `}
         onClick={switchSlideGalleryHandler}
       >
-        <span className="pr-1">Schaudepot:</span>
+        <span className="pr-1">Kernbestand:</span>
         {isMobil && <br />}
         {exists(label) ? label : "laden ..."}
         {/* <TypoStar className="absolute top-5 -left-3" /> */}

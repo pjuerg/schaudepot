@@ -152,7 +152,7 @@ export const ItemSlide = () => {
         }`}
       >
         <LinkedArtImage
-          // onClickHandler={switchDistractionModeHandler}
+          onClickHandler={switchDistractionModeHandler}
           {...getPreviewImage(representation)}
           className=" linkedArtImg--slide"
           showLoading={true}

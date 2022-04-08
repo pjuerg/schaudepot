@@ -124,7 +124,7 @@ export const BioSlide = (props) => {
           dangerouslySetInnerHTML={{ __html: scrollbarHtml }}
         />
         {/* gradientfor the scrollbar */}
-        <div className="w-full h-24 z-10 absolute left-0 bottom-10 bg-[url('/css/bottom-fade-gray-100.png')] " />
+        <div className="w-full h-[36px] z-10 absolute left-0 bottom-10 bg-[url('/css/bottom-fade-gray-100.png')] " />
       </TextContainer>
     </TwoClmsImgTextContainer>
   );

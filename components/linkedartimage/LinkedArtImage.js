@@ -43,7 +43,7 @@ export const useImageLoadingState = (imgRef, hasImage) => {
 };
 
 const ImageWrapper = forwardRef(
-  ({ setLoaded, lazy, src, alt, icon, showLoading, loaded, children, onClickHandler=()=>null }, ref) => {
+  ({ setLoaded, lazy, src, alt, icon, showLoading, loaded, children, onClickHandler }, ref) => {
     // const suffix = compose(last, split("."))(src);
     // const path = compose(join("."), init, split("."))(src);
 
@@ -61,7 +61,11 @@ const ImageWrapper = forwardRef(
           <Loading className="flex items-center justify-center h-full" />
         )}
 
-        <div className="relative linkedArtImg-wrapper">
+        <div
+          className={`${
+            onClickHandler && "cursor-pointer"
+          }  relative linkedArtImg-wrapper`}
+        >
           {icon && icon}
 
           {/* @remember code for nextjs/image needs in configs the image server */}
@@ -75,7 +79,7 @@ const ImageWrapper = forwardRef(
           />
            */}
           <img
-            // onClick={onClickHandler}
+            onClick={onClickHandler}
             // srcset={`${src320} 320w, ${src640} 640w, ${srcOriginal} 1000w`}
             // sizes="(max-width: 1024px) 320px, 640px"
             src={src}
