@@ -1,4 +1,4 @@
-// pages/kernbestand/[...slides]
+// pages/depot/[...slides]
 
 import { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
@@ -67,8 +67,8 @@ export default function SlidesContainerPage() {
   const allDataLoaded =
     exists(slides) && exists(dataPerson) && exists(dataSite);
 
-  // // url changed to new  a core-stock like kernbestand/12/person
-  // set person-id which is the suffix in kernbestand/12/person and set loading flag
+  // // url changed to new  a core-stock like depot/12
+  // set person-id which is the suffix in depot/12 and set loading flag
   useEffect(() => {
     if (hasCoresetChanged) {
       dispatch({

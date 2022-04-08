@@ -8,7 +8,7 @@ import test from "ramda/src/test";
 import { animations } from "../utils/animations";
 import { CoresetStateContext } from "../store/CoresetContext";
 
-const regExCoresetPage = /\/kernbestand\/(\d+)/g;
+const regExCoresetPage = /\/depot\/(\d+)/g;
 
 export default function LayoutTransition({ children }) {
   const { asPath } = useRouter();

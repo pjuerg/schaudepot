@@ -1,4 +1,4 @@
-// pages/kernbestand/index.js
+// pages/depot/index.js
 
 import Link from "next/link";
 import useSWR from "swr";

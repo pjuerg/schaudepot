@@ -18,7 +18,7 @@ import { falsy } from "../libs/rmd-lib/falsy";
  * ----------------------
  */
 
-const regExCoresetId = /\/kernbestand\/(\d+)/;
+const regExCoresetId = /\/depot\/(\d+)/;
 const matchCoresetId = compose(second, match(regExCoresetId));
 
 // isCoresetFrontpage:: s → b

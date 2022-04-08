@@ -9,13 +9,13 @@ import test from "ramda/src/test";
  * ------------------- 
  */
 
-const regExCoverPage = /\/kernbestand\/\d+$/g;
+const regExCoverPage = /\/depot\/\d+$/g;
 const testCover = test(regExCoverPage);
-const regExBioPage = /\/kernbestand\/\d+\/bio$/;
+const regExBioPage = /\/depot\/\d+\/bio$/;
 const testBio = test(regExBioPage);
-const regExItemPage = /\/kernbestand\/\d+\/item\/\d+$/;
+const regExItemPage = /\/depot\/\d+\/item\/\d+$/;
 const testItem = test(regExItemPage);
-const regExAddendumPage = /\/kernbestand\/\d+\/addendum$/;
+const regExAddendumPage = /\/depot\/\d+\/addendum$/;
 const testAddendum = test(regExAddendumPage);
 
 
