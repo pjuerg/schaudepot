@@ -63,7 +63,7 @@ export const CoverSlide = (props) => {
             für schnelle Navigation die Tastatur verwenden.
             <br />
             <span className="italic">Pfeiltasten</span> - Nutzen Sie
-            rechts/links zum Blätter
+            rechts/links zum Blättern
             <br />
             <span className="italic">W-Taste</span> - Weniger/Mehr Informationen
             wechseln
