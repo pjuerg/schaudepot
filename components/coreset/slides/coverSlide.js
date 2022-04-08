@@ -35,8 +35,7 @@ export const CoverSlide = (props) => {
 
   return (
     <TwoClmsImgTextContainer {...props}>
-       <RepresentationPortraitImage {...event} />
-    
+      <RepresentationPortraitImage {...event} />
 
       <TextContainer className="px-2 md:px-4 lg:lg:8px ">
         <h1 className="pb-8 text-3xl font-semibold lg:text-4xl">
@@ -63,9 +62,11 @@ export const CoverSlide = (props) => {
           <p className="font-light">
             für schnelle Navigation die Tastatur verwenden.
             <br />
-            <span className="italic">Pfeiltasten</span> - hin und her Blättern
+            <span className="italic">Pfeiltasten</span> - Nutzen Sie
+            rechts/links zum Blätter
             <br />
-            <span className="italic">W-Taste</span> - Fullscreen wechseln
+            <span className="italic">W-Taste</span> - Weniger/Mehr Informationen
+            wechseln
             <br />
           </p>
         </div>

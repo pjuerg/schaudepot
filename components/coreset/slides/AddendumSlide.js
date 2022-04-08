@@ -70,12 +70,14 @@ export const AddendumSlide = (props) => {
     <>
       <TwoColumnsContainer {...props}>
         <div></div>
-        <TextContainer className="px-2 pb-10 md:px-4 lg:8px">
+       
+        <TextContainer className="px-2 pb-10 md:pt-20 md:px-4 lg:8px">
+{/*           
           <h1 className="pb-8 text-xl font-bold leading-tight">
             Weitere Informationen zu
             <br />
             {personData.label}
-          </h1>
+          </h1> */}
 
           {/* optionaler text  */}
           {descriptionHtml && (

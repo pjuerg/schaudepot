@@ -10,6 +10,7 @@ import prop from "ramda/src/prop";
 import identity from "ramda/src/identity";
 import find from "ramda/src/find";
 import propEq from "ramda/src/propEq";
+import reject from "ramda/src/reject";
 
 import { splitAtLastSlash } from "../../../libs/rmd-lib/splitAtLastSlash";
 import { findAtId } from "../../../libs/rmd-lib/findAtId";
@@ -33,6 +34,7 @@ import {
   CLASSIFIED_AS,
   IDENTIFIED_BY,
   TIMESPAN,
+  VALUE,
 } from "../../../values/constants";
 import { absoluteLinkItem } from "../../../utils/routes";
 import { apiSite } from "../../../utils/api";
@@ -137,14 +139,18 @@ export const ItemSlide = () => {
     ? "pt-0 font-light"
     : "pt-4 pb-2";
 
-  const date = compose(
-    prop("value"),
-    find(propEq("key", "timespan"))
-  )(fieldData);
+  const isTimespan = propEq("key", TIMESPAN);
+  const date = compose(prop(VALUE), find(isTimespan))(fieldData);
  
+  const rowData = reject(isTimespan, fieldData);
+
   return (
     <div className="flex flex-col h-full ">
-      <div className={`${classNameImage} grow ${isDistractionMode ? "py-8" : "py-16"}`}>
+      <div
+        className={`${classNameImage} grow ${
+          isDistractionMode ? "py-8" : "py-8"
+        }`}
+      >
         <LinkedArtImage
           // onClickHandler={switchDistractionModeHandler}
           {...getPreviewImage(representation)}
@@ -161,9 +167,10 @@ export const ItemSlide = () => {
             <>
               <h1 className={`${classNameDescription} pt-4 pb-1`}>
                 {itemData.label}
+                {date && <span className="font-light"> {date}</span>}
               </h1>
               <div className="flex text-sm font-light">
-                {fieldData.map(({ value, label, id }, index) => (
+                {rowData.map(({ value, label, id }, index) => (
                   <div key={index} className="pr-1">
                     {id === idDataArchiveNumber ? (
                       <span>
@@ -172,7 +179,7 @@ export const ItemSlide = () => {
                     ) : (
                       <span>{value}</span>
                     )}
-                    {commaIfNotLast(fieldData, index)}
+                    {commaIfNotLast(rowData, index)}
                   </div>
                 ))}
                 <a
@@ -185,10 +192,13 @@ export const ItemSlide = () => {
             </>
           ) : (
             <>
-              <h1 className={`${classNameDescription} inline-block pt-4 pb-1`}>
+              <h1
+                className={`${classNameDescription} font-semibold inline-block pt-4 pb-1`}
+              >
                 {itemData.label}
+                {date && <span className="font-light"> {date}</span>}
               </h1>
-              {date && <span className="font-light">, {date}</span>}
+
               <a
                 className="relative px-3 inline-block text-lg font-light hover:text-yellow-500 top-0.5"
                 href={absoluteLinkItem(itemData.id)}
