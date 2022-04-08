@@ -58,13 +58,13 @@ const ItemThumb = ({ path, ...props }) => {
 // const AddendumThumb = (props) => {
 //   return <Thumb {...props}>Weitere Informationen</Thumb>;
 // };
-// const IntroThumb = (props) => {
+// const bioThumb = (props) => {
 //   return <Thumb {...props}>Biografisches</Thumb>;
 // };
 
 const ThumbComponents = {
   cover: <Thumb className={typoThumbClassname}>Start</Thumb>,
-  intro: <Thumb className={typoThumbClassname}>Biografisches</Thumb>,
+  bio: <Thumb className={typoThumbClassname}>Biografisches</Thumb>,
   item: <ItemThumb />,
   addendum: <Thumb className={typoThumbClassname}>Weitere Informationen</Thumb>,
 };
