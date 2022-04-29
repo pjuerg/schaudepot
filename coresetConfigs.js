@@ -9,9 +9,11 @@ export const apiPath = "/linked-art.php";
 export const pageTitle = "Private Künstlernachlässe im Land Brandenburg";
 export const pageSectionTitle = "Schaudepot";
 
-export const linkImprint = "https://private-kuenstlernachlaesse-brandenburg.de/index.php?pn=about&name=imprint";
+export const linkAbout =
+  "https://private-kuenstlernachlaesse-brandenburg.de/about";
+export const linkImprint = "https://private-kuenstlernachlaesse-brandenburg.de/about/name=imprint";
 export const linkContact =
-  "https://private-kuenstlernachlaesse-brandenburg.de/index.php?pn=contact";
+  "https://private-kuenstlernachlaesse-brandenburg.de/contact";
 
 
 // export const coresetExamples = [
