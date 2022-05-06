@@ -15,4 +15,18 @@ module.exports = {
 
     return config;
   },
+  async redirects() {
+    return [
+      {
+        source: "/depot",
+        destination: "https://private-kuenstlernachlaesse-brandenburg.de/depot",
+        permanent: false,
+      },
+      {
+        source: "/",
+        destination: "https://private-kuenstlernachlaesse-brandenburg.de",
+        permanent: false,
+      },
+    ];
+  },
 };
