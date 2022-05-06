@@ -12,6 +12,7 @@ import { ROUTE_CORESET } from "../../../utils/routes";
 import { TextContainer, TwoColumnsContainer } from "../Container";
 import { CoresetStateContext } from "../../../store/CoresetContext";
 import { useContext } from "react";
+import { linkDepot } from "../../../coresetConfigs";
 
 /*
  * *** Addendum Slide  ***
@@ -35,11 +36,10 @@ LinkButton.propTypes = {
   wrapperClassName: PropTypes.string,
 };
 
-const PrimaryButtonXL = ({ className = "", ...props }) => (
-  <LinkButton
-    className={`${className} px-4 py-2 bg-gray-500 text-gray-100 hover:bg-yellow-400 hover:text-gray-800 `}
-    {...props}
-  />
+const PrimaryButtonExternalXL = ({ className = "", ...props }) => (
+  <a href={linkDepot}
+    className={`${className} px-4 py-2 bg-gray-500 text-gray-100 hover:bg-yellow-400 hover:text-gray-800 cursor-pointer`}
+    {...props}>{props.label}</a>
 );
 
 // const SecondaryButtonXL = ({ className = "", ...props }) => (
@@ -87,7 +87,7 @@ export const AddendumSlide = (props) => {
             />
           )}
 
-          <PrimaryButtonXL
+          <PrimaryButtonExternalXL
             label={`Alle Präsentationen`}
             url={`${ROUTE_CORESET}`}
           />

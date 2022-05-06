@@ -4,9 +4,19 @@ import Link from "next/link";
 import { LazyMotion, domAnimation, m } from "framer-motion";
 import { useIsMobil } from "../../libs/hooks/useResponsiveShortcut";
 
-import { linkAbout, linkContact, linkImprint, pageTitle } from "../../coresetConfigs";
+import {
+  linkAbout,
+  linkCollection,
+  linkContact,
+  linkDepot,
+  linkHome,
+  linkImprint,
+  linkItem,
+  linkPerson,
+  pageTitle,
+} from "../../coresetConfigs";
 import { CoresetStateContext } from "../../store/CoresetContext";
-import { ROUTE_HOME } from "../../utils/routes";
+// import { ROUTE_HOME } from "../../utils/routes";
 import { animations } from "../../utils/animations";
 
 /*
@@ -35,23 +45,20 @@ export const Fixedbar = () => {
       >
         <div className="lg:pl-[3.5rem]">
           <div className="flex items-center ">
-            <Link href={ROUTE_HOME}>
-              <a className={`${textColor} px-2 md:px-4 py-2  font-normal hover:underline`}>
-                {pageTitle}
-              </a>
-            </Link>
+            <a
+              href={linkHome}
+              className={`${textColor} px-2 md:px-4 py-2  font-normal hover:underline`}
+            >
+              {pageTitle}
+            </a>
 
             {!isMobil && (
               <ul className="flex ml-auto ">
                 <li className={`${contactColor} text-sm 100 hover:underline`}>
-                  <Link href={linkImprint}>
-                    <a href="https://private-kuenstlernachlaesse-brandenburg.de/about/name=imprint">Impressum und Datenschutzerklärung</a>
-                  </Link>
+                  <a href={linkImprint}>Impressum und Datenschutzerklärung</a>
                 </li>
                 <li className={`${contactColor} px-4 text-sm  hover:underline`}>
-                  <Link href="https://private-kuenstlernachlaesse-brandenburg.de/contact">
-                    <a href={linkContact}>Kontakt</a>
-                  </Link>
+                  <a href={linkContact}>Kontakt</a>
                 </li>
               </ul>
             )}
@@ -61,39 +68,31 @@ export const Fixedbar = () => {
               <li
                 className={`${textColor} px-2 md:px-4  text-sm 100 hover:underline`}
               >
-                <Link href="https://private-kuenstlernachlaesse-brandenburg.de/item/">
-                  <a>Werke</a>
-                </Link>
+                <a href={linkItem}>Werke</a>
               </li>
               <li
                 className={`${textColor} px-2 md:px-4  text-sm  hover:underline`}
               >
-                <Link href="https://private-kuenstlernachlaesse-brandenburg.de/person/">
-                  <a>Personen</a>
-                </Link>
+                <a href={linkPerson}>Personen</a>
               </li>
               <li
                 className={`${textColor} px-2 md:px-4  text-sm  hover:underline`}
               >
-                <Link href="https://private-kuenstlernachlaesse-brandenburg.de/collection/">
-                  <a>
-                    {isMobil ? "Verzeichnisse" : "Nachlass- und Werkverzeichnisse"}
-                  </a>
-                </Link>
+                <a href={linkCollection}>
+                  {isMobil
+                    ? "Verzeichnisse"
+                    : "Nachlass- und Werkverzeichnisse"}
+                </a>
               </li>
               <li
                 className={`${textColor} px-2 md:px-4  text-sm  hover:underline`}
               >
-                <Link href="https://private-kuenstlernachlaesse-brandenburg.de/depot/">
-                  <a>Schaudepot</a>
-                </Link>
+                <a href={linkDepot}>Schaudepot</a>
               </li>
               <li
                 className={`${textColor} px-2 md:px-4  text-sm  hover:underline`}
               >
-                <Link href="https://private-kuenstlernachlaesse-brandenburg.de/about">
-                  <a href={linkAbout}>{isMobil ? "Über" : "Über uns"}</a>
-                </Link>
+                <a href={linkAbout}>{isMobil ? "Über" : "Über uns"}</a>
               </li>
             </ul>
           </div>
