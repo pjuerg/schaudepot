@@ -17,11 +17,11 @@ module.exports = {
   },
   async redirects() {
     return [
-      {
-        source: "/depot",
-        destination: "https://private-kuenstlernachlaesse-brandenburg.de/depot",
-        permanent: false,
-      },
+      // {
+      //   source: "/depot",
+      //   destination: "https://private-kuenstlernachlaesse-brandenburg.de/depot",
+      //   permanent: false,
+      // },
       {
         source: "/",
         destination: "https://private-kuenstlernachlaesse-brandenburg.de",

@@ -7,7 +7,7 @@ import { gateway } from "../coresetConfigs";
  * ---------------
  */
 
-export const ROUTE_HOME = "/";
+export const ROUTE_HOME = "https://private-kuenstlernachlaesse-brandenburg.de";
 export const ROUTE_BIO = "/bio";
 export const ROUTE_ADDENDUM = "/addendum";
 export const ROUTE_PERSON = "/person";
