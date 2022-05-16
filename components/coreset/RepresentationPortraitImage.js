@@ -3,7 +3,11 @@ import { getPreviewImage, getRepresentationCopyright, getRepresentationCreator, 
 import { LinkedArtImage } from "../linkedartimage";
 
 export const RepresentationPortraitImage = ({ representation }) => {
-  const imgData = representation[0];
+
+  const imgData =representation && representation[0];
+  
+  if(!imgData) return null
+
   return (
     <div className="flex flex-col h-full">
       {/* <div className="relative flex flex-col items-center justify-center h-full font-light"> */}
