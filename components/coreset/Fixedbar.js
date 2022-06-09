@@ -87,7 +87,7 @@ export const Fixedbar = () => {
               <li
                 className={`${textColor} px-2 md:px-4  text-sm  hover:underline`}
               >
-                <a href={linkDepot}>Schaudepot</a>
+                <a href={linkDepot}>Kernbestände</a>
               </li>
               <li
                 className={`${textColor} px-2 md:px-4  text-sm  hover:underline`}
