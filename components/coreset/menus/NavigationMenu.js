@@ -159,7 +159,7 @@ const NavigationBar = ({
           )}
 
           <Label className="pl-1 whitespace-nowrap">
-            {isDistractionMode ? "Mehr Informationen" : "Weniger Informationen"}
+            {isDistractionMode ? "Reguläre Ansicht" : "Vollbildansicht"}
           </Label>
         </button>
       )}

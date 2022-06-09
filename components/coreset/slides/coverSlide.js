@@ -65,7 +65,7 @@ export const CoverSlide = (props) => {
             <span className="italic">Pfeiltasten</span> - Nutzen Sie
             rechts/links zum Blättern
             <br />
-            <span className="italic">W-Taste</span> - Weniger/Mehr Informationen
+            <span className="italic">W-Taste</span> - Vollbild/reguläre Ansicht
             wechseln
             <br />
           </p>
