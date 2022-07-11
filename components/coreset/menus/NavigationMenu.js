@@ -130,9 +130,9 @@ const NavigationBar = ({
       <div className="ml-2  py-0.5  text-sm text-gray-gray-600 font-light">
         {exists(index) && (
           <>
-            <span>{index + 1}</span>
+            <span>{index}</span>
             <span className="px-0.5">|</span>
-            <span>{total}</span>
+            <span>{total - 1}</span>
           </>
         )}
       </div>
