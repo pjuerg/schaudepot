@@ -1,7 +1,9 @@
 // components/coreset/slides/cover.js
 
 // import { ATTRIBUTED_BY, LINK_PERSON_PAGE } from "../../../values/constants";
-import  path  from "ramda/src/path";
+import path  from "ramda/src/path";
+import prop from "ramda/src/prop";
+
 import { useContext } from "react";
 import { CoresetStateContext } from "../../../store/CoresetContext";
 import { useSWRCoresetPerson } from "../../../utils/useSWRCoresetPerson";
@@ -13,7 +15,7 @@ import { RepresentationPortraitImage } from "../RepresentationPortraitImage";
 /*
  * *** Cover Slide  ***
  * ---------------------
- * @remember all loadind in central page [...slides].js
+ * @remember all loading in central page [...slides].js
  */
 
 /**
@@ -24,6 +26,14 @@ import { RepresentationPortraitImage } from "../RepresentationPortraitImage";
 //   { key: ATTRIBUTED_BY, textOnly: true },
 // ];
 // const fieldStructure = [{ fields: coverFields }];
+
+const formatTimespan = (obj) => {
+  const born = prop("born.timespan", obj);
+  const died = prop("died.timespan", obj);
+  if (born && died) return `${born} – ${died}`;
+  else if (born) return `*${born}`;
+  else if (died) return `${died}`;
+};
 
 export const CoverSlide = (props) => {
   // already loaded in @see [...slides].js
@@ -41,7 +51,7 @@ export const CoverSlide = (props) => {
         <h1 className="pb-8 text-3xl font-semibold lg:text-4xl">
           {dataPerson.label}
           <br />
-          <span className="font-light">Kernbestand</span>
+          <span className="font-light">{formatTimespan(dataPerson)}</span>
         </h1>
 
         {/* optionaler text  */}
