@@ -141,7 +141,7 @@ export const ItemSlide = () => {
 
   const isTimespan = propEq("key", TIMESPAN);
   const date = compose(prop(VALUE), find(isTimespan))(fieldData);
- 
+
   const rowData = reject(isTimespan, fieldData);
 
   return (
@@ -170,7 +170,7 @@ export const ItemSlide = () => {
                 {date && <span className="font-light"> {date}</span>}
               </h1>
               <div className="flex text-sm font-light">
-                {rowData.map(({ value, label, id }, index) => (
+                {/* rowData.map(({ value, label, id }, index) => (
                   <div key={index} className="pr-1">
                     {id === idDataArchiveNumber ? (
                       <span>
@@ -181,7 +181,7 @@ export const ItemSlide = () => {
                     )}
                     {commaIfNotLast(rowData, index)}
                   </div>
-                ))}
+                )) */}
                 <a
                   className="text-sm font-light underline"
                   href={absoluteLinkItem(itemData.id)}
