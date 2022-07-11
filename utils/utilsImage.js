@@ -27,7 +27,7 @@ import {
 } from "../values/constants";
 /*
  *  *** utilsImage  ***
- * ----------------------- 
+ * -----------------------
  */
 
 const regExImageFormat = /.*\/png|.*\/jpeg/;
@@ -47,7 +47,7 @@ export const hasOnlyPreview = both(hasPreview, lengthIsOne);
 
 const PLACEHOLDER_IMG = "/imgs/placeholder-missing-image.jpg";
 const PLACEHOLDER_IMG_ALT = "Platzhalter: Keine Bildansicht verfügbar";
-const CREATOR_LABEL = "Urheber:in";
+const CREATOR_LABEL = "Foto";
 export const getRepresentationLegend = (data) =>
   data[IDENTIFIED_BY] && data[IDENTIFIED_BY];
 export const getRepresentationCopyright = (data) =>
@@ -86,7 +86,7 @@ export const hasAnyRepresentationInfo = (data) => {
   ];
   // break
   if (!exists(data)) return false;
- 
+
   for (const field of fields) {
     if (data[field]) return true;
   }
