@@ -143,7 +143,7 @@ const NavigationBar = ({
         onClick={switchSlideGalleryHandler}
       >
         <MdViewModule className={classNameIconBasic} />
-        {!isMobil && <Label className="pl-0">Gallerie</Label>}
+        {!isMobil && <Label className="pl-0">Galerie</Label>}
       </button>
       {/* mode distraction */}
       {!isMobil && (
