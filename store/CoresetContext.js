@@ -44,7 +44,7 @@ const getSlides = thunkify((items, eventId) => {
   const coresetRoute = `${ROUTE_CORESET}/${eventId}`;
   const personSlides = [
     coresetRoute,
-    `${coresetRoute}${ROUTE_BIO}`,
+    // `${coresetRoute}${ROUTE_BIO}`,
     `${coresetRoute}${ROUTE_ADDENDUM}`,
   ];
   const itemSlides = map(
