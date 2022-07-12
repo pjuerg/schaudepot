@@ -6,6 +6,7 @@ import prop from "ramda/src/prop";
 
 import { useContext } from "react";
 import { CoresetStateContext } from "../../../store/CoresetContext";
+import { absoluteLinkPerson } from "../../../utils/routes";
 import { useSWRCoresetPerson } from "../../../utils/useSWRCoresetPerson";
 import { REFERRED_TO_BY, VALUE } from "../../../values/constants";
 
@@ -62,7 +63,14 @@ export const CoverSlide = (props) => {
           />
         )}
 
-        <div className="hidden p-4 text-gray-100 bg-gray-600 rounded-sm md:visible md:inline-block">
+        <a
+          className="block mt-8 text-2xl font-light underline "
+          href={absoluteLinkPerson(dataPerson.id)}
+        >
+          Biografie in der Werkdatenbank
+        </a>
+
+        <div className="hidden p-4 mt-24 text-gray-100 bg-gray-600 rounded-sm md:visible md:inline-block">
           <h2 className="pb-2 font-semibold">
             <span className="px-2 text-gray-700 bg-gray-100">
               Navigations-Tipps:
