@@ -9,6 +9,7 @@ import findIndex from "ramda/src/findIndex";
 import curry from "ramda/src/curry";
 import identity from "ramda/src/identity";
 import thunkify from "ramda/src/thunkify";
+import pathOr from "ramda/src/pathOr";
 import debounce from "lodash.debounce";
 
 import {
@@ -38,6 +39,7 @@ import {
   SWITCH_DISTRACTION_MODE_ACTION,
 } from "../../../store/CoresetContext";
 import { SlidesCanvas } from "./SlidesCanvas";
+import { props } from "ramda";
 
 /*
  * *** NavigationMenu ***
@@ -168,7 +170,7 @@ const NavigationBar = ({
 };
 
 const Title = ({
-  label,
+  identified_by = null,
   isMobil,
   isCanvasOpen,
   isDistractionMode,
@@ -190,9 +192,12 @@ const Title = ({
         className={`${className} inline-block text-sm font-normal px-2 py-1 leading-tight border-gray-500  `}
         onClick={switchSlideGalleryHandler}
       >
+        {pathOr("", [0, "value"], identified_by)}
+        {/*
         <span className="pr-1">Kernbestand:</span>
         {isMobil && <br />}
         {exists(label) ? label : "laden ..."}
+      */}
         {/* <TypoStar className="absolute top-5 -left-3" /> */}
       </h2>
     </div>
@@ -268,7 +273,11 @@ export const NavigationMenu = () => {
 
       router.push(previousUrl);
       debounceReset();
-    } else if (truthy(arrowKeyRight) && falsy(keyNavigation) && exists(nextUrl)) {
+    } else if (
+      truthy(arrowKeyRight) &&
+      falsy(keyNavigation) &&
+      exists(nextUrl)
+    ) {
       dispatch({ type: SET_CORESET_ANIMATION_DIRECTION_ACTION, payload: 1 });
       dispatch({ type: SET_CORESET_KEY_NAVIGATION_ACTION, payload: true });
       router.push(nextUrl);
