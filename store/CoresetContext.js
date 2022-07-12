@@ -42,6 +42,7 @@ export const CoresetStateContext = React.createContext(null);
 // getSlides :: [{*}], n -> [s]
 const getSlides = thunkify((items, eventId) => {
   const coresetRoute = `${ROUTE_CORESET}/${eventId}`;
+  // @remember itemSlides are inserted among personSlides, hence bioSlide will need update of insert 
   const personSlides = [
     coresetRoute,
     // `${coresetRoute}${ROUTE_BIO}`,
@@ -51,7 +52,7 @@ const getSlides = thunkify((items, eventId) => {
     ({ id }) => `${coresetRoute}${ROUTE_ITEM}/${id}`,
     items
   );
-  return insertAll(2, itemSlides, personSlides);
+  return insertAll(1, itemSlides, personSlides);
 });
 
 
