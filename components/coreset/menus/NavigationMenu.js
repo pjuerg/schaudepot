@@ -134,7 +134,7 @@ const NavigationBar = ({
           <>
             <span>{index}</span>
             <span className="px-0.5">|</span>
-            <span>{total - 1}</span>
+            <span>{total - 2}</span>
           </>
         )}
       </div>
