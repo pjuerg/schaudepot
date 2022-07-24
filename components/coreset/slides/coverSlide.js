@@ -28,12 +28,12 @@ import { RepresentationPortraitImage } from "../RepresentationPortraitImage";
 // ];
 // const fieldStructure = [{ fields: coverFields }];
 
-const formatTimespan = (obj) => {
+const formatTimespan = (obj, yearOnly) => {
   const born = prop("born.timespan", obj);
   const died = prop("died.timespan", obj);
-  if (born && died) return `${born} – ${died}`;
-  else if (born) return `*${born}`;
-  else if (died) return `${died}`;
+  if (born && died) return `${yearOnly ? /([^\.]*)$/.exec(born)[1] : born} – ${yearOnly ? /([^\.]*)$/.exec(died)[1] : died}`;
+  else if (born) return `*${yearOnly ? /([^\.]*)$/.exec(born)[1] : born}`;
+  else if (died) return `${yearOnly ? /([^\.]*)$/.exec(died)[1] : died}`;
 };
 
 export const CoverSlide = (props) => {
@@ -52,7 +52,7 @@ export const CoverSlide = (props) => {
         <h1 className="pb-8 text-3xl font-semibold lg:text-4xl">
           {dataPerson.label}
           <br />
-          <span className="font-light">{formatTimespan(dataPerson)}</span>
+          <span className="font-light">{formatTimespan(dataPerson, true)}</span>
         </h1>
 
         {/* optionaler text  */}
