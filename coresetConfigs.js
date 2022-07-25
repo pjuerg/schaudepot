@@ -7,7 +7,7 @@ export const gateway = "https://private-kuenstlernachlaesse-brandenburg.de";
 export const apiPath = "/linked-art.php";
 
 export const pageTitle = "Private Künstlernachlässe im Land Brandenburg";
-export const pageSectionTitle = "Schaudepot";
+export const pageSectionTitle = "Kernbestände";
 
 export const linkHome =
   "https://private-kuenstlernachlaesse-brandenburg.de";
@@ -21,18 +21,7 @@ export const linkPerson = "https://private-kuenstlernachlaesse-brandenburg.de/pe
 export const linkCollection="https://private-kuenstlernachlaesse-brandenburg.de/collection/"
 export const linkDepot ="https://private-kuenstlernachlaesse-brandenburg.de/depot/"
 
-// export const coresetExamples = [
-//   {
-//     id: 19,
-//   },
-//   {
-//     id: 27,
-//   },
-//   {
-//     id: 35,
-//   },
-// ];
-
+/*
 export const coresetExamples = [
   {
     id: 15,
@@ -44,3 +33,4 @@ export const coresetExamples = [
     id: 10,
   },
 ];
+*/
