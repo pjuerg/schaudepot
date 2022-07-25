@@ -55,10 +55,10 @@ export const CoverSlide = (props) => {
           <span className="font-light">{formatTimespan(dataPerson, true)}</span>
         </h1>
 
-        {/* optionaler text  */}
+        {/* optionaler text */}
         {descriptionHtml && (
           <div
-            className="text-2xl font-light"
+            className="text-2xl space-y-4 font-light"
             dangerouslySetInnerHTML={{ __html: descriptionHtml }}
           />
         )}
