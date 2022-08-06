@@ -58,13 +58,14 @@ export const CoverSlide = (props) => {
         {/* optionaler text */}
         {descriptionHtml && (
           <div
-            className="text-2xl space-y-4 font-light"
+            lang="de"
+            className="pb-8 space-y-4 font-light hyphenate"
             dangerouslySetInnerHTML={{ __html: descriptionHtml }}
           />
         )}
 
         <a
-          className="block mt-8 text-2xl font-light underline "
+          className="block mt-8 font-light underline "
           href={absoluteLinkPerson(dataPerson.id)}
         >
           Biografie in der Werkdatenbank

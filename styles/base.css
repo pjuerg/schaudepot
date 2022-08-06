@@ -7,3 +7,7 @@ html {
 body {
   @apply relative font-sans text-base font-normal text-gray-900 bg-gray-100;
 }
+
+div.hyphenate p {
+  hyphens: auto;
+}
