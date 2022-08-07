@@ -59,22 +59,22 @@ export const CoverSlide = (props) => {
         {descriptionHtml && (
           <div
             lang="de"
-            className="pb-8 space-y-4 font-light hyphenate"
+            className="space-y-4 font-light hyphenate"
             dangerouslySetInnerHTML={{ __html: descriptionHtml }}
           />
         )}
 
         <a
-          className="block mt-8 font-light underline "
+          className="block mt-4 font-light underline "
           href={absoluteLinkPerson(dataPerson.id)}
         >
           Biografie in der Werkdatenbank
         </a>
 
-        <div className="hidden p-4 mt-24 text-gray-100 bg-gray-600 rounded-sm md:visible md:inline-block">
+        <div className="hidden p-4 mt-6 text-gray-100 bg-gray-600 rounded-sm md:visible md:inline-block">
           <h2 className="pb-2 font-semibold">
             <span className="px-2 text-gray-700 bg-gray-100">
-              Navigations-Tipps:
+              Navigationstipps:
             </span>
           </h2>
 
