@@ -192,12 +192,9 @@ const Title = ({
         className={`${className} inline-block text-sm font-normal px-2 py-1 leading-tight border-gray-500  `}
         onClick={switchSlideGalleryHandler}
       >
-        {pathOr("", [0, "value"], identified_by)}
-        {/*
-        <span className="pr-1">Kernbestand:</span>
+        {<span className="pr-1">Kernbestand:</span>}
         {isMobil && <br />}
-        {exists(label) ? label : "laden ..."}
-      */}
+        {pathOr("", [0, "value"], identified_by)}
         {/* <TypoStar className="absolute top-5 -left-3" /> */}
       </h2>
     </div>
